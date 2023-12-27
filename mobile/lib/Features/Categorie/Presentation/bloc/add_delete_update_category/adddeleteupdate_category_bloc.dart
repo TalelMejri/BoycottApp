@@ -9,7 +9,6 @@ import 'package:mobile/Features/Categorie/domain/entities/category.dart';
 import 'package:mobile/Features/Categorie/domain/usecases/UpdateCategory.dart';
 import 'package:mobile/Features/Categorie/domain/usecases/addCategory.dart';
 import 'package:mobile/Features/Categorie/domain/usecases/deleteCategory.dart';
-
 part 'adddeleteupdate_category_event.dart';
 part 'adddeleteupdate_category_state.dart';
 

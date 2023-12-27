@@ -14,7 +14,7 @@ typedef Future<Unit> DeleteOrUpdateOrAddCategory();
 class CategoryRepositoryImpl implements CategoryRepository {
 
   final CatyegoryRemoteDataSource remoteDataSource;
-  final CategoryLocalDataSourceImpl localDataSource;
+  final CategoryLocalDataSource localDataSource;
   final NetworkInfo networkInfo;// test remote or local
 
   CategoryRepositoryImpl(

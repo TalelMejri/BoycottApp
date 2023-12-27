@@ -18,14 +18,14 @@ class CategoryController extends Controller
     }
 
     public function AllCategory(){
-        $categories=Category::all();
+        $categories=Categorie::all();
         return response()->json([
             'categories'=>$categories,
         ],200);
     }
 
     public function DeleteCategory($id){
-        $category=Category::find($id);
+        $category=Categorie::find($id);
         if(!$category){
             return response()->json([
                 'message'=>'Category Not Found',
@@ -39,7 +39,7 @@ class CategoryController extends Controller
     }
 
     public function EditCategory($id){
-        $category=Category::find($id);
+        $category=Categorie::find($id);
         if(!$category){
             return response()->json([
                 'message'=>'Category Not Found',
@@ -52,7 +52,7 @@ class CategoryController extends Controller
     }
 
     public function UpdateCategory(Request $request,$id){
-        $category=Category::find($id);
+        $category=Categorie::find($id);
         if(!$category){
             return response()->json([
                 'message'=>'Category Not Found',

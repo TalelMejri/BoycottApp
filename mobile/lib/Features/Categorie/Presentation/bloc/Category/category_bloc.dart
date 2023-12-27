@@ -9,25 +9,25 @@ part 'category_event.dart';
 part 'category_state.dart';
 
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
-
   final GetAllCategoryUsecase getAllCategory;
 
   CategoryBloc({required this.getAllCategory}) : super(CategoryInitial()) {
     on<CategoryEvent>((event, emit) async {
-       if (event is GetAllCategoryEvent || event is RefreshCategoryEvent) {
+      if (event is GetAllCategoryEvent || event is RefreshCategoryEvent) {
         emit(LoadingCategoryState());
-        final furtureCategory =
-            await getAllCategory(); 
+        final furtureCategory = await getAllCategory();
         furtureCategory.fold((failure) {
+          print("I failed");
           emit(ErrorCategoryState(message: _mapFailureToMessage(failure)));
         }, (categorys) {
-          emit(LoadedCategory(categorys:categorys));
+          print("I didn't fail");
+          emit(LoadedCategory(categorys: categorys));
         });
       }
     });
   }
 
-   String _mapFailureToMessage(Failure failure) {
+  String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
       case ServerFailure:
         return SERVER_FAILURE_MESSAGE;
@@ -39,8 +39,4 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         return UKNOWN_FAILURE_MESSAGE;
     }
   }
-
 }
-
-
-

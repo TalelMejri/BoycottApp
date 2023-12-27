@@ -2,7 +2,7 @@ part of 'adddeleteupdate_category_bloc.dart';
 
 abstract class AdddeleteupdateCategoryState extends Equatable {
   const AdddeleteupdateCategoryState();
-
+  
   @override
   List<Object> get props => [];
 }
