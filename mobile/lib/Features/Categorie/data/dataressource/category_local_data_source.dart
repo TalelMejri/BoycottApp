@@ -4,7 +4,6 @@ import 'package:mobile/Core/failures/exception.dart';
 import 'package:mobile/Features/Categorie/data/models/category_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 abstract class CategoryLocalDataSource {
   Future<List<CategoryModel>> getCachedCategory();
   Future<Unit> cachecategory(List<CategoryModel> categoryModel);

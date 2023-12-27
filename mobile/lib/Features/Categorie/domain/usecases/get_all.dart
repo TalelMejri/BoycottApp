@@ -9,6 +9,6 @@ class GetAllCategoryUsecase {
   GetAllCategoryUsecase(this.repository);
 
   Future<Either<Failure, List<Category>>> call() async {
-    return repository.getAllcategories();
+    return await repository.getAllCategories();
   }
 }
