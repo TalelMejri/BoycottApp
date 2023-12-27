@@ -34,13 +34,11 @@ class AdddeleteupdateCategoryBloc extends Bloc<AdddeleteupdateCategoryEvent, Add
             failureOrDoneMessage, ADD_SUCCESS_MESSAGE));
       } else if (event is UpdateCategoryEvent) {
           emit(LoadingAddUpdateDeleteCategoryState());
-
         final failureOrDoneMessage = await updateCategory(event.category);
         emit(_eitherDoneMessageOrErrorState(
             failureOrDoneMessage, UPDATE_SUCCESS_MESSAGE));
       } else if (event is DeleteCategoryEvent) {
         emit(LoadingAddUpdateDeleteCategoryState());
-
         final failureOrDoneMessage = await deleteCategory(event.categoryId);
         emit(_eitherDoneMessageOrErrorState(
             failureOrDoneMessage, DELETE_SUCCESS_MESSAGE));

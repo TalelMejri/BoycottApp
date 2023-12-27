@@ -1,3 +1,3 @@
-const ADD_SUCCESS_MESSAGE = "Post ajouté avec succes";
-const DELETE_SUCCESS_MESSAGE = "Post supprimé avec succes";
-const UPDATE_SUCCESS_MESSAGE = "Post mis à jour avec succes";
+const ADD_SUCCESS_MESSAGE = "Category Added With Success";
+const DELETE_SUCCESS_MESSAGE = "Category Deletetd With Success";
+const UPDATE_SUCCESS_MESSAGE = "Category Updated With Success";

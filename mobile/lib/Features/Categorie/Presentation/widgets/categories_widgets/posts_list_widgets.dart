@@ -1,46 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/Core/widgets/EmptyPage.dart';
 import 'package:mobile/Features/Categorie/domain/entities/category.dart';
+import 'dart:convert';
 
-class CatgeoryListWidget extends StatelessWidget {
+class CategoryListWidget extends StatelessWidget {
   final List<Category> category;
-  const CatgeoryListWidget({
+  const CategoryListWidget({
     Key? key,
     required this.category,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      itemCount: category.length,
-      itemBuilder: (context, index) {
-        return Dismissible(key:Key(category[index].id.toString()),
-         background:  Container(
-            color: Colors.cyan,
-                    child:const Icon(Icons.delete,size: 40,color: Colors.white,),
-          ),
-            onDismissed: (direction){
-             ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("${category[index].name} Deleted"))
-                );
-             },
-          child: 
-             ListTile(
-          leading: Text(category[index].id.toString()),
-          title: Text(
-            category[index].name,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          subtitle: Text(
-            category[index].name,
-            style: const TextStyle(fontSize: 16),
-          ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-          onTap: () { },
-        )
-       );
-        
-      },
-      separatorBuilder: (context, index) => const Divider(thickness: 1),
-    );
+    return  category!.length==0 ? EmptyPage() : GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+        ),
+        itemCount: category.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Card(
+            child: Column(
+              children: [
+               Image.memory(
+                  width: 200,
+                  height: 100,
+                  base64Decode((category[index].photo).split(',').last),
+                  ),
+                  SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Name :",style: TextStyle(color: Colors.red),),
+                    Text(category[index].name),
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
+      );
   }
 }
