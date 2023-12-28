@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Bonjour',
+        title: 'BycottApp',
         theme: appTheme,
         home: CategoriePages(),
       ),

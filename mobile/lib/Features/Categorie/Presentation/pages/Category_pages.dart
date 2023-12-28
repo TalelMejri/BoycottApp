@@ -5,7 +5,7 @@ import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bl
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/pages/add_update_category.dart';
 import 'package:mobile/Features/Categorie/Presentation/widgets/categories_widgets/MessageDisplayWidget.dart';
-import 'package:mobile/Features/Categorie/Presentation/widgets/categories_widgets/posts_list_widgets.dart';
+import 'package:mobile/Features/Categorie/Presentation/widgets/categories_widgets/category_list_widgets.dart';
 
 class CategoriePages extends StatefulWidget {
   const CategoriePages({super.key});
