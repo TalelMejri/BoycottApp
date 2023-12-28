@@ -4,6 +4,7 @@ import 'package:mobile/Core/widgets/LandingPage.dart';
 import 'package:mobile/Core/widgets/Loading_widget.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile/Features/Categorie/Presentation/pages/Statistique.dart';
 import 'package:mobile/Features/Categorie/Presentation/pages/add_update_category.dart';
 import 'package:mobile/Features/Categorie/Presentation/widgets/categories_widgets/MessageDisplayWidget.dart';
 import 'package:mobile/Features/Categorie/Presentation/widgets/categories_widgets/category_list_widgets.dart';
@@ -35,10 +36,17 @@ class _CategoriePagesState extends State<CategoriePages> {
     );
   }
 
-  AppBar _buildAppBar() => AppBar(title: _selectIndex==0 ? const Text('Category') : const Text('Add Category') ,
-     leading: IconButton(onPressed: (){
+  AppBar _buildAppBar() => AppBar(
+     title: _selectIndex==0 ? const Text('Category') : const Text('Add Category'),
+     leading: IconButton(onPressed: (){ 
        Navigator.push(context, MaterialPageRoute(builder: (context)=>LandingPage()));
-     },icon: Icon(Icons.arrow_back)));
+      },icon: Icon(Icons.arrow_back)),
+    actions: [
+      IconButton(onPressed: (){
+         Navigator.push(context, MaterialPageRoute(builder: (context)=>Statistique()));
+      }, icon: Icon(Icons.pie_chart_sharp))
+    ],
+    );
 
 
   Widget _buildBody() {

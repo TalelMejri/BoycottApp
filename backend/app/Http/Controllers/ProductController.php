@@ -8,7 +8,7 @@ class ProductController extends Controller
 {
     public function GetProducts($id)
     {
-        $products = Product::where('id_categorie',$id)->get();
+        $products = Product::where('categorie_id',$id)->get();
         return response()->json([
             'products' => $products
         ], 200);
@@ -20,7 +20,7 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->photo = $request->photo;
         $product->description = $request->description;
-        $product->id_categorie = $request->id_categorie;
+        $product->categorie_id = $request->id_categorie;
         $product->save();
 
         return response()->json([
@@ -35,7 +35,7 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->photo = $request->photo;
         $product->description = $request->description;
-        $product->id_categorie = $request->id_categorie;
+        $product->categorie_id = $request->id_categorie;
         $product->save();
 
         return response()->json([

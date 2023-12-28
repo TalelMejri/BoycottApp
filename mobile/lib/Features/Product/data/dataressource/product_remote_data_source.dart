@@ -18,20 +18,16 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<List<ProductModel>> getAllProduct(int id) async {
-    
     try {
       final response = await client.get(
         Uri.parse("$BASE_URL_BACKEND/product/GetProducts/$id"),
         headers: {"Content-Type": "application/json"},
       ).timeout(const Duration(seconds: 5));
-      print(response);
       if (response.statusCode == 200) {
         final List data = json.decode(response.body)['products'] as List;
-        print(data);
         final List<ProductModel> productModels = data
             .map<ProductModel>((json) => ProductModel.fromJson(json))
             .toList();
-        //print(productModels);
         return productModels;
       } else {
         throw ServerException();
@@ -43,7 +39,6 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<Unit> addProduct(ProductModel productModel) async {
-  
     final request = {
       "name": productModel.name,
       "photo": productModel.photo,
@@ -67,7 +62,6 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
           "/product/DeleteProduct/$id"),
       headers: {"Content-Type": "application/json"},
     );
-
     if (response.statusCode == 200) {
       return Future.value(unit);
     } else {
@@ -77,7 +71,6 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<Unit> updateProduct(ProductModel productModel) async {
-   
     final ProductId = productModel.id;
     final request = {
       "name": productModel.name,
@@ -85,7 +78,6 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
       "description": productModel.description,
       "id_categorie": productModel.id_categorie.toString(),
     };
-    
     final response = await client.put(
       Uri.parse(BASE_URL_BACKEND + "/product/UpdateProduct/$ProductId"),
       body: request,
@@ -96,4 +88,5 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
       throw ServerException();
     }
   }
+  
 }

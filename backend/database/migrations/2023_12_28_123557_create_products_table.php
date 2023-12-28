@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string("name");
             $table->longtext("photo");
             $table->string("description");
-            $table->foreignId('id_categorie');
-            $table->foreign('id_categorie')->references('id')->on('categories');
+            $table->foreignId('categorie_id');
+            $table->foreign('categorie_id')->references('id')->on('categories');
             $table->timestamps();
         });
     }

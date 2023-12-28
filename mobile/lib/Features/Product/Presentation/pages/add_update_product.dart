@@ -9,7 +9,6 @@ import 'package:mobile/Features/Product/Presentation/pages/Product_pages.dart';
 import 'package:mobile/Features/Product/Presentation/widgets/Product_add_update_widgets/form_widget.dart';
 import 'package:mobile/Features/Product/domain/entities/Product.dart';
 
-
 class ProductAddUpdatePage extends StatelessWidget {
   final Product? product;
   final bool isUpdateProduct;

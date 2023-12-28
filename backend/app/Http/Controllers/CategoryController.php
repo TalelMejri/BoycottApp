@@ -18,7 +18,7 @@ class CategoryController extends Controller
     }
 
     public function AllCategory(){
-        $categories=Categorie::all();
+        $categories = Categorie::withCount("products")->get();
         return response()->json([
             'categories'=>$categories,
         ],200);

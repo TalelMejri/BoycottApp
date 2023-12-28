@@ -62,9 +62,8 @@ class _ProductListWidgetState extends State<WidgetListProduct> {
                       onDismissed: (direction){
                                 setState(() {
                                   ConfirmDelete(item.id);
-                                  widget.product.remove(item);
+                                  //widget.product.remove(item);
                                 });
-                                
                         },
                     child: Card(
                          child: ListTile(

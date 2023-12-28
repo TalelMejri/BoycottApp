@@ -2,7 +2,7 @@ import 'package:mobile/Features/Product/domain/entities/Product.dart';
 
 class ProductModel extends Product{
 
-  const ProductModel({int? id, required String name, required String photo,required String description,required int id_categorie})
+  const ProductModel({int? id, required String name, required String photo,required String description,required int id_categorie,int? products_count})
       : super(id: id, name: name, photo: photo, description: description, id_categorie: id_categorie);
 
    factory ProductModel.fromJson(Map<String,dynamic> json){
@@ -11,7 +11,7 @@ class ProductModel extends Product{
           name: json['name'],
           photo: json['photo'],
           description: json['description'],
-          id_categorie: json['id_categorie']
+          id_categorie: json['categorie_id'],
         );
    }
 
@@ -21,13 +21,13 @@ class ProductModel extends Product{
         'name': name, 
         'photo': photo, 
         'description': description,
-        'id_categorie': id_categorie
+        'categorie_id': id_categorie,
       };
   }
 
    @override
   String toString() {
-    return 'Product {id: $id, name: $name, photo: $photo, description: $description, id_categorie: $id_categorie}';
+    return 'Product {id: $id, name: $name, photo: $photo, description: $description, categorie_id: $id_categorie}';
   }
  
 }

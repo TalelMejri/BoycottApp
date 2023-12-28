@@ -7,12 +7,14 @@ class Product extends Equatable {
     final String description;
     final int id_categorie;
 
+
     const Product({
       this.id,
       required this.name,
       required this.photo,
       required this.description,
-      required this.id_categorie
+      required this.id_categorie,
+   
     });
 
     @override

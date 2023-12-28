@@ -18,8 +18,6 @@ class ProductPages extends StatefulWidget {
 }
 
 class _ProductPagesState extends State<ProductPages> {
-
-
   bool auth=true;
 
   @override
