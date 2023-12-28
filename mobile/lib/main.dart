@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Core/widgets/LandingPage.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/add_delete_update_category/adddeleteupdate_category_bloc.dart';
+import 'package:mobile/Features/Product/Presentation/bloc/Product/product_bloc.dart';
+import 'package:mobile/Features/Product/Presentation/bloc/add_delete_update_product/adddeleteupdate_product_bloc.dart';
 import 'core/app_theme.dart';
 import 'injection_container.dart' as di;
 
@@ -23,6 +25,8 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => di.sl<CategoryBloc>()..add(GetAllCategoryEvent())),
         BlocProvider(create: (_) => di.sl<AdddeleteupdateCategoryBloc>()),
+        BlocProvider(create: (_) => di.sl<ProductBloc>()),
+        BlocProvider(create: (_) => di.sl<AdddeleteupdateProductBloc>()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

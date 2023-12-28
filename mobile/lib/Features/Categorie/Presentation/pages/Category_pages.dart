@@ -35,7 +35,7 @@ class _CategoriePagesState extends State<CategoriePages> {
     );
   }
 
-  AppBar _buildAppBar() => AppBar(title: const Text('Category'));
+  AppBar _buildAppBar() => AppBar(title: _selectIndex==0 ? const Text('Category') : const Text('Add Category') );
 
   Widget _buildBody() {
     return Padding(
@@ -62,8 +62,8 @@ class _CategoriePagesState extends State<CategoriePages> {
   Widget _buildBottomNavigationBar() {
     return 
       CurvedNavigationBar(
-      color:Color.fromARGB(255, 47, 15, 73),
-      buttonBackgroundColor:Color.fromARGB(255, 47, 15, 73),
+      color:Color.fromARGB(255, 0, 0, 0),
+      buttonBackgroundColor:Color.fromARGB(255, 0, 0, 0),
       backgroundColor:Colors.white,
       animationCurve: Curves.easeInOut,
       animationDuration:const  Duration(milliseconds: 600),

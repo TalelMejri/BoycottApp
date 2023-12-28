@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-final primaryColor = Color.fromARGB(255, 47, 15, 73);
+final primaryColor = Color.fromARGB(255, 0, 0, 0);
 final secondaryColor = Color.fromARGB(255, 9, 118, 87);
 
 final appTheme = ThemeData(

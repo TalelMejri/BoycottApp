@@ -17,13 +17,13 @@ class CategoryAddUpdatePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppbar(),
+      appBar:isUpdateCategory ? _buildAppbar() : null,
       body: _buildBody(),
     );
   }
   
   AppBar _buildAppbar() {
-    return AppBar(title: Text(isUpdateCategory ? "Edit Category" : "Add Category"));
+    return AppBar(title: Text("Edit Category" ));
   }
 
   Widget _buildBody() {
