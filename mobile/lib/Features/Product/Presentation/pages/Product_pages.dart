@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:mobile/Core/widgets/Loading_widget.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile/Features/Categorie/Presentation/pages/Category_pages.dart';
 import 'package:mobile/Features/Categorie/Presentation/widgets/categories_widgets/MessageDisplayWidget.dart';
 import 'package:mobile/Features/Categorie/domain/entities/category.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/Product/product_bloc.dart';
+import 'package:mobile/Features/Product/Presentation/pages/add_update_product.dart';
 import 'package:mobile/Features/Product/Presentation/widgets/Product_widgets/WidgetListProduct.dart';
 
 class ProductPages extends StatefulWidget {
@@ -17,7 +19,7 @@ class ProductPages extends StatefulWidget {
 
 class _ProductPagesState extends State<ProductPages> {
 
-  int _selectIndex=0;
+
   bool auth=true;
 
   @override
@@ -25,7 +27,7 @@ class _ProductPagesState extends State<ProductPages> {
      return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(),
-      floatingActionButton: _buildFloatingBtn(context),
+      floatingActionButton: auth ? _buildFloatingBtn(context) : null,
     );
   }
   @override
@@ -35,7 +37,10 @@ class _ProductPagesState extends State<ProductPages> {
     super.initState();
   }
 
-  AppBar _buildAppBar() => AppBar(title:const Text('Product') );
+  AppBar _buildAppBar() => AppBar(title: Text("Product Belong to "+widget.category.name),
+     leading: IconButton(onPressed: (){
+       Navigator.push(context, MaterialPageRoute(builder: (context)=>CategoriePages()));
+     },icon: Icon(Icons.arrow_back),));
 
   Widget _buildBody() {
     return Padding(
@@ -59,7 +64,10 @@ class _ProductPagesState extends State<ProductPages> {
 
   Widget _buildFloatingBtn(context) {
     return 
-      FloatingActionButton(onPressed: (){},child: Icon(Icons.add));
+      FloatingActionButton(onPressed: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductAddUpdatePage(
+          isUpdateProduct: false,category:widget.category)));
+      },child: const Icon(Icons.add));
   }
 
 

@@ -46,7 +46,7 @@ class _CategoryListWidgetState extends State<CategoryListWidget> {
   @override
   Widget build(BuildContext context) {
     return widget.category == null || widget.category.isEmpty
-        ? const EmptyPage()
+        ? const EmptyPage(message:"Category")
         : GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,

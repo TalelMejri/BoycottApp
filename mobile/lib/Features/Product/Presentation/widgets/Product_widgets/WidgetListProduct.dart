@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Core/widgets/EmptyPage.dart';
-import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
-import 'package:mobile/Features/Categorie/Presentation/bloc/add_delete_update_category/adddeleteupdate_category_bloc.dart';
-import 'package:mobile/Features/Categorie/Presentation/widgets/category_add_update_widgets/SimpleDialog.dart';
+import 'package:mobile/Features/Product/Presentation/bloc/add_delete_update_product/adddeleteupdate_product_bloc.dart';
+import 'package:mobile/Features/Product/Presentation/widgets/Product_add_update_widgets/SimpleDialog.dart';
 import 'dart:convert';
-
 import 'package:mobile/Features/Product/domain/entities/Product.dart';
 
 class WidgetListProduct extends StatefulWidget {
@@ -22,7 +20,7 @@ class WidgetListProduct extends StatefulWidget {
 
 class _ProductListWidgetState extends State<WidgetListProduct> {
 
-   Future<void> ConfirmDelete(id)async{
+   Future<void> ConfirmDelete(id) async { 
      String ? message=await showDialog(
       barrierDismissible: false,
       context: context,
@@ -31,16 +29,12 @@ class _ProductListWidgetState extends State<WidgetListProduct> {
         });
         if (message!=null){
           if(message=="yes"){
-            BlocProvider.of<AdddeleteupdateCategoryBloc>(context)
-            .add(DeleteCategoryEvent(categoryId: id));
-            _onRefresh(context);
+            BlocProvider.of<AdddeleteupdateProductBloc>(context)
+            .add(DeleteProductEvent(ProductId: id));
           }
         }
    }
 
-    Future<void> _onRefresh(BuildContext context) async{
-      BlocProvider.of<CategoryBloc>(context).add(RefreshCategoryEvent());
-    }
 
     @override
   void initState() {
@@ -50,7 +44,7 @@ class _ProductListWidgetState extends State<WidgetListProduct> {
   @override
   Widget build(BuildContext context) {
     return widget.product == null || widget.product.isEmpty
-        ? const EmptyPage()
+        ? const EmptyPage(message: "Product",)
         : GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,

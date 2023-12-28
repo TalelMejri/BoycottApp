@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
@@ -29,17 +31,17 @@ class AdddeleteupdateProductBloc extends Bloc<AdddeleteupdateProductEvent, Addde
         emit(LoadingAddUpdateDeleteProductState());
         final failureOrDoneMessage = await addProduct(event.product);
         emit(_eitherDoneMessageOrErrorState(
-            failureOrDoneMessage, ADD_SUCCESS_MESSAGE));
+            failureOrDoneMessage, "Product Add With Success"));
       } else if (event is UpdateProductEvent) {
           emit(LoadingAddUpdateDeleteProductState());
         final failureOrDoneMessage = await updateProduct(event.product);
         emit(_eitherDoneMessageOrErrorState(
-            failureOrDoneMessage, UPDATE_SUCCESS_MESSAGE));
+            failureOrDoneMessage,"Product Updated With Success"));
       } else if (event is DeleteProductEvent) {
         emit(LoadingAddUpdateDeleteProductState());
         final failureOrDoneMessage = await deleteProduct(event.ProductId);
         emit(_eitherDoneMessageOrErrorState(
-            failureOrDoneMessage, DELETE_SUCCESS_MESSAGE));
+            failureOrDoneMessage, "Product Deleted With Success"));
       }
     });
   }

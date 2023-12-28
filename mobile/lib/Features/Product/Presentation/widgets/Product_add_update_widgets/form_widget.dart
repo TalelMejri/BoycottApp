@@ -4,20 +4,21 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Core/utils/validator.dart';
-import 'package:mobile/Features/Categorie/Presentation/widgets/category_add_update_widgets/form_submit_btn.dart';
-import 'package:mobile/Features/Categorie/Presentation/widgets/category_add_update_widgets/text_form_field_widget.dart';
-import 'package:mobile/Features/Categorie/domain/entities/category.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/add_delete_update_product/adddeleteupdate_product_bloc.dart';
+import 'package:mobile/Features/Product/Presentation/widgets/Product_add_update_widgets/form_submit_btn.dart';
+import 'package:mobile/Features/Product/Presentation/widgets/Product_add_update_widgets/text_form_field_widget.dart';
 import 'package:mobile/Features/Product/domain/entities/Product.dart';
 
 
 class FormWidgetProduct extends StatefulWidget {
-  final bool isUpdateCategory;
+  final bool isUpdateProduct;
   final Product? product;
+  final int categoryid;
   const FormWidgetProduct({
     Key? key,
-    required this.isUpdateCategory,
+    required this.isUpdateProduct,
     this.product,
+    required this.categoryid
   }) : super(key: key);
 
   @override
@@ -29,14 +30,16 @@ class _FormWidgetState extends State<FormWidgetProduct> {
   String name = "";
   String photo = "";
   File ? imagePicker;
+  String description="";
   String base64Image="";
   String imageError="";
 
   @override
   void initState() {
-    if (widget.isUpdateCategory) {
+    if (widget.isUpdateProduct) {
       name = widget.product!.name;
       base64Image = widget.product!.photo;
+      description=widget.product!.description;
     }
     super.initState();
   }
@@ -52,7 +55,7 @@ class _FormWidgetState extends State<FormWidgetProduct> {
               base64Image =  "data:image/png;base64,"+base64Encode(bytes);
         });
       }else{
-        imageError=="Image Required";
+        imageError="Image Required";
       }
     }catch(e){
       print(e);
@@ -65,7 +68,7 @@ class _FormWidgetState extends State<FormWidgetProduct> {
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 50,),
+               const SizedBox(height: 50,),
                TextFormFieldWidget(
                      initialValue: name,
                      validation:validateName,
@@ -76,12 +79,23 @@ class _FormWidgetState extends State<FormWidgetProduct> {
                       icon: Icons.edit,
                       keyboardType: TextInputType.name,
                       labelText: 'Name',
-              ),
-                SizedBox(
+                ),
+                 TextFormFieldWidget(
+                     initialValue: description,
+                     validation:validateDescription,
+                     onChanged: (value) {
+                          description = value;
+                      },
+                      hintText: 'Enter your Description',
+                      icon: Icons.edit,
+                      keyboardType: TextInputType.text,
+                      labelText: 'Description',
+                ),
+                const SizedBox(
                      height: 30.0,
                 ),
                 Visibility(
-                     visible: widget.isUpdateCategory ? true : false,
+                     visible: widget.isUpdateProduct ? true : false,
                      child: Image.memory(
                       base64Decode((base64Image).split(',').last),
                       width: 200,
@@ -96,37 +110,39 @@ class _FormWidgetState extends State<FormWidgetProduct> {
                 ],
             ),
             Text(imageError.isNotEmpty ? imageError : '',style: const TextStyle(color: Colors.red),),
-               SizedBox(
+               const SizedBox(
                      height: 15.0,
                 ),
             FormSubmitBtn(
-                isUpdateCategory: widget.isUpdateCategory,
-                onPressed: validateFormThenUpdateOrAddPost),
+                isUpdateProduct: widget.isUpdateProduct,
+                onPressed: validateFormThenUpdateOrAddProduct),
           ]),
     );
   }
 
-  void validateFormThenUpdateOrAddPost() {
+  void validateFormThenUpdateOrAddProduct() {
     final isValid = _formKey.currentState!.validate();
-     if(imagePicker==null && !widget.isUpdateCategory){
+     if(imagePicker==null && !widget.isUpdateProduct){
         setState(() {
           imageError="Image Required";
         });
         return;
       }
+    
     if (isValid) {
       final product = Product(
-          id: widget.isUpdateCategory ? widget.product!.id : null,
+          id: widget.isUpdateProduct ? widget.product!.id : null,
           name: name,
-          photo:base64Image,
-          description: "dd",
-          id_categorie: 11);
-      if (widget.isUpdateCategory) {
+          photo: base64Image,
+          description: description,
+          id_categorie: widget.categoryid,
+      );
+      if (widget.isUpdateProduct) {
         BlocProvider.of<AdddeleteupdateProductBloc>(context)
-            .add(UpdateProductEvent(product:product ));
+            .add(UpdateProductEvent(product:product));
       } else {
         BlocProvider.of<AdddeleteupdateProductBloc>(context)
-            .add(DeleteProductEvent(ProductId: product.id!));
+            .add(AddProductEvent(product: product));
       }
     }
   }

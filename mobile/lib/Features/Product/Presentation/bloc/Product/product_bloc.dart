@@ -9,7 +9,9 @@ part 'product_event.dart';
 part 'product_state.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
+
   final GetAllProductUsecase getAllProduct;
+  
   ProductBloc({required this.getAllProduct}) : super(ProductInitial()) {
     on<ProductEvent>((event, emit) async {
       if (event is GetAllProductEvent) {
@@ -23,7 +25,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       }
     });
   }
-
   
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
@@ -37,4 +38,5 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         return UKNOWN_FAILURE_MESSAGE;
     }
   }
+
 }

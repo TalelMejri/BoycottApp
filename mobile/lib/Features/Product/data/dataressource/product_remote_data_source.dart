@@ -18,18 +18,20 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<List<ProductModel>> getAllProduct(int id) async {
-      print(id);
+    
     try {
       final response = await client.get(
         Uri.parse("$BASE_URL_BACKEND/product/GetProducts/$id"),
         headers: {"Content-Type": "application/json"},
       ).timeout(const Duration(seconds: 5));
+      print(response);
       if (response.statusCode == 200) {
         final List data = json.decode(response.body)['products'] as List;
+        print(data);
         final List<ProductModel> productModels = data
             .map<ProductModel>((json) => ProductModel.fromJson(json))
             .toList();
-        print(productModels);
+        //print(productModels);
         return productModels;
       } else {
         throw ServerException();
@@ -41,17 +43,16 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<Unit> addProduct(ProductModel productModel) async {
+  
     final request = {
       "name": productModel.name,
       "photo": productModel.photo,
       "description": productModel.description,
-      "id_categorie": productModel.id_categorie,
+      "id_categorie": productModel.id_categorie.toString(),
     };
-
     final response = await client.post(
         Uri.parse(BASE_URL_BACKEND + "/product/AddProduct"),
         body: request);
-
     if (response.statusCode == 201) {
       return Future.value(unit);
     } else {
@@ -63,7 +64,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   Future<Unit> deleteProduct(int id) async {
     final response = await client.delete(
       Uri.parse(BASE_URL_BACKEND +
-          "/product/DeleteProduct/${id.toString()}"),
+          "/product/DeleteProduct/$id"),
       headers: {"Content-Type": "application/json"},
     );
 

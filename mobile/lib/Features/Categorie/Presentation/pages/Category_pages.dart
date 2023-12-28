@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/Core/widgets/LandingPage.dart';
 import 'package:mobile/Core/widgets/Loading_widget.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,11 +32,14 @@ class _CategoriePagesState extends State<CategoriePages> {
       appBar: _buildAppBar(),
       body: _buildBody(),
       bottomNavigationBar: auth ?  _buildBottomNavigationBar() : null,
-      //floatingActionButton: _buildFloatingBtn(context),
     );
   }
 
-  AppBar _buildAppBar() => AppBar(title: _selectIndex==0 ? const Text('Category') : const Text('Add Category') );
+  AppBar _buildAppBar() => AppBar(title: _selectIndex==0 ? const Text('Category') : const Text('Add Category') ,
+     leading: IconButton(onPressed: (){
+       Navigator.push(context, MaterialPageRoute(builder: (context)=>LandingPage()));
+     },icon: Icon(Icons.arrow_back)));
+
 
   Widget _buildBody() {
     return Padding(
@@ -72,12 +76,11 @@ class _CategoriePagesState extends State<CategoriePages> {
        items:<Widget> [
          Icon(Icons.list,color: Colors.white,),
          Icon(Icons.add,color: Colors.white,),
-     ]);
-  }
+        ]);
+    }
 
-
-  Future<void> _onRefresh(BuildContext context) async{
-     BlocProvider.of<CategoryBloc>(context).add(RefreshCategoryEvent());
-  }
+    Future<void> _onRefresh(BuildContext context) async{
+        BlocProvider.of<CategoryBloc>(context).add(RefreshCategoryEvent());
+    }
 
 }

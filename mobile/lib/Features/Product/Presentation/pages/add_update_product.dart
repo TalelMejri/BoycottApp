@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Core/utils/snack_bar_message.dart';
 import 'package:mobile/Core/widgets/Loading_widget.dart';
+import 'package:mobile/Features/Categorie/domain/entities/category.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/Product/product_bloc.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/add_delete_update_product/adddeleteupdate_product_bloc.dart';
+import 'package:mobile/Features/Product/Presentation/pages/Product_pages.dart';
 import 'package:mobile/Features/Product/Presentation/widgets/Product_add_update_widgets/form_widget.dart';
 import 'package:mobile/Features/Product/domain/entities/Product.dart';
 
@@ -11,19 +13,20 @@ import 'package:mobile/Features/Product/domain/entities/Product.dart';
 class ProductAddUpdatePage extends StatelessWidget {
   final Product? product;
   final bool isUpdateProduct;
-  const ProductAddUpdatePage({Key? key, this.product, required this.isUpdateProduct})
+  final Category category;
+  const ProductAddUpdatePage({Key? key, this.product, required this.isUpdateProduct,required this.category})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:isUpdateProduct ? _buildAppbar() : null,
+      appBar:_buildAppbar(),
       body: _buildBody(),
     );
   }
   
   AppBar _buildAppbar() {
-    return AppBar(title: Text("Edit Product" ));
+    return AppBar(title: Text(isUpdateProduct ? "Edit Product"  : "Add Product"));
   }
 
   Widget _buildBody() {
@@ -36,10 +39,10 @@ class ProductAddUpdatePage extends StatelessWidget {
               if (state is MessageAddUpdateDeleteProductState) {
                 SnackBarMessage().showSuccessSnackBar(
                     message: state.message, context: context);
-                 // _onRefresh(context);
-                // Navigator.of(context).pushAndRemoveUntil(
-                //     MaterialPageRoute(builder: (_) => ProductPages()),
-                //     (route) => false);
+                _onRefresh(context);
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (_) => ProductPages(category: category,)),
+                    (route) => false);
               } else if (state is ErrorAddUpdateDeleteProductState) {
                 SnackBarMessage().showErrorSnackBar(
                     message: state.message, context: context);
@@ -49,13 +52,13 @@ class ProductAddUpdatePage extends StatelessWidget {
              if (state is LoadingAddUpdateDeleteProductState) {
                 return LoadingWidget();
              }
-              return FormWidgetProduct(isUpdateCategory: false,product:product,);
+              return FormWidgetProduct(isUpdateProduct: false,product:product,categoryid:category.id!,);
             },
           )),
     );
   }
 
- /*   Future<void> _onRefresh(BuildContext context) async{
-     BlocProvider.of<ProductBloc>(context).add(RefreshProductEvent());
-  }*/
+   Future<void> _onRefresh(BuildContext context) async{
+      BlocProvider.of<ProductBloc>(context).add(GetAllProductEvent(id_categorie: category.id!));
+   }
 }
