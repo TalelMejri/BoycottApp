@@ -7,6 +7,7 @@ class TextFormFieldWidget extends StatelessWidget {
     final String labelText;
     final TextInputType keyboardType;
     final String? Function(String?)? validation;
+    final String initialValue;
 
   const TextFormFieldWidget(
       {required this.onChanged,
@@ -15,6 +16,7 @@ class TextFormFieldWidget extends StatelessWidget {
       required this.keyboardType,
       required this.labelText,
       required this.validation,
+      required this.initialValue,
       super.key});
 
   @override
@@ -22,6 +24,7 @@ class TextFormFieldWidget extends StatelessWidget {
     return Padding(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: TextFormField(
+          initialValue: initialValue,
           validator: validation,
           keyboardType: keyboardType,
           autovalidateMode: AutovalidateMode.onUserInteraction,

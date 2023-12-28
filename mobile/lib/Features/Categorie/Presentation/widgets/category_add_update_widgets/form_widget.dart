@@ -30,11 +30,12 @@ class _FormWidgetState extends State<FormWidget> {
   File ? imagePicker;
   String base64Image="";
   String imageError="";
+
   @override
   void initState() {
     if (widget.isUpdateCategory) {
       name = widget.category!.name;
-      photo = widget.category!.photo;
+      base64Image = widget.category!.photo;
     }
     super.initState();
   }
@@ -65,6 +66,7 @@ class _FormWidgetState extends State<FormWidget> {
           children: [
             SizedBox(height: 50,),
                TextFormFieldWidget(
+                     initialValue: name,
                      validation:validateName,
                      onChanged: (value) {
                           name = value;
@@ -77,6 +79,14 @@ class _FormWidgetState extends State<FormWidget> {
                 SizedBox(
                      height: 30.0,
                 ),
+                Visibility(
+                     visible: widget.isUpdateCategory ? true : false,
+                     child: Image.memory(
+                      base64Decode((base64Image).split(',').last),
+                      width: 200,
+                      height: 100,
+                 ),
+                 ),
             Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -97,7 +107,7 @@ class _FormWidgetState extends State<FormWidget> {
 
   void validateFormThenUpdateOrAddPost() {
     final isValid = _formKey.currentState!.validate();
-     if(imagePicker==null){
+     if(imagePicker==null && !widget.isUpdateCategory){
         setState(() {
           imageError="Image Required";
         });

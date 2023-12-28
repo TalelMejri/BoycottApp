@@ -65,7 +65,7 @@ class CategoryRepositoryImpl implements CategoryRepository {
 
   @override
   Future<Either<Failure, Unit>> UpdateCategory(Category category) async {
-    final CategoryModel categoryModel = CategoryModel(name: category.name, photo: category.photo);
+    final CategoryModel categoryModel = CategoryModel(id:category.id,name: category.name, photo: category.photo);
     return await _getMessage(() {
       return remoteDataSource.updateCategory(categoryModel);
     });

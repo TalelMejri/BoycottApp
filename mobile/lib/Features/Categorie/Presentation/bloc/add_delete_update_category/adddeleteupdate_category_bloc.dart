@@ -28,7 +28,6 @@ class AdddeleteupdateCategoryBloc extends Bloc<AdddeleteupdateCategoryEvent, Add
     on<AdddeleteupdateCategoryEvent>((event, emit) async {
        if (event is AddCategoryEvent) {
         emit(LoadingAddUpdateDeleteCategoryState());
-
         final failureOrDoneMessage = await addCategory(event.category);
         emit(_eitherDoneMessageOrErrorState(
             failureOrDoneMessage, ADD_SUCCESS_MESSAGE));

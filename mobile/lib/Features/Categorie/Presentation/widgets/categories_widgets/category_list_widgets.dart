@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Core/widgets/EmptyPage.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/add_delete_update_category/adddeleteupdate_category_bloc.dart';
+import 'package:mobile/Features/Categorie/Presentation/pages/add_update_category.dart';
 import 'package:mobile/Features/Categorie/Presentation/widgets/category_add_update_widgets/SimpleDialog.dart';
 import 'package:mobile/Features/Categorie/domain/entities/category.dart';
 import 'dart:convert';
@@ -81,7 +82,9 @@ class _CategoryListWidgetState extends State<CategoryListWidget> {
                         ),
                         const SizedBox(width: 2,),
                         ElevatedButton.icon(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(context,MaterialPageRoute(builder: (context)=>CategoryAddUpdatePage(isUpdateCategory: true,category:widget.category[index])));
+                          },
                           icon: const Icon(Icons.edit),
                           label: const Text("Edit"),
                            style: ButtonStyle(

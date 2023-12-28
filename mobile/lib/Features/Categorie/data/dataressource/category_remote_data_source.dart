@@ -72,17 +72,18 @@ class CategoryRemoteDataSourceImpl implements CatyegoryRemoteDataSource {
 
   @override
   Future<Unit> updateCategory(CategoryModel categoryModel) async {
-    final CategorieId = categoryModel.id.toString();
+   
+    final CategorieId = categoryModel.id;
     final request = {
       "name": categoryModel.name,
       "photo": categoryModel.photo,
     };
-
-    final response = await client.patch(
+    
+    final response = await client.put(
       Uri.parse(BASE_URL_BACKEND + "/category/UpdateCategory/$CategorieId"),
       body: request,
     );
-
+    //print(categoryModel);
     if (response.statusCode == 200) {
       return Future.value(unit);
     } else {
