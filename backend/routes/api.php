@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,4 +25,11 @@ Route::group(['prefix'=>'/category'],function(){
     Route::delete('/DeleteCategory/{id}',[CategoryController::class,'DeleteCategory']);
     Route::get('/EditCategory/{id}',[CategoryController::class,'EditCategory']);
     Route::put('/UpdateCategory/{id}',[CategoryController::class,'UpdateCategory']);
+});
+
+Route::group(['prefix'=>'/product'],function(){
+    Route::post('/AddProduct',[ProductController::class,'AddProduct']);
+    Route::get('/GetProducts/{id}',[ProductController::class,'GetProducts']);
+    Route::delete('/DeleteProduct/{id}',[ProductController::class,'DeleteProduct']);
+    Route::put('/UpdateProduct/{id}',[ProductController::class,'UpdateProduct']);
 });
