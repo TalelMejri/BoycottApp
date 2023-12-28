@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Core/widgets/EmptyPage.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/add_delete_update_product/adddeleteupdate_product_bloc.dart';
 import 'package:mobile/Features/Product/Presentation/widgets/Product_add_update_widgets/SimpleDialog.dart';
+import 'package:mobile/Features/Product/Presentation/widgets/Product_widgets/bottomSheetWidget.dart';
 import 'dart:convert';
 import 'package:mobile/Features/Product/domain/entities/Product.dart';
 
@@ -35,70 +36,67 @@ class _ProductListWidgetState extends State<WidgetListProduct> {
         }
    }
 
-
-    @override
-  void initState() {
-    super.initState();
-  }
+  Future<void> AlertBottomSheet(Product product)async{
+    await showModalBottomSheet(
+      context: context, 
+      builder:(BuildContext context){
+        return  boottomWidget(product:product);
+    });
+    }
 
   @override
   Widget build(BuildContext context) {
     return widget.product == null || widget.product.isEmpty
         ? const EmptyPage(message: "Product",)
-        : GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-            ),
-            itemCount: widget.product.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Card(
-                child: Column(
-                  children: [
-                    Image.memory(
-                      base64Decode((widget.product[index].photo).split(',').last),
-                      width: 200,
-                      height: 100,
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children:  [
-                        Text("Name:", style: TextStyle(color: Colors.red)),
-                        Text(widget.product[index].name),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        ElevatedButton.icon(
-                          onPressed:()async { await ConfirmDelete(widget.product[index].id);},
-                          icon: const Icon(Icons.delete),
-                          label: const Text("Delete"),
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                              Colors.red,
+        : ListView.builder(itemCount: widget.product.length,itemBuilder: (context,index) {
+               final item=widget.product[index];
+               return Dismissible(
+                    key: Key(item.name),
+                      background:  Container(
+                               color: Colors.red,
+                                child:const Icon(Icons.delete,size: 40,color: Colors.white,),
+                      ),
+                      onDismissed: (direction){
+                                setState(() {
+                                  ConfirmDelete(item.id);
+                                  widget.product.remove(item);
+                                });
+                                
+                        },
+                    child: Card(
+                         child: ListTile(
+                         title: Text(item.name),
+                         subtitle: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.teal,
                             ),
-                          ),
-                        ),
-                        const SizedBox(width: 2,),
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            
-                          },
-                          icon: const Icon(Icons.edit),
-                          label: const Text("Edit"),
-                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                              Colors.yellow,
+                           onPressed: (){
+                                AlertBottomSheet(item);
+                           },
+                           child: const Text("Why ?"),
+                         ),
+                          trailing: IconButton(icon: Icon(Icons.edit),onPressed: (){},),
+                          leading:Container(
+                                  width: 50, 
+                                  height: 50, 
+                                  decoration: BoxDecoration(
+                                     borderRadius: BorderRadius.circular(25), 
+                                     boxShadow:[
+                                       BoxShadow(
+                                          color: const Color.fromARGB(255, 161, 142, 142),
+                                      )
+                                     ]
+                                  ),
+                                  child: Image.memory(
+                                          base64Decode(
+                                              (item.photo).split(',').last),
+                                          fit: BoxFit.cover,
+                                    ),
+                                )
+                                ),
                             ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
+                      );
+           });
       }
 }
 
