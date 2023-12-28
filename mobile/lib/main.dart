@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile/Core/widgets/LandingPage.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/add_delete_update_category/adddeleteupdate_category_bloc.dart';
-import 'package:mobile/Features/Categorie/Presentation/pages/Category_pages.dart';
 import 'core/app_theme.dart';
 import 'injection_container.dart' as di;
 
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'BycottApp',
         theme: appTheme,
-        home: CategoriePages(),
+        home: LandingPage(),
       ),
     );
   }
