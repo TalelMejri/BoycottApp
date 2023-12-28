@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Core/widgets/EmptyPage.dart';
+import 'package:mobile/Features/Categorie/domain/entities/category.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/add_delete_update_product/adddeleteupdate_product_bloc.dart';
+import 'package:mobile/Features/Product/Presentation/pages/add_update_product.dart';
 import 'package:mobile/Features/Product/Presentation/widgets/Product_add_update_widgets/SimpleDialog.dart';
 import 'package:mobile/Features/Product/Presentation/widgets/Product_widgets/bottomSheetWidget.dart';
 import 'dart:convert';
 import 'package:mobile/Features/Product/domain/entities/Product.dart';
 
 class WidgetListProduct extends StatefulWidget {
-
+  final Category category;
   final List<Product> product;
   const WidgetListProduct({
     Key? key,
+    required this.category,
     required this.product,
   }) : super(key: key);
 
@@ -75,7 +78,16 @@ class _ProductListWidgetState extends State<WidgetListProduct> {
                            },
                            child: const Text("Why ?"),
                          ),
-                          trailing: IconButton(icon: Icon(Icons.edit),onPressed: (){},),
+                          trailing: IconButton(icon: Icon(Icons.edit),onPressed: (){
+                            Navigator.push(
+                            context,MaterialPageRoute(builder: (context)=>ProductAddUpdatePage(
+                                category: widget.category,
+                                product: item,
+                                isUpdateProduct: true
+                               )
+                              )
+                            );
+                          },),
                           leading:Container(
                                   width: 50, 
                                   height: 50, 

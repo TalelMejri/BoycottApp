@@ -50,7 +50,7 @@ class _ProductPagesState extends State<ProductPages> {
           return const LoadingWidget();
         } else if (state is LoadedProduct) {
             return RefreshIndicator(
-              child: WidgetListProduct(product:state.products),
+              child: WidgetListProduct(product:state.products,category:widget.category),
                 onRefresh: ()=>_onRefresh(context),
               );
         } else if (state is ErrorProductState) {

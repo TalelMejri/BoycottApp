@@ -4,6 +4,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Core/utils/validator.dart';
+import 'package:mobile/Features/Categorie/Presentation/pages/Category_pages.dart';
+import 'package:mobile/Features/Categorie/domain/entities/category.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/add_delete_update_product/adddeleteupdate_product_bloc.dart';
 import 'package:mobile/Features/Product/Presentation/widgets/Product_add_update_widgets/form_submit_btn.dart';
 import 'package:mobile/Features/Product/Presentation/widgets/Product_add_update_widgets/text_form_field_widget.dart';
@@ -13,12 +15,12 @@ import 'package:mobile/Features/Product/domain/entities/Product.dart';
 class FormWidgetProduct extends StatefulWidget {
   final bool isUpdateProduct;
   final Product? product;
-  final int categoryid;
+  final Category category;
   const FormWidgetProduct({
     Key? key,
     required this.isUpdateProduct,
     this.product,
-    required this.categoryid
+    required this.category
   }) : super(key: key);
 
   @override
@@ -135,7 +137,7 @@ class _FormWidgetState extends State<FormWidgetProduct> {
           name: name,
           photo: base64Image,
           description: description,
-          id_categorie: widget.categoryid,
+          id_categorie: widget.category.id!,
       );
       if (widget.isUpdateProduct) {
         BlocProvider.of<AdddeleteupdateProductBloc>(context)

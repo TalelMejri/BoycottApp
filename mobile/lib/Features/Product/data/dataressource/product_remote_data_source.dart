@@ -83,7 +83,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
       "name": productModel.name,
       "photo": productModel.photo,
       "description": productModel.description,
-      "id_categorie": productModel.id_categorie,
+      "id_categorie": productModel.id_categorie.toString(),
     };
     
     final response = await client.put(

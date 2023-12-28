@@ -52,7 +52,7 @@ class ProductAddUpdatePage extends StatelessWidget {
              if (state is LoadingAddUpdateDeleteProductState) {
                 return LoadingWidget();
              }
-              return FormWidgetProduct(isUpdateProduct: false,product:product,categoryid:category.id!,);
+              return FormWidgetProduct(isUpdateProduct: isUpdateProduct ? true : false,product:product,category:category);
             },
           )),
     );
@@ -60,5 +60,5 @@ class ProductAddUpdatePage extends StatelessWidget {
 
    Future<void> _onRefresh(BuildContext context) async{
       BlocProvider.of<ProductBloc>(context).add(GetAllProductEvent(id_categorie: category.id!));
-   }
+  }
 }
