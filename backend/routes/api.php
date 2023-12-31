@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
@@ -32,4 +33,9 @@ Route::group(['prefix'=>'/product'],function(){
     Route::get('/GetProducts/{id}',[ProductController::class,'GetProducts']);
     Route::delete('/DeleteProduct/{id}',[ProductController::class,'DeleteProduct']);
     Route::put('/UpdateProduct/{id}',[ProductController::class,'UpdateProduct']);
+});
+
+Route::group(['prefix'=>'/auth'],function(){
+    Route::post('/register',[AuthController::class,'Register']);
+    Route::post('/login',[AuthController::class,'Login']);
 });
