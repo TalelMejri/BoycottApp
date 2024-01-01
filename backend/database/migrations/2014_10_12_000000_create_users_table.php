@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->longtext('photo');
+            $table->Boolean('Isadmin');
             $table->timestamps();
         });
     }
