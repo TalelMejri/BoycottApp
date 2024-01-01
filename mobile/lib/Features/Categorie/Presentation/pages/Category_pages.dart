@@ -2,24 +2,45 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/Core/widgets/LandingPage.dart';
 import 'package:mobile/Core/widgets/Loading_widget.dart';
+import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/pages/Statistique.dart';
 import 'package:mobile/Features/Categorie/Presentation/pages/add_update_category.dart';
 import 'package:mobile/Features/Categorie/Presentation/widgets/categories_widgets/MessageDisplayWidget.dart';
 import 'package:mobile/Features/Categorie/Presentation/widgets/categories_widgets/category_list_widgets.dart';
+import 'package:mobile/injection_container.dart';
 
 class CategoriePages extends StatefulWidget {
   const CategoriePages({super.key});
-
+ 
   @override
   State<CategoriePages> createState() => _CategoriePagesState();
 }
 
 class _CategoriePagesState extends State<CategoriePages> {
 
+
+  final UserLocalDataSource userLocalDataSource=sl.get<UserLocalDataSource>();
+ 
+  @override
+  void initState() {
+   //userLocalDataSource.clearCachedUser();
+    getAuth();
+    super.initState();
+  }
+
+
+  void getAuth () async{
+    var res=await userLocalDataSource.getCachedUser()!=null ? true : false;
+    setState(()  {
+      auth=res;
+    });
+    print(auth);
+  }
+  
   int _selectIndex=0;
-  bool auth=true;
+  bool auth=false;
 
   void changeSelectedINdex(int index){
     setState(() {
