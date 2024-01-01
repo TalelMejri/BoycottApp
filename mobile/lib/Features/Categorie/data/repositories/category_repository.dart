@@ -15,7 +15,7 @@ class CategoryRepositoryImpl implements CategoryRepository {
 
   final CatyegoryRemoteDataSource remoteDataSource;
   final CategoryLocalDataSource localDataSource;
-  final NetworkInfo networkInfo;// test remote or local
+  final NetworkInfo networkInfo;
 
   CategoryRepositoryImpl(
       {
@@ -30,9 +30,7 @@ class CategoryRepositoryImpl implements CategoryRepository {
     if (await networkInfo.isConnected) {
       try {
         final remoteCategory = await remoteDataSource.getAllCategory();
-        //update cache local
         localDataSource.cachecategory(remoteCategory);
-        // Right(listpost),Left(failure) Type of Either Either<Failure, List<Post>>
         return Right(remoteCategory);
       } on ServerException {
         return Left(ServerFailure());
