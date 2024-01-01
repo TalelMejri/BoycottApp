@@ -15,7 +15,8 @@ class AuthController extends Controller
             'prenom'=>$request->prenom,
             'email'=>$request->email,
             'password'=>bcrypt($request->password),
-            'photo'=>$request->photo
+            'photo'=>$request->photo,
+            'Isadmin'=>false,
         ]);
         return response()->json(['data'=>"user created"],200);
     }
@@ -26,7 +27,20 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            return response()->json(['data' => $user, 'message' => 'Login successful'], 200);
+            
+            $token = $user->createToken('api_token')->plainTextToken;
+            $respnose = [
+                "id"=>$user->id,
+                'token' => $token,
+                'email' => $user->email,
+                "password" => $user->password, 
+                'nom' => $user->nom,
+                'prenom' => $user->prenom,
+                'isAdmin' => $user->Isadmin,
+                "photo" => $user->photo,
+            ];
+            
+            return response()->json($respnose, 200);
         } else {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
