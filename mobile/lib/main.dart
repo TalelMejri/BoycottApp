@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Core/widgets/LandingPage.dart';
 import 'package:mobile/Features/Auth/presentation/bloc/auth/auth_bloc.dart';
+import 'package:mobile/Features/Auth/presentation/bloc/signup/signup_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/add_delete_update_category/adddeleteupdate_category_bloc.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/Product/product_bloc.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => di.sl<ProductBloc>()),
         BlocProvider(create: (_) => di.sl<AdddeleteupdateProductBloc>()),
         BlocProvider(create: (_) => di.sl<AuthBloc>()),
+         BlocProvider(create: (_) => di.sl<SignupBloc>()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
