@@ -7,7 +7,10 @@ import 'package:mobile/Features/Auth/domain/repositories/UserRepository.dart';
 import 'package:mobile/Features/Auth/domain/usecases/get_cached_user.dart';
 import 'package:mobile/Features/Auth/domain/usecases/sign_in_user.dart';
 import 'package:mobile/Features/Auth/domain/usecases/sign_out_user.dart';
+import 'package:mobile/Features/Auth/domain/usecases/sign_up_user.dart';
+import 'package:mobile/Features/Auth/domain/usecases/verify_email_user.dart';
 import 'package:mobile/Features/Auth/presentation/bloc/auth/auth_bloc.dart';
+import 'package:mobile/Features/Auth/presentation/bloc/signup/signup_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/add_delete_update_category/adddeleteupdate_category_bloc.dart';
 import 'package:mobile/Features/Categorie/data/dataressource/category_local_data_source.dart';
@@ -48,10 +51,12 @@ Future<void> init() async
   sl.registerFactory(() => AdddeleteupdateProductBloc(
       addProduct: sl(), updateProduct: sl(), deleteProduct: sl()));
 
-
   sl.registerFactory(() => AuthBloc(
       signInUserUseCase: sl(),signOutUserUseCase: sl()
   ));
+
+  sl.registerFactory(() => SignupBloc(
+      signUpUserUseCase: sl(), verifyEmailUseCase: sl()));
 
 
 
@@ -72,16 +77,19 @@ Future<void> init() async
   sl.registerLazySingleton(() => SignOutUserUseCase(sl()));
   sl.registerLazySingleton(() => GetCachedUserUseCase(sl()));
 
+  sl.registerLazySingleton(() => SignUpUserUseCase(sl()));
+  sl.registerLazySingleton(() => VerifyEmailUseCase(sl()));
+
   //repository
   sl.registerLazySingleton<CategoryRepository>(() => CategoryRepositoryImpl(
       remoteDataSource: sl(), localDataSource: sl(), networkInfo: sl()));
 
   sl.registerLazySingleton<ProductRepository>(() => ProductRepositoryImpl(
       remoteDataSource: sl(), localDataSource: sl(), networkInfo: sl()));
-  
-        
+   
   sl.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(
       userLocalDataSource: sl(), userRemoteDataSource: sl(), networtkInfo: sl()));
+  
 
   //Datasources
   sl.registerLazySingleton<CatyegoryRemoteDataSource>(
