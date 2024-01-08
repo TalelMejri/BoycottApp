@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/Features/Auth/presentation/pages/login_pages.dart';
 import 'package:mobile/Features/Categorie/Presentation/pages/Category_pages.dart';
 
 class LandingPage extends StatelessWidget {
@@ -60,6 +61,28 @@ class LandingPage extends StatelessWidget {
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
+                   ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.blue,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      elevation: 5,
+                    ),
+                    child: const Text(
+                      "Login",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+
                 ],
               ),
             ),
