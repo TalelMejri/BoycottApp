@@ -18,8 +18,12 @@ return new class extends Migration
             $table->string('nom');
             $table->string('prenom');
             $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->integer('email_token')->nullable();
             $table->string('password');
             $table->longtext('photo');
+            $table->integer('password_token')->nullable();
+            $table->timestamp('password_token_send_at')->nullable();
             $table->Boolean('Isadmin');
             $table->timestamps();
         });
