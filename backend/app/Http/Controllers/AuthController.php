@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    
     public function Register(Request $request ){
-
         User::Create([
             'nom'=>$request->nom,
             'prenom'=>$request->prenom,
@@ -45,4 +45,5 @@ class AuthController extends Controller
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
     }
+
 }
