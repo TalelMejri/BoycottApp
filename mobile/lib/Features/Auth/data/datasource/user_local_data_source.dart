@@ -38,6 +38,8 @@ class UserLocalDataSourceImpl extends UserLocalDataSource {
   @override
   Future<Unit> clearCachedUser() {
     sharedPreferences.remove(CACHED_USER);
+    // final userJsonString = sharedPreferences.getString(CACHED_USER);
+    // print(userJsonString);
     return Future.value(unit);
   }
 
