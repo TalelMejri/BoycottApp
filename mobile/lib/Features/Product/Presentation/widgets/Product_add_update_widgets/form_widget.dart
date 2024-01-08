@@ -4,7 +4,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Core/utils/validator.dart';
-import 'package:mobile/Features/Categorie/Presentation/pages/Category_pages.dart';
 import 'package:mobile/Features/Categorie/domain/entities/category.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/add_delete_update_product/adddeleteupdate_product_bloc.dart';
 import 'package:mobile/Features/Product/Presentation/widgets/Product_add_update_widgets/form_submit_btn.dart';
@@ -81,6 +80,7 @@ class _FormWidgetState extends State<FormWidgetProduct> {
                       icon: Icons.edit,
                       keyboardType: TextInputType.name,
                       labelText: 'Name',
+                      obscuretext:false
                 ),
                  TextFormFieldWidget(
                      initialValue: description,
@@ -92,6 +92,7 @@ class _FormWidgetState extends State<FormWidgetProduct> {
                       icon: Icons.edit,
                       keyboardType: TextInputType.text,
                       labelText: 'Description',
+                      obscuretext:false
                 ),
                 const SizedBox(
                      height: 30.0,

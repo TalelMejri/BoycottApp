@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Core/utils/snack_bar_message.dart';
-import 'package:mobile/Features/Auth/presentation/bloc/auth/auth_bloc.dart';
-import 'package:mobile/Features/Auth/presentation/widgets/login_form.dart';
-import 'package:mobile/Features/Categorie/Presentation/pages/Category_pages.dart';
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+import 'package:mobile/Features/Auth/presentation/bloc/signup/signup_bloc.dart';
+import 'package:mobile/Features/Auth/presentation/pages/login_pages.dart';
+import 'package:mobile/Features/Auth/presentation/widgets/SignUpForm.dart';
+
+class SignUpPage extends StatelessWidget {
+  const SignUpPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthBloc, AuthState>(
+    return BlocListener<SignupBloc, SignupState>(
       listener: (context, state) {
-        if (state is AuthenticatedState) {
-          Navigator.push(context,
-           MaterialPageRoute(builder: (context)=>const CategoriePages()));
-        } else if (state is AuthErrorState) {
+        if (state is MessageSignupStateState) {
+         Navigator.push(context,
+           MaterialPageRoute(builder: (context)=>const LoginPage()));
+        } else if (state is ErrorSignupStateState) {
           SnackBarMessage()
               .showErrorSnackBar(message: state.message, context: context);
         }
@@ -29,24 +30,21 @@ class LoginPage extends StatelessWidget {
         backgroundColor: Colors.white,
         body: SingleChildScrollView(child: Container(
                     child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Image.asset(
                             'images/image1.png',
-                             height: 200,
-                             width: 200,
+                             height: 150,
+                             width: 150,
                           ),
                           const Padding(
                           padding: EdgeInsets.only(
-                              top: 5.0, bottom: 20.0, left: 20.0, right: 20.0),
+                              left: 20.0, right: 20.0),
                                child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Welcome Back !',
+                                'Create An Account !',
                                 style: TextStyle(
-                                    fontSize: 25.0,
+                                    fontSize: 20.0,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.center,
@@ -54,24 +52,23 @@ class LoginPage extends StatelessWidget {
                               ]
                             )
                           ),
-                           LoginForm(),
-                           SizedBox(height: 20.0),
+                           const SignUpForm(),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                    const Text(
-                                    'Don\'t have an account?',
+                                    'Already Have An Account ?',
                                     style:  TextStyle(
-                                        fontSize: 18.0, color: Colors.red),
+                                        fontSize: 12.0, color: Colors.red),
                                   ),
                                   GestureDetector(
                                     onTap: () {
                                      // Navigator.pushNamed(context, Register.id);
                                     },
                                     child:const Text(
-                                      ' Sign Up',
+                                      'Login',
                                       style: TextStyle(
-                                          fontSize: 18.0,
+                                          fontSize: 12.0,
                                           color: Colors.red,
                                           fontWeight: FontWeight.w600),
                                     ),

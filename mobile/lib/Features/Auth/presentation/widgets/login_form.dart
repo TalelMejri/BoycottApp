@@ -4,7 +4,6 @@ import 'package:mobile/Features/Auth/domain/entities/login_entity.dart';
 import 'package:mobile/Features/Auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:mobile/Features/Auth/presentation/widgets/auth_btn.dart';
 
-
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
   @override
@@ -17,6 +16,9 @@ class LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _pwdController = TextEditingController();
+
+  bool Hidden=true;
+
   @override
   void dispose() {
     _usernameController.dispose();
@@ -50,7 +52,7 @@ class LoginFormState extends State<LoginForm> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
             child: TextFormField(
-              obscureText: true,
+              obscureText: Hidden,
               enableSuggestions: false,
               autocorrect: false,
               validator: (value) {
@@ -60,29 +62,31 @@ class LoginFormState extends State<LoginForm> {
                 return null;
               },
               controller: _pwdController,
-              decoration: const InputDecoration(
+              decoration:  InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Entrer votre mot de passe',
+                suffixIcon:IconButton(icon: Icon(!Hidden ? Icons.visibility : Icons.visibility_off),onPressed: (){
+                       setState(() {
+                         Hidden=!Hidden;
+                       });
+                    },
+                )
               ),
             ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-/* child: ElevatedButton(
-onPressed: validateAndLoginUser,
-child: const Text('Login'),
-), */
             child: BlocBuilder<AuthBloc, AuthState>(
               builder: (context, state) {
                 if (state is LoginProgressState) {
                   return const CircularProgressIndicator(
-                    color: Colors.blue,
+                    color: Colors.green,
                   );
                 } else {
                   return AuthButton(
                       text: "Login",
                       onPressed: validateAndLoginUser,
-                      color: Colors.blue);
+                      color: Colors.green);
                 }
               },
             ),

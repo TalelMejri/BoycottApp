@@ -1,6 +1,33 @@
 part of 'signup_bloc.dart';
+abstract class SignupState extends Equatable {
+  const SignupState();
+  
+  @override
+  List<Object> get props => [];
+}
 
-@immutable
-sealed class SignupState {}
+class SignupInitial extends SignupState {}
 
-final class SignupInitial extends SignupState {}
+class LoadingSignupStateState extends SignupState {}
+
+class MessageSignupStateState extends SignupState {
+  final String message;
+
+  MessageSignupStateState({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
+
+
+class ErrorSignupStateState extends SignupState {
+  final String message;
+
+  ErrorSignupStateState({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
+
+
+

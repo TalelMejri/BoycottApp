@@ -8,6 +8,7 @@ class TextFormFieldWidget extends StatelessWidget {
     final TextInputType keyboardType;
     final String? Function(String?)? validation;
     final String initialValue;
+    final bool obscuretext;
 
   const TextFormFieldWidget(
       {required this.onChanged,
@@ -17,6 +18,7 @@ class TextFormFieldWidget extends StatelessWidget {
       required this.labelText,
       required this.validation,
       required this.initialValue,
+      required this.obscuretext,
       super.key});
 
   @override
@@ -24,6 +26,7 @@ class TextFormFieldWidget extends StatelessWidget {
     return Padding(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: TextFormField(
+          obscureText: obscuretext,
           initialValue: initialValue,
           validator: validation,
           keyboardType: keyboardType,
@@ -34,7 +37,7 @@ class TextFormFieldWidget extends StatelessWidget {
            decoration: InputDecoration(
                border: OutlineInputBorder(borderRadius:BorderRadius.circular(14) ),
                hintText: "$hintText",
-               label:  Text("$labelText"),
+               label:  Text("$labelText")
            ),
         ));
   }

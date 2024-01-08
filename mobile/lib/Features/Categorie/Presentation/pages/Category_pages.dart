@@ -25,11 +25,9 @@ class _CategoriePagesState extends State<CategoriePages> {
  
   @override
   void initState() {
-   //userLocalDataSource.clearCachedUser();
     getAuth();
     super.initState();
   }
-
 
   void getAuth () async{
     var res=await userLocalDataSource.getCachedUser()!=null ? true : false;
@@ -63,9 +61,9 @@ class _CategoriePagesState extends State<CategoriePages> {
        Navigator.push(context, MaterialPageRoute(builder: (context)=>LandingPage()));
       },icon: Icon(Icons.arrow_back)),
     actions: [
-      IconButton(onPressed: (){
+      auth ? IconButton(onPressed: (){
          Navigator.push(context, MaterialPageRoute(builder: (context)=>Statistique()));
-      }, icon: Icon(Icons.pie_chart_sharp))
+      }, icon: Icon(Icons.pie_chart_sharp))   : Container()
     ],
     );
 

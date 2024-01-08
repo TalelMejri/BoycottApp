@@ -21,8 +21,6 @@ class LoginProgressState extends AuthState {}
 
 class LogOutInProgressState extends AuthState {}
 
-
-
 class AuthErrorState extends AuthState {
   final String message;
   AuthErrorState({required this.message});
