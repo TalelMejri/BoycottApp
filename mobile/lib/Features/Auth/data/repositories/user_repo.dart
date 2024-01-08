@@ -6,10 +6,9 @@ import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart
 import 'package:mobile/Features/Auth/data/datasource/user_remote_data_source.dart';
 import 'package:mobile/Features/Auth/data/model/UserModelLogin.dart';
 import 'package:mobile/Features/Auth/domain/entities/login_entity.dart';
-import 'package:mobile/Features/Auth/domain/entities/signup_entity.dart';
 import 'package:mobile/Features/Auth/domain/repositories/UserRepository.dart';
 
-
+typedef Future<Unit> AddOrVerifyUser();
 class UserRepositoryImpl extends UserRepository {
 
   final NetworkInfo networtkInfo;
@@ -67,11 +66,31 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> signUp(SignUpEntity user) async {
-    try {
-       return Left(LoginFailure());
-    } catch (e) {
-       return Left(LoginFailure());
+  Future<Either<Failure, Unit>> signUp(LoginEntity user) async {
+    final UserModelLogin userModel =
+        UserModelLogin(email: user.email, password: user.password,nom: user.nom,prenom: user.prenom,photo: user.photo);   
+        return await _getMessage(() {
+           return userRemoteDataSource.signUpUser(userModel);
+    });
+  }
+
+    @override
+  Future<Either<Failure, Unit>> VerifyEmail(String code,String email) async {
+      return await _getMessage(() {
+           return userRemoteDataSource.verifyUser(code,email);
+    });
+  }
+
+  Future<Either<Failure, Unit>> _getMessage(AddOrVerifyUser addOrVerifyUser) async {
+    if (await networtkInfo.isConnected) {
+      try {
+        await addOrVerifyUser();
+        return Right(unit);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(OfflineFailure());
     }
   }
 
