@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/Core/widgets/LandingPage.dart';
 import 'package:mobile/Core/widgets/Loading_widget.dart';
 import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart';
+import 'package:mobile/Features/Auth/data/model/UserModelLogin.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/pages/Statistique.dart';
@@ -28,13 +31,14 @@ class _CategoriePagesState extends State<CategoriePages> {
     getAuth();
     super.initState();
   }
-
+  UserModelLogin? user=null;
   void getAuth () async{
+    
     var res=await userLocalDataSource.getCachedUser()!=null ? true : false;
     setState(()  {
       auth=res;
+      user=userLocalDataSource.getCachedUser() as UserModelLogin?;
     });
-    print(auth);
   }
   
   int _selectIndex=0;
@@ -51,10 +55,36 @@ class _CategoriePagesState extends State<CategoriePages> {
      return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(),
+      drawer: auth ?  _buildDrawer() : null,
       bottomNavigationBar: auth ?  _buildBottomNavigationBar() : null,
     );
   }
 
+  Drawer _buildDrawer()=>Drawer(
+            child: Column(
+              children: [
+                const SizedBox(height: 100,),
+                const Text("Welcome",style:  TextStyle(color: Colors.blue),),
+                const SizedBox(height: 10,),
+               ClipRRect(
+                  borderRadius: BorderRadius.circular(30), 
+                  child:  Image.memory(
+                          base64Decode(
+                              (user?.photo)!.split(',').last),
+                          width: 200,
+                          height: 100,
+                        ),
+                ),
+               DrawerHeader(
+                      child: Text(user!.nom != null ? user!.nom! : "User"),
+               ),
+                const SizedBox(height: 260,),
+                const Text("Boycott",style:  TextStyle(color: Colors.blue),)
+              ],
+            ),
+  );
+
+  
   AppBar _buildAppBar() => AppBar(
      title: _selectIndex==0 ? const Text('Category') : const Text('Add Category'),
      leading: IconButton(onPressed: (){ 
