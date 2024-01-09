@@ -30,4 +30,14 @@ class ErrorSignupStateState extends SignupState {
 }
 
 
+class VerifyErrorSatet extends SignupState {
+  final String message;
+
+  VerifyErrorSatet({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
+
+
 

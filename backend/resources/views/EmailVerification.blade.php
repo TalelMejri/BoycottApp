@@ -8,7 +8,7 @@
  @component('mail::panel')
  <p style="text-align:center">Token Verification</p>
       <br>
-    <button style="color: green">{{$user->email_token}}</button>
+    <button style="text-align: center" style="color: green">{{$user->email_token}}</button>
  @endcomponent
  <p style="text-align:center"> Matrix Masters Team</p>
 @endcomponent

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Core/utils/snack_bar_message.dart';
 import 'package:mobile/Features/Auth/presentation/bloc/auth/auth_bloc.dart';
+import 'package:mobile/Features/Auth/presentation/pages/signup_pages.dart';
 import 'package:mobile/Features/Auth/presentation/widgets/login_form.dart';
 import 'package:mobile/Features/Categorie/Presentation/pages/Category_pages.dart';
 class LoginPage extends StatelessWidget {
@@ -55,23 +56,25 @@ class LoginPage extends StatelessWidget {
                             )
                           ),
                            LoginForm(),
-                           SizedBox(height: 20.0),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                    const Text(
                                     'Don\'t have an account?',
                                     style:  TextStyle(
-                                        fontSize: 18.0, color: Colors.red),
+                                        fontSize: 15.0, color: Colors.red),
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                     // Navigator.pushNamed(context, Register.id);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                           builder: (context) => const SignUpPage()));
                                     },
                                     child:const Text(
                                       ' Sign Up',
                                       style: TextStyle(
-                                          fontSize: 18.0,
+                                          fontSize: 15.0,
                                           color: Colors.red,
                                           fontWeight: FontWeight.w600),
                                     ),

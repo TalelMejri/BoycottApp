@@ -18,9 +18,10 @@ class SendTokenPassword extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public $token;
+    public function __construct($token)
     {
-        //
+        $this->token=$token;
     }
 
     /**

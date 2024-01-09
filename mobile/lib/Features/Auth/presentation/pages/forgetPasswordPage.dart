@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Core/utils/snack_bar_message.dart';
 import 'package:mobile/Features/Auth/presentation/bloc/signup/signup_bloc.dart';
 import 'package:mobile/Features/Auth/presentation/pages/login_pages.dart';
-import 'package:mobile/Features/Auth/presentation/pages/verify_pages.dart';
-import 'package:mobile/Features/Auth/presentation/widgets/SignUpForm.dart';
+import 'package:mobile/Features/Auth/presentation/widgets/ForgetForm.dart';
+import 'package:mobile/Features/Auth/presentation/widgets/VerifyForm.dart';
 
-class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
+class ForgetPasswordPage extends StatelessWidget {
+  const ForgetPasswordPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class SignUpPage extends StatelessWidget {
       listener: (context, state) {
         if (state is MessageSignupStateState) {
          Navigator.push(context,
-           MaterialPageRoute(builder: (context)=>const VerifyPage()));
+           MaterialPageRoute(builder: (context)=>const LoginPage()));
         } else if (state is ErrorSignupStateState) {
           SnackBarMessage()
               .showErrorSnackBar(message: state.message, context: context);
@@ -43,7 +43,7 @@ class SignUpPage extends StatelessWidget {
                                child: Column(
                             children: [
                               Text(
-                                'Create An Account !',
+                                'Forget Password !',
                                 style: TextStyle(
                                     fontSize: 20.0,
                                     color: Colors.black,
@@ -53,15 +53,10 @@ class SignUpPage extends StatelessWidget {
                               ]
                             )
                           ),
-                           const SignUpForm(),
+                           const ForgetForm(),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                   const Text(
-                                    'Already Have An Account ?',
-                                    style:  TextStyle(
-                                        fontSize: 12.0, color: Colors.red),
-                                  ),
                                   GestureDetector(
                                     onTap: () {
                                      Navigator.push(

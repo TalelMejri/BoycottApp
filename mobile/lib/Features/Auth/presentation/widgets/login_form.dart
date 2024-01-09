@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Features/Auth/domain/entities/login_entity.dart';
 import 'package:mobile/Features/Auth/presentation/bloc/auth/auth_bloc.dart';
+import 'package:mobile/Features/Auth/presentation/pages/forgetPasswordPage.dart';
 import 'package:mobile/Features/Auth/presentation/widgets/auth_btn.dart';
 
 class LoginForm extends StatefulWidget {
@@ -74,6 +75,23 @@ class LoginFormState extends State<LoginForm> {
               ),
             ),
           ),
+          Padding(padding:const EdgeInsets.only(left: 280),child:
+            GestureDetector(
+                         onTap: () {
+                                     Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ForgetPasswordPage()));
+                                    },
+                                    child:const Text(
+                                      'Forget Pasword ?',
+                                      style: TextStyle(
+                                          fontSize: 12.0,
+                                          color: Colors.blue,
+                                          fontWeight: FontWeight.w600
+                                      ),
+                                    ),
+           ),),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
             child: BlocBuilder<AuthBloc, AuthState>(

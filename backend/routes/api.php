@@ -39,5 +39,7 @@ Route::group(['prefix'=>'/auth'],function(){
     Route::post('/register',[AuthController::class,'Register']);
     Route::post('/login',[AuthController::class,'Login']);
     Route::get('/sendToken/{email}',[AuthController::class,'EnvoyerToken']);
-    Route::post('/VerifyEmail/{email}',[AuthController::class,'VerifyEmail']);
+    Route::post('/VerifyEmail',[AuthController::class,'VerifyEmail']);
+    Route::post('/ForgotPassword/{email}',[AuthController::class,'ForgotPassword']);
+    Route::put('/ChangerPassword',[AuthController::class,'ChangerPassword']);
 });

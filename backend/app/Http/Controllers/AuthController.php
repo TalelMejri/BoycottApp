@@ -21,6 +21,7 @@ class AuthController extends Controller
             'photo'=>$request->photo,
             'Isadmin'=>false,
         ]);
+        $this->EnvoyerTokenEmail($request->email);
         return response()->json(['data'=>"user created"],200);
     }
 
@@ -30,7 +31,9 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            
+            if (!$user->hasVerifiedEmail()) {
+                return response()->json(['data' => "votre email n'est pas vérifié"], 401);
+            }
             $token = $user->createToken('api_token')->plainTextToken;
             $respnose = [
                 "id"=>$user->id,
@@ -51,27 +54,33 @@ class AuthController extends Controller
 
     public function EnvoyerTokenEmail(String $email){
         $user=User::where('email',$email)->first();
-        $token=mt_rand(10000,99999);
-
-        if($user->email_token == null){
-            // Mail::to($user->email)->send(new VerifyMail($user));
-            $user->email_token=$token;
-            $user->save();
-            return response()->json(['data'=>"Token has been sended"],200);
+        if($user){
+            $token=mt_rand(10000,99999);
+            if($user->email_token == null){
+                $user->email_token=$token;
+                $user->save();
+                Mail::to($user->email)->send(new VerifyMail($user));
+                return response()->json(['data'=>"Token has been sended"],200);
+            }else{
+                return response()->json(['data'=>"email already verified"],201);
+            }
         }else{
-            return response()->json(['data'=>"email already verified"],201);
+            return response()->json(['data'=>"Email not found"],404);
         }
     }
 
-    public function VerifyEmail(String $email,Request $request){
-        $user=User::where('email',$email)->first();
-
-        if($request->token == $user->email_token){
-            $user->markEmailAsVerified();
-            $user->email_verified_at=now();
-            return response()->json(['data'=>"Email has been verified"],200);
+    public function VerifyEmail(Request $request){
+        $user=User::where('email',$request->email)->first();
+        if($user){
+            if($request->token == $user->email_token){
+                $user->markEmailAsVerified();
+                $user->email_verified_at=now();
+                return response()->json(['data'=>"Email has been verified"],200);
+            }else{
+                return response()->json(['data'=>"Token invalid."],404);
+            }
         }else{
-            return response()->json(['data'=>"Token invalid."],404);
+            return response()->json(['data'=>"Email not found"],404);
         }
     }
 
@@ -87,7 +96,6 @@ class AuthController extends Controller
 
 
     public function ForgotPassword(String $email){
-
         $user=User::where('email',$email)->firstOrFail();
         $token=mt_rand(10000,99999);
         $user->password_token=$token;

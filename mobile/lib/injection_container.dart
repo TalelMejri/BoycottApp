@@ -4,6 +4,7 @@ import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart
 import 'package:mobile/Features/Auth/data/datasource/user_remote_data_source.dart';
 import 'package:mobile/Features/Auth/data/repositories/user_repo.dart';
 import 'package:mobile/Features/Auth/domain/repositories/UserRepository.dart';
+import 'package:mobile/Features/Auth/domain/usecases/forget_password_user.dart';
 import 'package:mobile/Features/Auth/domain/usecases/get_cached_user.dart';
 import 'package:mobile/Features/Auth/domain/usecases/sign_in_user.dart';
 import 'package:mobile/Features/Auth/domain/usecases/sign_out_user.dart';
@@ -56,7 +57,7 @@ Future<void> init() async
   ));
 
   sl.registerFactory(() => SignupBloc(
-      signUpUserUseCase: sl(), verifyEmailUseCase: sl()));
+      signUpUserUseCase: sl(), verifyEmailUseCase: sl(),forgetPasswordUseCase: sl()));
 
 
 
@@ -79,6 +80,7 @@ Future<void> init() async
 
   sl.registerLazySingleton(() => SignUpUserUseCase(sl()));
   sl.registerLazySingleton(() => VerifyEmailUseCase(sl()));
+  sl.registerLazySingleton(() => ForgetPasswordUserUseCase(sl()));
 
   //repository
   sl.registerLazySingleton<CategoryRepository>(() => CategoryRepositoryImpl(

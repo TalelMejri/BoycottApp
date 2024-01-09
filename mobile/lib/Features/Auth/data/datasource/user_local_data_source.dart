@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:mobile/Core/Strings/constantes.dart';
-import 'package:mobile/Core/failures/exception.dart';
 import 'package:mobile/Features/Auth/data/model/UserModelLogin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

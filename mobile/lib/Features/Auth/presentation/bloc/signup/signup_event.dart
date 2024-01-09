@@ -24,3 +24,12 @@ class VerifyUserEvent extends SignupEvent {
   @override
   List<Object> get props => [code,email];
 }
+
+class ForgetPasswordEvent extends SignupEvent {
+  final String email;
+
+  ForgetPasswordEvent({required this.email});
+
+  @override
+  List<Object> get props => [email];
+}

@@ -10,6 +10,7 @@ abstract class UserRemoteDataSource {
   Future<UserModelLogin> signInUser(LoginEntity userModel);
   Future<Unit> signUpUser(LoginEntity userModel);
   Future<Unit> verifyUser(String code,String email);
+  Future<Unit> ForgetPassword(String email);
   Future<void> signOutUser();
 }
 
@@ -85,15 +86,14 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
     }
   }
 
-
    @override
   Future<Unit> verifyUser(String code,String email) async {
     final body = jsonEncode(
-          {"code":code,"email":email}
+          {"email":email,"token":code}
         );
     late final response;
     try {
-      response = await client.post(Uri.parse(BASE_URL_BACKEND+"/auth/register"),
+      response = await client.post(Uri.parse(BASE_URL_BACKEND+"/auth/VerifyEmail"),
           headers: {
             "content-type": "application/json",
             "accept": "application/json",
@@ -102,16 +102,39 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
     } catch (e) {
       print("exception " + e.toString());
     }
-    print(jsonDecode(response.body));
     if (response.statusCode == 200) {
       try {
-        print(response.body);
-        return Future.value(response.body);
+        return Future.value(unit);
       } catch (e) {
         return Future.value(null);
       }
     } else {
-      throw RegisterException();
+      throw Exception(jsonDecode(response.body)['data'].toString());
+    }
+  }
+
+  @override
+  Future<Unit> ForgetPassword(String email) async {
+    late final response;
+    try {
+      response = await client.post(Uri.parse(BASE_URL_BACKEND+"/auth/ForgotPassword/${email}"),
+          headers: {
+            "content-type": "application/json",
+            "accept": "application/json",
+          },
+          body:'');
+    } catch (e) {
+      print("exception " + e.toString());
+    }
+    print(response.body);
+    if (response.statusCode == 200) {
+      try {
+        return Future.value(unit);
+      } catch (e) {
+        return Future.value(null);
+      }
+    } else {
+      throw Exception(jsonDecode(response.body)['data'].toString());
     }
   }
 

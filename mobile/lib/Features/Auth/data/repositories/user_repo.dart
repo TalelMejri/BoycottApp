@@ -81,6 +81,14 @@ class UserRepositoryImpl extends UserRepository {
     });
   }
 
+     @override
+  Future<Either<Failure, Unit>> forgetPassword(String email) async {
+    print("userepo");
+      return await _getMessage(() {
+           return userRemoteDataSource.ForgetPassword(email);
+    });
+  }
+
   Future<Either<Failure, Unit>> _getMessage(AddOrVerifyUser addOrVerifyUser) async {
     if (await networtkInfo.isConnected) {
       try {

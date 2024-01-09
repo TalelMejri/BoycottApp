@@ -3,10 +3,10 @@ import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:mobile/Core/Strings/failures.dart';
 import 'package:mobile/Core/failures/failures.dart';
 import 'package:mobile/Features/Auth/domain/entities/login_entity.dart';
+import 'package:mobile/Features/Auth/domain/usecases/forget_password_user.dart';
 import 'package:mobile/Features/Auth/domain/usecases/sign_up_user.dart';
 import 'package:mobile/Features/Auth/domain/usecases/verify_email_user.dart';
 
@@ -17,11 +17,12 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
 
   final VerifyEmailUseCase verifyEmailUseCase;
   final SignUpUserUseCase signUpUserUseCase;
-  
+  final ForgetPasswordUserUseCase forgetPasswordUseCase;
 
   SignupBloc({
     required this.verifyEmailUseCase,
     required this.signUpUserUseCase,
+    required this.forgetPasswordUseCase
   }) : super(SignupInitial()) {
     on<SignupEvent>((event, emit) async {
        if (event is AddUserEvent) {
@@ -32,8 +33,21 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       }else if (event is VerifyUserEvent) {
         emit(LoadingSignupStateState());
         final failureOrDoneMessage = await verifyEmailUseCase(event.code,event.email);
-        emit(_eitherDoneMessageOrErrorState(
-            failureOrDoneMessage, "Email Verified With Success"));
+        failureOrDoneMessage.fold((left) {
+          emit(ErrorSignupStateState(message: _mapFailureToMessage(left)));
+        }, (right) {
+          emit(MessageSignupStateState(message: "Email Verified With Success"));
+        });
+      }
+       else if (event is ForgetPasswordEvent) {
+        print("after check : ->>>>>>>>>>>>>>>>>>> ForgetPasswordEvent");
+        emit(LoadingSignupStateState());
+        final failureOrDoneMessage = await forgetPasswordUseCase(event.email);
+        failureOrDoneMessage.fold((left) {
+          emit(ErrorSignupStateState(message: _mapFailureToMessage(left)));
+        }, (right) {
+          emit(MessageSignupStateState(message: "Token Send"));
+        });
       }
     });
   }

@@ -9,5 +9,6 @@ abstract class UserRepository {
   Future<Either<Failure, Unit>> signOut();
   Future<LoginEntity?> getCachedUser();
   Future<Either<Failure, Unit>> VerifyEmail(String code, String email);
+  Future<Either<Failure, Unit>> forgetPassword(String email);
   
 }

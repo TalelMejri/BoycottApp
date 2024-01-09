@@ -1,0 +1,97 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile/Features/Auth/presentation/bloc/auth/auth_bloc.dart';
+import 'package:mobile/Features/Auth/presentation/bloc/signup/signup_bloc.dart';
+import 'package:mobile/Features/Auth/presentation/widgets/auth_btn.dart';
+
+class VerifyForm extends StatefulWidget {
+  const VerifyForm({super.key});
+  @override
+  VerifyFormFormState createState() {
+    return VerifyFormFormState();
+  }
+}
+
+class VerifyFormFormState extends State<VerifyForm> {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _code = TextEditingController();
+  TextEditingController _email = TextEditingController();
+
+  @override
+  void dispose() {
+    _code.dispose();
+    _email.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child: TextFormField(
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Code est obligatoire'; 
+                }
+                return null;
+              },
+              keyboardType: TextInputType.number,
+              controller: _code,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Entrer votre Token',
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child: TextFormField(
+              enableSuggestions: false,
+              autocorrect: false,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Email Obligatoire';
+                }
+                return null;
+              },
+              controller: _email,
+              decoration:  const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Enter Email',
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+            child: BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                if (state is LoginProgressState) {
+                  return const CircularProgressIndicator(
+                    color: Colors.green,
+                  );
+                } else {
+                  return AuthButton(
+                      text: "Verify",
+                      onPressed: validateAndLoginUser,
+                      color: Colors.green);
+                }
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void validateAndLoginUser() {
+    if (_formKey.currentState!.validate()) {
+          BlocProvider.of<SignupBloc>(context).add(
+            VerifyUserEvent(code: _code.text, email: _email.text)
+          );
+    }
+  }
+}
