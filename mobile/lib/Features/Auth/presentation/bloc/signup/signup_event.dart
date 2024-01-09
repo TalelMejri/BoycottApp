@@ -33,3 +33,12 @@ class ForgetPasswordEvent extends SignupEvent {
   @override
   List<Object> get props => [email];
 }
+
+class ResetPasswordEvent extends SignupEvent {
+  final payloadEntity data;
+
+  ResetPasswordEvent({required this.data});
+
+  @override
+  List<Object> get props => [data];
+}

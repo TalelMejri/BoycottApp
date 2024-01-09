@@ -5,6 +5,7 @@ import 'package:mobile/Core/network/network_info.dart';
 import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart';
 import 'package:mobile/Features/Auth/data/datasource/user_remote_data_source.dart';
 import 'package:mobile/Features/Auth/data/model/UserModelLogin.dart';
+import 'package:mobile/Features/Auth/domain/entities/Payload.dart';
 import 'package:mobile/Features/Auth/domain/entities/login_entity.dart';
 import 'package:mobile/Features/Auth/domain/repositories/UserRepository.dart';
 
@@ -71,6 +72,15 @@ class UserRepositoryImpl extends UserRepository {
         UserModelLogin(email: user.email, password: user.password,nom: user.nom,prenom: user.prenom,photo: user.photo);   
         return await _getMessage(() {
            return userRemoteDataSource.signUpUser(userModel);
+    });
+  }
+
+   @override
+  Future<Either<Failure, Unit>> resetPassword(payloadEntity data) async {
+    final payloadEntity userModel =
+        payloadEntity(email: data.email, password: data.password,token: data.token);   
+        return await _getMessage(() {
+           return userRemoteDataSource.ResetPassword(data);
     });
   }
 

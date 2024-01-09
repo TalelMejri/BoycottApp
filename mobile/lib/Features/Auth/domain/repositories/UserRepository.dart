@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:mobile/Core/failures/failures.dart';
+import 'package:mobile/Features/Auth/domain/entities/Payload.dart';
 import 'package:mobile/Features/Auth/domain/entities/login_entity.dart';
 
 abstract class UserRepository {
@@ -10,5 +11,5 @@ abstract class UserRepository {
   Future<LoginEntity?> getCachedUser();
   Future<Either<Failure, Unit>> VerifyEmail(String code, String email);
   Future<Either<Failure, Unit>> forgetPassword(String email);
-  
+  Future<Either<Failure, Unit>> resetPassword(payloadEntity data);
 }

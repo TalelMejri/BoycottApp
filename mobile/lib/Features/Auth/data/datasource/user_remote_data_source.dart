@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/Core/Strings/constantes.dart';
 import 'package:mobile/Core/failures/exception.dart';
 import 'package:mobile/Features/Auth/data/model/UserModelLogin.dart';
+import 'package:mobile/Features/Auth/domain/entities/Payload.dart';
 import 'package:mobile/Features/Auth/domain/entities/login_entity.dart';
 
 abstract class UserRemoteDataSource {
@@ -11,6 +12,7 @@ abstract class UserRemoteDataSource {
   Future<Unit> signUpUser(LoginEntity userModel);
   Future<Unit> verifyUser(String code,String email);
   Future<Unit> ForgetPassword(String email);
+  Future<Unit> ResetPassword(payloadEntity data);
   Future<void> signOutUser();
 }
 
@@ -127,6 +129,33 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
       print("exception " + e.toString());
     }
     print(response.body);
+    if (response.statusCode == 200) {
+      try {
+        return Future.value(unit);
+      } catch (e) {
+        return Future.value(null);
+      }
+    } else {
+      throw Exception(jsonDecode(response.body)['data'].toString());
+    }
+  }
+
+     @override
+  Future<Unit> ResetPassword(payloadEntity data) async {
+    final body = jsonEncode(
+          {"email":data.email,"token":data.token,"password":data.password}
+        );
+    late final response;
+    try {
+      response = await client.post(Uri.parse(BASE_URL_BACKEND+"/auth/ChangerPassword"),
+          headers: {
+            "content-type": "application/json",
+            "accept": "application/json",
+          },
+          body: body);
+    } catch (e) {
+      print("exception " + e.toString());
+    }
     if (response.statusCode == 200) {
       try {
         return Future.value(unit);

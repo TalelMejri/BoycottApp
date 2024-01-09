@@ -111,11 +111,10 @@ class AuthController extends Controller
        if($user->password_token_send_at > now()->addHour()){
          return response()->json(["data"=>"Token Expired"],404);
         }
-        $user->update([
-            "password"=>bcrypt($request->password),
-            "password_token_send_at"=>null,
-            "password_token"=>null
-        ]);
+        $user->password=bcrypt($request->password);
+        $user->password_token=Null;
+        $user->password_token_send_at=Null;
+        $user->save();
         return response()->json(["data"=>"Password Changed With success"],200);
     }else{
         return response()->json(["data"=>"Email Or Token not found"],404);

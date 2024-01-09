@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Core/utils/snack_bar_message.dart';
 import 'package:mobile/Features/Auth/presentation/bloc/signup/signup_bloc.dart';
-import 'package:mobile/Features/Auth/presentation/pages/ResetPasswordPage.dart';
 import 'package:mobile/Features/Auth/presentation/pages/login_pages.dart';
-import 'package:mobile/Features/Auth/presentation/widgets/ForgetForm.dart';
+import 'package:mobile/Features/Auth/presentation/widgets/ResetPasswordForm.dart';
 
-class ForgetPasswordPage extends StatelessWidget {
-  const ForgetPasswordPage({super.key});
+class ResetPasswordPage extends StatelessWidget {
+  const ResetPasswordPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +14,7 @@ class ForgetPasswordPage extends StatelessWidget {
       listener: (context, state) {
         if (state is MessageSignupStateState) {
          Navigator.push(context,
-           MaterialPageRoute(builder: (context)=>const ResetPasswordPage()));
+           MaterialPageRoute(builder: (context)=>const LoginPage()));
         } else if (state is ErrorSignupStateState) {
           SnackBarMessage()
               .showErrorSnackBar(message: state.message, context: context);
@@ -43,7 +42,7 @@ class ForgetPasswordPage extends StatelessWidget {
                                child: Column(
                             children: [
                               Text(
-                                'Forget Password !',
+                                'Reset Password !',
                                 style: TextStyle(
                                     fontSize: 20.0,
                                     color: Colors.black,
@@ -53,7 +52,7 @@ class ForgetPasswordPage extends StatelessWidget {
                               ]
                             )
                           ),
-                           const ForgetForm(),
+                           const ResetPasswordForm(),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [

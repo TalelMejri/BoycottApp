@@ -41,5 +41,5 @@ Route::group(['prefix'=>'/auth'],function(){
     Route::get('/sendToken/{email}',[AuthController::class,'EnvoyerToken']);
     Route::post('/VerifyEmail',[AuthController::class,'VerifyEmail']);
     Route::post('/ForgotPassword/{email}',[AuthController::class,'ForgotPassword']);
-    Route::put('/ChangerPassword',[AuthController::class,'ChangerPassword']);
+    Route::post('/ChangerPassword',[AuthController::class,'ChangerPassword']);
 });
