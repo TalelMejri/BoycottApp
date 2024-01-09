@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Features/Auth/domain/entities/Payload.dart';
-import 'package:mobile/Features/Auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:mobile/Features/Auth/presentation/bloc/signup/signup_bloc.dart';
 import 'package:mobile/Features/Auth/presentation/widgets/auth_btn.dart';
 
@@ -44,7 +43,7 @@ class ResetPasswordState extends State<ResetPasswordForm> {
                 }
                 return null;
               },
-              keyboardType: TextInputType.number,
+              keyboardType: TextInputType.emailAddress,
               controller: _email,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
@@ -56,6 +55,7 @@ class ResetPasswordState extends State<ResetPasswordForm> {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
             child: TextFormField(
               enableSuggestions: false,
+                keyboardType: TextInputType.number,
               autocorrect: false,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -81,10 +81,10 @@ class ResetPasswordState extends State<ResetPasswordForm> {
                 }
                 return null;
               },
-              controller: _token,
+              controller: _password,
               decoration:  const InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: '****',
+                labelText: 'Password',
               ),
               obscureText: true,
             ),
@@ -103,16 +103,16 @@ class ResetPasswordState extends State<ResetPasswordForm> {
               controller: _passwordconfirm,
               decoration:  const InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: '****',
+                labelText: "Confirm Password",
               ),
               obscureText: true,
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-            child: BlocBuilder<AuthBloc, AuthState>(
+            child: BlocBuilder<SignupBloc, SignupState>(
               builder: (context, state) {
-                if (state is LoginProgressState) {
+                if (state is LoadingSignupStateState) {
                   return const CircularProgressIndicator(
                     color: Colors.green,
                   );

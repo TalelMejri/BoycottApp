@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/Features/Auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:mobile/Features/Auth/presentation/bloc/signup/signup_bloc.dart';
 import 'package:mobile/Features/Auth/presentation/widgets/auth_btn.dart';
 
@@ -48,9 +47,9 @@ class ForgetFormState extends State<ForgetForm> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-            child: BlocBuilder<AuthBloc, AuthState>(
+            child: BlocBuilder<SignupBloc, SignupState>(
               builder: (context, state) {
-                if (state is LoginProgressState) {
+                if (state is LoadingSignupStateState) {
                   return const CircularProgressIndicator(
                     color: Colors.green,
                   );
