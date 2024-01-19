@@ -1,10 +1,7 @@
-import 'dart:math';
-
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mobile/Core/Strings/failures.dart';
-import 'package:mobile/Core/Strings/message.dart';
 import 'package:mobile/Core/failures/failures.dart';
 import 'package:mobile/Features/Product/domain/entities/Product.dart';
 import 'package:mobile/Features/Product/domain/usecases/UpdateProduct.dart';

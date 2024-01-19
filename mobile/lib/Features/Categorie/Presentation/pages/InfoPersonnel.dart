@@ -1,10 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart';
 import 'package:mobile/Features/Auth/data/model/UserModelLogin.dart';
 import 'package:mobile/injection_container.dart';
-
 
 class InfoUser extends StatefulWidget {
   const InfoUser({super.key});
@@ -46,13 +44,15 @@ class _InfoUserState extends State<InfoUser> {
               mainAxisAlignment: MainAxisAlignment.center,
               children:[
                  Center(child: Column(mainAxisAlignment: MainAxisAlignment.center,children: [
-                     CircleAvatar(
+CircleAvatar(
   maxRadius: 50,
-  backgroundImage: MemoryImage(
-    base64Decode(
-      (user?.photo ?? "").split(',').last,
-    ),
-  ),
+  backgroundImage: user?.photo != null
+      ? MemoryImage(
+          base64Decode(
+            (user?.photo.toString())!.split(',').last,
+          ),
+        )
+      : AssetImage("images/image1.png") as ImageProvider<Object>?,
 ),
                     SizedBox(height: 5),
                     Text(user?.nom.toString() ?? "default",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),

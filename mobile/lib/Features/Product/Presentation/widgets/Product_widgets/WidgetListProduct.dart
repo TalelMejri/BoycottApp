@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Core/widgets/EmptyPage.dart';
+import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart';
+import 'package:mobile/Features/Auth/data/model/UserModelLogin.dart';
 import 'package:mobile/Features/Categorie/domain/entities/category.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/add_delete_update_product/adddeleteupdate_product_bloc.dart';
 import 'package:mobile/Features/Product/Presentation/pages/add_update_product.dart';
@@ -8,6 +10,7 @@ import 'package:mobile/Features/Product/Presentation/widgets/Product_add_update_
 import 'package:mobile/Features/Product/Presentation/widgets/Product_widgets/bottomSheetWidget.dart';
 import 'dart:convert';
 import 'package:mobile/Features/Product/domain/entities/Product.dart';
+import 'package:mobile/injection_container.dart';
 
 class WidgetListProduct extends StatefulWidget {
   final Category category;
@@ -23,6 +26,27 @@ class WidgetListProduct extends StatefulWidget {
 }
 
 class _ProductListWidgetState extends State<WidgetListProduct> {
+   final UserLocalDataSource userLocalDataSource=sl.get<UserLocalDataSource>();
+ 
+  @override
+  void initState() {
+    getAuth();
+    super.initState();
+  }
+  UserModelLogin? user=null;
+
+  void getAuth () async{
+    var res=await userLocalDataSource.getCachedUser()!=null ? true : false;
+    if(res){
+      user=await userLocalDataSource.getCachedUser();
+    }
+    setState(()  {
+      auth=res;
+    });
+  }
+  
+  int _selectIndex=0;
+  bool auth=false;
 
    Future<void> ConfirmDelete(id) async { 
      String ? message=await showDialog(
@@ -77,7 +101,8 @@ class _ProductListWidgetState extends State<WidgetListProduct> {
                            },
                            child: const Text("Why ?"),
                          ),
-                          trailing: IconButton(icon: Icon(Icons.edit),onPressed: (){
+                          trailing: Visibility(visible: auth,child:
+                            IconButton(icon: Icon(Icons.edit),onPressed: (){
                             Navigator.push(
                             context,MaterialPageRoute(builder: (context)=>ProductAddUpdatePage(
                                 category: widget.category,
@@ -86,7 +111,7 @@ class _ProductListWidgetState extends State<WidgetListProduct> {
                                )
                               )
                             );
-                          },),
+                          },)), 
                           leading:Container(
                                   width: 50, 
                                   height: 50, 

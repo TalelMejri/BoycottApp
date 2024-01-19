@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/Core/widgets/Loading_widget.dart';
+import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart';
+import 'package:mobile/Features/Auth/data/model/UserModelLogin.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/pages/Category_pages.dart';
@@ -8,6 +10,7 @@ import 'package:mobile/Features/Categorie/domain/entities/category.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/Product/product_bloc.dart';
 import 'package:mobile/Features/Product/Presentation/pages/add_update_product.dart';
 import 'package:mobile/Features/Product/Presentation/widgets/Product_widgets/WidgetListProduct.dart';
+import 'package:mobile/injection_container.dart';
 
 class ProductPages extends StatefulWidget {
   final Category category;
@@ -18,7 +21,32 @@ class ProductPages extends StatefulWidget {
 }
 
 class _ProductPagesState extends State<ProductPages> {
-  bool auth=true;
+
+   final UserLocalDataSource userLocalDataSource=sl.get<UserLocalDataSource>();
+ 
+  @override
+  void initState() {
+     /*BlocProvider.of<ProductBloc>(context)
+            .add(GetAllProductEvent(id_categorie:widget.category.id!));*/
+    getAuth();
+    super.initState();
+  }
+  
+  UserModelLogin? user=null;
+
+  void getAuth () async{
+    var res=await userLocalDataSource.getCachedUser()!=null ? true : false;
+    if(res){
+      user=await userLocalDataSource.getCachedUser();
+    }
+    setState(()  {
+      auth=res;
+    });
+  }
+  
+  int _selectIndex=0;
+  bool auth=false;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -28,17 +56,12 @@ class _ProductPagesState extends State<ProductPages> {
       floatingActionButton: auth ? _buildFloatingBtn(context) : null,
     );
   }
-  @override
-  void initState() {
-    BlocProvider.of<ProductBloc>(context)
-            .add(GetAllProductEvent(id_categorie:widget.category.id!));
-    super.initState();
-  }
+
 
   AppBar _buildAppBar() => AppBar(title: Text("Product Belong to "+widget.category.name),
      leading: IconButton(onPressed: (){
-       Navigator.push(context, MaterialPageRoute(builder: (context)=>CategoriePages()));
-     },icon: Icon(Icons.arrow_back),));
+       Navigator.push(context, MaterialPageRoute(builder: (context)=>const CategoriePages()));
+     },icon: const Icon(Icons.arrow_back),));
 
   Widget _buildBody() {
     return Padding(

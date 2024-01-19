@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Core/widgets/EmptyPage.dart';
+import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart';
+import 'package:mobile/Features/Auth/data/model/UserModelLogin.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/add_delete_update_category/adddeleteupdate_category_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/pages/add_update_category.dart';
@@ -10,6 +12,7 @@ import 'package:mobile/Features/Product/Presentation/bloc/Product/product_bloc.d
 import 'dart:convert';
 
 import 'package:mobile/Features/Product/Presentation/pages/Product_pages.dart';
+import 'package:mobile/injection_container.dart';
 
 class CategoryListWidget extends StatefulWidget {
   final List<Category> category;
@@ -23,6 +26,31 @@ class CategoryListWidget extends StatefulWidget {
 }
 
 class _CategoryListWidgetState extends State<CategoryListWidget> {
+
+
+   final UserLocalDataSource userLocalDataSource=sl.get<UserLocalDataSource>();
+ 
+  @override
+  void initState() {
+    getAuth();
+    super.initState();
+  }
+
+  UserModelLogin? user=null;
+
+  void getAuth () async{
+    var res=await userLocalDataSource.getCachedUser()!=null ? true : false;
+    if(res){
+      user=await userLocalDataSource.getCachedUser();
+    }
+    setState(()  {
+      auth=res;
+    });
+  }
+  
+  int _selectIndex=0;
+  bool auth=false;
+
   Future<void> ConfirmDelete(id) async {
     String? message = await showDialog(
         barrierDismissible: false,
@@ -86,7 +114,10 @@ class _CategoryListWidgetState extends State<CategoryListWidget> {
                             Text(widget.category[index].name),
                           ],
                         ),
-                        Row(
+                        Visibility(
+                         visible: auth,
+                          child:
+                            Row(
                           children: [
                             ElevatedButton.icon(
                               onPressed: () async {
@@ -125,7 +156,8 @@ class _CategoryListWidgetState extends State<CategoryListWidget> {
                               ),
                             ),
                           ],
-                        ),
+                        ) )
+                       
                       ],
                     ),
                   ));
