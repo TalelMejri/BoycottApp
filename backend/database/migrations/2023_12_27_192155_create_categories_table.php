@@ -17,6 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string("name");
             $table->longtext("photo");
+            $table->integer("status")->default(0);
+            $table->foreignId("user_id");
+            $table->foreign("user_id")->references("id")->on("users");
             $table->timestamps();
         });
     }

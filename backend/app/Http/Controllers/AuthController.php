@@ -11,14 +11,13 @@ use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
-    
+
     public function Register(Request $request ){
         User::Create([
             'nom'=>$request->nom,
             'prenom'=>$request->prenom,
             'email'=>$request->email,
             'password'=>bcrypt($request->password),
-            'photo'=>$request->photo,
             'Isadmin'=>false,
         ]);
         $this->EnvoyerTokenEmail($request->email);
@@ -39,13 +38,13 @@ class AuthController extends Controller
                 "id"=>$user->id,
                 'token' => $token,
                 'email' => $user->email,
-                "password" => $user->password, 
+                "password" => $user->password,
                 'nom' => $user->nom,
                 'prenom' => $user->prenom,
                 'isAdmin' => $user->Isadmin,
                 "photo" => $user->photo,
             ];
-            
+
             return response()->json($respnose, 200);
         } else {
             return response()->json(['message' => 'Invalid credentials'], 401);

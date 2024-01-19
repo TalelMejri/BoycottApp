@@ -43,3 +43,26 @@ Route::group(['prefix'=>'/auth'],function(){
     Route::post('/ForgotPassword/{email}',[AuthController::class,'ForgotPassword']);
     Route::post('/ChangerPassword',[AuthController::class,'ChangerPassword']);
 });
+
+Route::middleware("auth:sanctum")->group(function(){
+
+    Route::group(['prefix'=>'/product'],function(){
+        Route::post('/AddProduct',[ProductController::class,'AddProduct']);
+        Route::delete('/DeleteProduct/{id}',[ProductController::class,'DeleteProduct']);
+        Route::put('/UpdateProduct/{id}',[ProductController::class,'UpdateProduct']);
+        Route::put('/AcceptProduct/{id}',[CategoryController::class,'AcceptProduct']);
+        Route::put('/RejectProduct/{id}',[CategoryController::class,'RejectProduct']);
+        Route::get('/ListProduct/{id}',[CategoryController::class,'ListProduct']);
+    });
+
+    Route::group(['prefix'=>'/category'],function(){
+        Route::post('/AddCategory',[CategoryController::class,'AddCategory']);
+        Route::delete('/DeleteCategory/{id}',[CategoryController::class,'DeleteCategory']);
+        Route::get('/EditCategory/{id}',[CategoryController::class,'EditCategory']);
+        Route::put('/UpdateCategory/{id}',[CategoryController::class,'UpdateCategory']);
+        Route::put('/AcceptCategory/{id}',[CategoryController::class,'AcceptCategory']);
+        Route::put('/RejectCategory/{id}',[CategoryController::class,'RejectCategory']);
+        Route::get('/ListCategory',[CategoryController::class,'ListCategory']);
+    });
+
+});

@@ -6,11 +6,14 @@ use App\Models\Categorie;
 
 class CategoryController extends Controller
 {
-    
+
     public function AddCategory(Request $request){
         $categorie=new Categorie();
         $categorie->name=$request->name;
         $categorie->photo=$request->photo;
+        if($request->user()->Isadmin){
+            $categorie->status=1;
+        }
         $categorie->save();
         return response()->json([
             'message'=>'Category Added Successfully',
@@ -18,10 +21,33 @@ class CategoryController extends Controller
     }
 
     public function AllCategory(){
-        $categories = Categorie::withCount("products")->get();
+        $categories = Categorie::withCount("products")->where("status",1)->get();
         return response()->json([
             'categories'=>$categories,
         ],200);
+    }
+
+    public function ListCategory(){
+        $categories = Categorie::where("status",0)->get();
+        return response()->json([
+            'categories'=>$categories,
+        ],200);
+    }
+
+    public function AcceptCategory($id){
+        $category=Categorie::find($id);
+        $category->update([
+            'status'=> 1
+        ]);
+        return response()->json(["message"=>"Categpry Accpeted"]);
+    }
+
+    public function RejectCategory($id){
+        $category=Categorie::find($id);
+        $category->update([
+            'status'=> 2
+        ]);
+        return response()->json(["message"=>"Categpry Rejected"]);
     }
 
     public function DeleteCategory($id){

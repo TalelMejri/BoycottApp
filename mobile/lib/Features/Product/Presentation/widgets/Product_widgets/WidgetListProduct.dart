@@ -124,10 +124,9 @@ class _ProductListWidgetState extends State<WidgetListProduct> {
                                      ]
                                   ),
                                   child: Image.memory(
-                                          base64Decode(
-                                              (item.photo).split(',').last),
-                                          fit: BoxFit.cover,
-                                    ),
+  base64Decode(base64Url.normalize((item.photo).split(',').last)),
+  fit: BoxFit.cover,
+),
                                 )
                                 ),
                             ),

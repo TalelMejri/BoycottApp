@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:mobile/Core/Strings/constantes.dart';
 import 'package:mobile/Core/failures/exception.dart';
+import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart';
 import 'package:mobile/Features/Categorie/data/models/category_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/injection_container.dart';
 
 abstract class CatyegoryRemoteDataSource {
   Future<List<CategoryModel>> getAllCategory();
@@ -15,6 +17,8 @@ abstract class CatyegoryRemoteDataSource {
 class CategoryRemoteDataSourceImpl implements CatyegoryRemoteDataSource {
   final http.Client client;
   CategoryRemoteDataSourceImpl({required this.client});
+
+   final UserLocalDataSource userLocalDataSource=sl.get<UserLocalDataSource>();
 
   @override
   Future<List<CategoryModel>> getAllCategory() async {
@@ -39,6 +43,8 @@ class CategoryRemoteDataSourceImpl implements CatyegoryRemoteDataSource {
 
   @override
   Future<Unit> addCategory(CategoryModel categoryModel) async {
+   final user= await userLocalDataSource.getCachedUser();
+   
     final request = {
       "name": categoryModel.name,
       "photo": categoryModel.photo,
@@ -46,7 +52,11 @@ class CategoryRemoteDataSourceImpl implements CatyegoryRemoteDataSource {
 
     final response = await client.post(
         Uri.parse(BASE_URL_BACKEND + "/category/AddCategory"),
-        body: request);
+        body: request,
+        headers:{
+        'Authorization ': 'Bearer ${user!.accessToken}'
+        }
+      );
 
     if (response.statusCode == 201) {
       return Future.value(unit);
@@ -57,10 +67,14 @@ class CategoryRemoteDataSourceImpl implements CatyegoryRemoteDataSource {
 
   @override
   Future<Unit> deleteCategory(int CategorieId) async {
+   final user= await userLocalDataSource.getCachedUser();
+
     final response = await client.delete(
       Uri.parse(BASE_URL_BACKEND +
           "/category/DeleteCategory/${CategorieId.toString()}"),
-      headers: {"Content-Type": "application/json"},
+       headers:{
+        'Authorization ': 'Bearer ${user!.accessToken}'
+        }
     );
 
     if (response.statusCode == 200) {
@@ -72,7 +86,8 @@ class CategoryRemoteDataSourceImpl implements CatyegoryRemoteDataSource {
 
   @override
   Future<Unit> updateCategory(CategoryModel categoryModel) async {
-   
+      final user= await userLocalDataSource.getCachedUser();
+
     final CategorieId = categoryModel.id;
     final request = {
       "name": categoryModel.name,
@@ -82,6 +97,9 @@ class CategoryRemoteDataSourceImpl implements CatyegoryRemoteDataSource {
     final response = await client.put(
       Uri.parse(BASE_URL_BACKEND + "/category/UpdateCategory/$CategorieId"),
       body: request,
+        headers:{
+        'Authorization ': 'Bearer ${user!.accessToken}'
+        }
     );
     //print(categoryModel);
     if (response.statusCode == 200) {

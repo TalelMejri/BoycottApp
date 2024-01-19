@@ -21,7 +21,6 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->integer('email_token')->nullable();
             $table->string('password');
-            $table->longtext('photo');
             $table->integer('password_token')->nullable();
             $table->timestamp('password_token_send_at')->nullable();
             $table->Boolean('Isadmin');

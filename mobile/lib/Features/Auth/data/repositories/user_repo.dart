@@ -56,7 +56,6 @@ class UserRepositoryImpl extends UserRepository {
           password: userModel.password,
           id: userModel.id,
           nom: userModel.nom,
-          photo: userModel.photo,
           prenom: userModel.prenom,
           role: userModel.role,
           accessToken: userModel.accessToken);
@@ -69,7 +68,7 @@ class UserRepositoryImpl extends UserRepository {
   @override
   Future<Either<Failure, Unit>> signUp(LoginEntity user) async {
     final UserModelLogin userModel =
-        UserModelLogin(email: user.email, password: user.password,nom: user.nom,prenom: user.prenom,photo: user.photo);   
+        UserModelLogin(email: user.email, password: user.password,nom: user.nom,prenom: user.prenom);   
         return await _getMessage(() {
            return userRemoteDataSource.signUpUser(userModel);
     });

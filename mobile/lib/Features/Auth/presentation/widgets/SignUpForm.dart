@@ -1,6 +1,4 @@
-import 'dart:io';
-import 'dart:convert';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Core/utils/validator.dart';
@@ -23,34 +21,14 @@ class _SignUpFormState extends State<SignUpForm> {
   String nom = "";
   String prenom = "";
   String email = "";
-  String photo = "";
   String password = "";
-  File ? imagePicker;
-  String base64Image="";
-  String imageError="";
 
   @override
   void initState() {
     super.initState();
   }
 
-  Future<void> onChangeImage(ImageSource source)async{
-    try{
-      XFile ? pickeImage=await ImagePicker().pickImage(source: source);
-      if(pickeImage!=null){
-              final bytes = await (pickeImage).readAsBytes();
-        setState(() {
-              final bytes = File(pickeImage!.path).readAsBytesSync();
-              imagePicker=File(pickeImage.path);
-              base64Image =  "data:image/png;base64,"+base64Encode(bytes);
-        });
-      }else{
-        imageError="Image Required";
-      }
-    }catch(e){
-      print(e);
-    }
-  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -107,17 +85,7 @@ class _SignUpFormState extends State<SignUpForm> {
                       labelText: 'Password',
                        obscuretext: true,
                 ),
-               Padding(
-                padding: EdgeInsets.all(2),
-                child: 
-                 Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                 ElevatedButton(onPressed: (){onChangeImage(ImageSource.gallery);}, child: const Text("Chose Your Photo")),
-                 imagePicker==null ? const Text("No Image Selected") : Image.file(imagePicker!,width: 50),
-                ],
-            )),
-            Text(imageError.isNotEmpty ? imageError : '',style: const TextStyle(color: Colors.red),),
+              
            Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             child: BlocBuilder<SignupBloc, SignupState>(
@@ -141,12 +109,6 @@ class _SignUpFormState extends State<SignUpForm> {
 
   void validateFormThenUpdateOrAddProduct() {
     final isValid = _formKey.currentState!.validate();
-     if(imagePicker==null){
-        setState(() {
-          imageError="Image Required";
-        });
-        return;
-      }
     
     if (isValid) {
       final user = LoginEntity(
@@ -154,7 +116,6 @@ class _SignUpFormState extends State<SignUpForm> {
         ,prenom: prenom
         ,email: email
         ,password: password
-        ,photo: base64Image
       );
         BlocProvider.of<SignupBloc>(context)
             .add(AddUserEvent(user:user ));

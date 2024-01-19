@@ -63,7 +63,6 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
            "password": userModel.password,
            "prenom":userModel.prenom,
            "nom":userModel.nom,
-           "photo":userModel.photo
            }
         );
     late final response;

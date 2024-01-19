@@ -9,7 +9,6 @@ class UserModelLogin extends LoginEntity {
       int? role,
       String? nom,
       String? prenom,
-      String? photo,
       String? accessToken,
     })
       :  super(
@@ -20,7 +19,6 @@ class UserModelLogin extends LoginEntity {
           accessToken: accessToken,
           nom: nom,
           prenom: prenom,
-          photo: photo,
           );
   factory UserModelLogin.fromJson(Map<String, dynamic> json) {
   return UserModelLogin(
@@ -29,7 +27,6 @@ class UserModelLogin extends LoginEntity {
     password:json['password'], 
     nom: json['nom'], 
     prenom: json['prenom'], 
-    photo: json['photo'], 
     role:json['isAdmin'] as int?,
     accessToken:json['token'], 
   );
@@ -44,12 +41,11 @@ class UserModelLogin extends LoginEntity {
       'token': accessToken,
       'nom': nom,
       'prenom': prenom,
-      'photo': photo,
     };
   }
 
   @override
    String toString() {
-    return 'UserModelLogin{id: $id, email: $email, password: $password, role: $role, accessToken: $accessToken, nom: $nom, prenom: $prenom, photo: $photo}';
+    return 'UserModelLogin{id: $id, email: $email, password: $password, role: $role, accessToken: $accessToken, nom: $nom, prenom: $prenom}';
   }
 }
