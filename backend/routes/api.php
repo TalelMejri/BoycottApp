@@ -21,18 +21,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix'=>'/category'],function(){
-    Route::post('/AddCategory',[CategoryController::class,'AddCategory']);
     Route::get('/AllCategory',[CategoryController::class,'AllCategory']);
-    Route::delete('/DeleteCategory/{id}',[CategoryController::class,'DeleteCategory']);
-    Route::get('/EditCategory/{id}',[CategoryController::class,'EditCategory']);
-    Route::put('/UpdateCategory/{id}',[CategoryController::class,'UpdateCategory']);
+    Route::get('/AllRequest',[CategoryController::class,'AllRequest']);
+
 });
 
 Route::group(['prefix'=>'/product'],function(){
-    Route::post('/AddProduct',[ProductController::class,'AddProduct']);
     Route::get('/GetProducts/{id}',[ProductController::class,'GetProducts']);
-    Route::delete('/DeleteProduct/{id}',[ProductController::class,'DeleteProduct']);
-    Route::put('/UpdateProduct/{id}',[ProductController::class,'UpdateProduct']);
 });
 
 Route::group(['prefix'=>'/auth'],function(){
