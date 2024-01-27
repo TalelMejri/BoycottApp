@@ -20,6 +20,7 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->photo = $request->photo;
         $product->description = $request->description;
+        $product->user_id = $request->user()->id;
         $product->categorie_id = $request->id_categorie;
         if($request->user()->Isadmin){
             $product->status=1;
