@@ -11,6 +11,7 @@ class CategoryController extends Controller
         $categorie=new Categorie();
         $categorie->name=$request->name;
         $categorie->photo=$request->photo;
+        $categorie->user_id=$request->user()->id;
         if($request->user()->Isadmin){
             $categorie->status=1;
         }
@@ -22,6 +23,13 @@ class CategoryController extends Controller
 
     public function AllCategory(){
         $categories = Categorie::withCount("products")->where("status",1)->get();
+        return response()->json([
+            'categories'=>$categories,
+        ],200);
+    }
+
+    public function AllRequest(Request $request){
+        $categories = Categorie::withCount("products")->where("status",$request->status)->get();
         return response()->json([
             'categories'=>$categories,
         ],200);
