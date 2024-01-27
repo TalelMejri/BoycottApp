@@ -37,7 +37,6 @@ dependencies:
   cupertino_icons: ^1.0.2
     # Bloc for state management
   flutter_bloc: ^8.0.1
-  base64_url: ^2.0.3
   # Functional programming things
   dartz: ^0.10.1
   # Value equality

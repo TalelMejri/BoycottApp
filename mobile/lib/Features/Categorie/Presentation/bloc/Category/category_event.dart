@@ -10,4 +10,5 @@ sealed class CategoryEvent {
 }
 class GetAllCategoryEvent extends CategoryEvent {}
 
+
 class RefreshCategoryEvent extends CategoryEvent {}

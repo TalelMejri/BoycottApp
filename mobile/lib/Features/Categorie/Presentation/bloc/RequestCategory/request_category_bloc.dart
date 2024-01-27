@@ -4,24 +4,24 @@ import 'package:meta/meta.dart';
 import 'package:mobile/Core/Strings/failures.dart';
 import 'package:mobile/Core/failures/failures.dart';
 import 'package:mobile/Features/Categorie/domain/entities/category.dart';
-import 'package:mobile/Features/Categorie/domain/usecases/get_all.dart';
-part 'category_event.dart';
-part 'category_state.dart';
+import 'package:mobile/Features/Categorie/domain/usecases/get_all_request.dart';
+part 'request_category_event.dart';
+part 'request_category_state.dart';
 
-class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
-  final GetAllCategoryUsecase getAllCategory;
+class RequestBloc extends Bloc<RequestCategoryEvent, RequestCategoryState> {
+  final GetAllRequestUsecase getAllRequestCategory;
 
-  CategoryBloc({required this.getAllCategory}) : super(CategoryInitial()) {
-    on<CategoryEvent>((event, emit) async {
-       if (event is GetAllCategoryEvent) {
-        emit(LoadingCategoryState());
-        final furtureCategory = await getAllCategory();
+  RequestBloc({required this.getAllRequestCategory}) : super(RequestCategoryInitial()) {
+    on<RequestCategoryEvent>((event, emit) async {
+       if (event is GetAllRequestCategoryEvent) {
+        emit(LoadingCategoryREquestState());
+        final furtureCategory = await getAllRequestCategory(0);
         furtureCategory.fold((failure) {
           print("I failed");
-          emit(ErrorCategoryState(message: _mapFailureToMessage(failure)));
+          emit(ErrorRequestState(message: _mapFailureToMessage(failure)));
         }, (categorys) {
           print("I didn't fail");
-          emit(LoadedCategory(categorys: categorys));
+          emit(LoadedRequest(categorys: categorys));
         });
       } 
     });

@@ -44,6 +44,19 @@ class CategoryRepositoryImpl implements CategoryRepository {
       }
     }
   }
+@override
+Future<Either<Failure, List<Category>>> getAllRequest(int status) async{
+  if (await networkInfo.isConnected) {
+      try {
+        final remoteCategory = await remoteDataSource.getAllRequest(status);
+        return Right(remoteCategory);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+        return Left(EmptyCacheFailure());
+    }
+}
 
   @override
   Future<Either<Failure, Unit>> AddCategory(Category category) async {

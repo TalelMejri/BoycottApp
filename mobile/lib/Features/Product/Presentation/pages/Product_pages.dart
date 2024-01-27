@@ -70,10 +70,7 @@ class _ProductPagesState extends State<ProductPages> {
         if (state is LoadingCategoryState) {
           return const LoadingWidget();
         } else if (state is LoadedProduct) {
-            return RefreshIndicator(
-              child: WidgetListProduct(product:state.products,category:widget.category),
-                onRefresh: ()=>_onRefresh(context),
-              );
+            return WidgetListProduct(product:state.products,category:widget.category);
         } else if (state is ErrorProductState) {
           return MessageDisplayWidget(message:state.message);
         } else {
@@ -92,8 +89,6 @@ class _ProductPagesState extends State<ProductPages> {
   }
 
 
-  Future<void> _onRefresh(BuildContext context) async{
-     BlocProvider.of<CategoryBloc>(context).add(RefreshCategoryEvent());
-  }
+ 
 
 }

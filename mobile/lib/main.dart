@@ -30,13 +30,13 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => di.sl<ProductBloc>()),
         BlocProvider(create: (_) => di.sl<AdddeleteupdateProductBloc>()),
         BlocProvider(create: (_) => di.sl<AuthBloc>()),
-         BlocProvider(create: (_) => di.sl<SignupBloc>()),
+        BlocProvider(create: (_) => di.sl<SignupBloc>()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'BycottApp',
         theme: appTheme,
-        home: LandingPage(),
+        home: const LandingPage(),
       ),
     );
   }

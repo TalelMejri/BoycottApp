@@ -12,6 +12,7 @@ abstract class CatyegoryRemoteDataSource {
   Future<Unit> updateCategory(CategoryModel CategoryModel);
   Future<Unit> addCategory(CategoryModel CategoryModel);
   Future<Unit> deleteCategory(int CategoryId);
+   Future<List<CategoryModel>> getAllRequest(int status);
 }
 
 class CategoryRemoteDataSourceImpl implements CatyegoryRemoteDataSource {
@@ -42,6 +43,27 @@ class CategoryRemoteDataSourceImpl implements CatyegoryRemoteDataSource {
   }
 
   @override
+  Future<List<CategoryModel>> getAllRequest(int status) async {
+    try {
+      final response = await client.get(
+        Uri.parse("$BASE_URL_BACKEND/category/AllRequest?status=${status}"),
+        headers: {"Content-Type": "application/json"},
+      ).timeout(const Duration(seconds: 5));
+      if (response.statusCode == 200) {
+        final List data = json.decode(response.body)['categories'] as List;
+        final List<CategoryModel> categoryModels = data
+            .map<CategoryModel>((json) => CategoryModel.fromJson(json))
+            .toList();
+        return categoryModels;
+      } else {
+        throw ServerException();
+      }
+    } on Exception {
+      throw ServerException();
+    }
+  }
+
+  @override
   Future<Unit> addCategory(CategoryModel categoryModel) async {
    final user= await userLocalDataSource.getCachedUser();
    
@@ -54,7 +76,7 @@ class CategoryRemoteDataSourceImpl implements CatyegoryRemoteDataSource {
         Uri.parse(BASE_URL_BACKEND + "/category/AddCategory"),
         body: request,
         headers:{
-        'Authorization ': 'Bearer ${user!.accessToken}'
+        'Authorization': 'Bearer ${user!.accessToken}'
         }
       );
 
@@ -73,7 +95,7 @@ class CategoryRemoteDataSourceImpl implements CatyegoryRemoteDataSource {
       Uri.parse(BASE_URL_BACKEND +
           "/category/DeleteCategory/${CategorieId.toString()}"),
        headers:{
-        'Authorization ': 'Bearer ${user!.accessToken}'
+        'Authorization': 'Bearer ${user!.accessToken}'
         }
     );
 
@@ -98,7 +120,7 @@ class CategoryRemoteDataSourceImpl implements CatyegoryRemoteDataSource {
       Uri.parse(BASE_URL_BACKEND + "/category/UpdateCategory/$CategorieId"),
       body: request,
         headers:{
-        'Authorization ': 'Bearer ${user!.accessToken}'
+        'Authorization': 'Bearer ${user!.accessToken}'
         }
     );
     //print(categoryModel);

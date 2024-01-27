@@ -111,11 +111,11 @@ class _CategoryListWidgetState extends State<CategoryListWidget> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text("Name:", style: TextStyle(color: Colors.red)),
-                            Text(widget.category[index].name),
+                            Text(widget.category[index].name ),
                           ],
                         ),
                         Visibility(
-                         visible: auth,
+                         visible: ( auth && user?.id.toString()==widget.category[index].user_id.toString() ) || (user?.role==1),
                           child:
                             Row(
                           children: [

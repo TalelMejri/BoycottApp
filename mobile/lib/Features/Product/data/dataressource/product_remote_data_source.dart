@@ -3,7 +3,9 @@ import 'package:mobile/Core/Strings/constantes.dart';
 import 'package:mobile/Core/failures/exception.dart';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart';
 import 'package:mobile/Features/Product/data/models/product_model.dart';
+import 'package:mobile/injection_container.dart';
 
 abstract class ProductRemoteDataSource {
   Future<List<ProductModel>> getAllProduct(int id);
@@ -15,6 +17,8 @@ abstract class ProductRemoteDataSource {
 class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   final http.Client client;
   ProductRemoteDataSourceImpl({required this.client});
+
+     final UserLocalDataSource userLocalDataSource=sl.get<UserLocalDataSource>();
 
   @override
   Future<List<ProductModel>> getAllProduct(int id) async {
@@ -39,6 +43,8 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<Unit> addProduct(ProductModel productModel) async {
+     final user= await userLocalDataSource.getCachedUser();
+
     final request = {
       "name": productModel.name,
       "photo": productModel.photo,
@@ -47,7 +53,10 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     };
     final response = await client.post(
         Uri.parse(BASE_URL_BACKEND + "/product/AddProduct"),
-        body: request);
+        body: request,
+          headers:{
+        'Authorization': 'Bearer ${user!.accessToken}'
+        });
     if (response.statusCode == 201) {
       return Future.value(unit);
     } else {
@@ -57,10 +66,14 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<Unit> deleteProduct(int id) async {
+
+     final user= await userLocalDataSource.getCachedUser();
     final response = await client.delete(
       Uri.parse(BASE_URL_BACKEND +
           "/product/DeleteProduct/$id"),
-      headers: {"Content-Type": "application/json"},
+        headers:{
+        'Authorization': 'Bearer ${user!.accessToken}'
+        }
     );
     if (response.statusCode == 200) {
       return Future.value(unit);
@@ -71,6 +84,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<Unit> updateProduct(ProductModel productModel) async {
+     final user= await userLocalDataSource.getCachedUser();
     final ProductId = productModel.id;
     final request = {
       "name": productModel.name,
@@ -81,6 +95,9 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     final response = await client.put(
       Uri.parse(BASE_URL_BACKEND + "/product/UpdateProduct/$ProductId"),
       body: request,
+        headers:{
+        'Authorization': 'Bearer ${user!.accessToken}'
+        }
     );
     if (response.statusCode == 200) {
       return Future.value(unit);

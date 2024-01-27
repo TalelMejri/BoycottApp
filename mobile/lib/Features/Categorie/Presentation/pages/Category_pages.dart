@@ -6,6 +6,7 @@ import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart
 import 'package:mobile/Features/Auth/data/model/UserModelLogin.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile/Features/Categorie/Presentation/pages/AllRequestCategory.dart';
 import 'package:mobile/Features/Categorie/Presentation/pages/InfoPersonnel.dart';
 import 'package:mobile/Features/Categorie/Presentation/pages/Statistique.dart';
 import 'package:mobile/Features/Categorie/Presentation/pages/add_update_category.dart';
@@ -27,6 +28,8 @@ class _CategoriePagesState extends State<CategoriePages> {
  
   @override
   void initState() {
+   /* BlocProvider.of<CategoryBloc>(context)
+            .add(GetAllRequestEvent(status: 0));*/
     getAuth();
     super.initState();
   }
@@ -63,12 +66,15 @@ class _CategoriePagesState extends State<CategoriePages> {
   AppBar _buildAppBar() => AppBar(
      title: _selectIndex==0 ? const Text('Category') : const Text('Add Category'),
      leading: IconButton(onPressed: (){ 
-       Navigator.push(context, MaterialPageRoute(builder: (context)=>LandingPage()));
-      },icon: Icon(Icons.arrow_back)),
+       Navigator.push(context, MaterialPageRoute(builder: (context)=>const LandingPage()));
+      },icon: const Icon(Icons.arrow_back)),
     actions: [
       auth && user?.role==1 ? IconButton(onPressed: (){
-         Navigator.push(context, MaterialPageRoute(builder: (context)=>Statistique()));
-      }, icon: Icon(Icons.pie_chart_sharp))   : Container()
+         Navigator.push(context, MaterialPageRoute(builder: (context)=> const Statistique()));
+      }, icon: const Icon(Icons.pie_chart_sharp))   : Container(),
+       auth && user?.role==1 ? IconButton(onPressed: (){
+         Navigator.push(context, MaterialPageRoute(builder: (context)=>(const AllRequest())));
+      }, icon:const Icon(Icons.new_releases))   : Container()
     ],
   );
 
@@ -83,7 +89,7 @@ class _CategoriePagesState extends State<CategoriePages> {
             return RefreshIndicator(
                 child: _selectIndex==0  ?
                        CategoryListWidget(category: state.categorys) :
-                       _selectIndex==1 ?   const CategoryAddUpdatePage(isUpdateCategory: false) : InfoUser(),
+                       _selectIndex==1 ?   const CategoryAddUpdatePage(isUpdateCategory: false) :const InfoUser(),
                 onRefresh: ()=>_onRefresh(context),
               );
         } else if (state is ErrorCategoryState) {
@@ -98,8 +104,8 @@ class _CategoriePagesState extends State<CategoriePages> {
   Widget _buildBottomNavigationBar() {
     return 
       CurvedNavigationBar(
-      color:Color.fromARGB(255, 0, 0, 0),
-      buttonBackgroundColor:Color.fromARGB(255, 0, 0, 0),
+      color:const Color.fromARGB(255, 0, 0, 0),
+      buttonBackgroundColor:const Color.fromARGB(255, 0, 0, 0),
       backgroundColor:Colors.white,
       animationCurve: Curves.easeInOut,
       animationDuration:const  Duration(milliseconds: 600),

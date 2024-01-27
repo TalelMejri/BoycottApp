@@ -10,11 +10,9 @@ abstract class CategoryState extends Equatable {
 
 final class CategoryInitial extends CategoryState {}
 
-
 class LoadingCategoryState extends CategoryState {
   
 }
-
 class LoadedCategory extends CategoryState {
   final List<Category> categorys;
 

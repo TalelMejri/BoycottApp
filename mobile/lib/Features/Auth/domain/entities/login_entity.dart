@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class LoginEntity extends Equatable {
-  final String? id;
+  final int? id;
   final String email;
   final String? password;
   final int? role;

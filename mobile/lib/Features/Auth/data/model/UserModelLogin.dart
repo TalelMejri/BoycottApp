@@ -3,7 +3,7 @@ import 'package:mobile/Features/Auth/domain/entities/login_entity.dart';
 class UserModelLogin extends LoginEntity {
   UserModelLogin(
       {
-      String? id,
+      int? id,
       required String email,
       password,
       int? role,
@@ -22,7 +22,7 @@ class UserModelLogin extends LoginEntity {
           );
   factory UserModelLogin.fromJson(Map<String, dynamic> json) {
   return UserModelLogin(
-    id: "1",
+    id:json['id'] as int?,
     email: json['email'], 
     password:json['password'], 
     nom: json['nom'], 
