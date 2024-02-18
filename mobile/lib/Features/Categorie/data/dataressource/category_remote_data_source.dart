@@ -12,7 +12,9 @@ abstract class CatyegoryRemoteDataSource {
   Future<Unit> updateCategory(CategoryModel CategoryModel);
   Future<Unit> addCategory(CategoryModel CategoryModel);
   Future<Unit> deleteCategory(int CategoryId);
-   Future<List<CategoryModel>> getAllRequest(int status);
+  Future<List<CategoryModel>> getAllRequest(int status);
+  Future<Unit> AccepetCategory(int CategoryId);
+  Future<Unit> RejectCategory(int CategoryId);
 }
 
 class CategoryRemoteDataSourceImpl implements CatyegoryRemoteDataSource {
@@ -124,6 +126,46 @@ class CategoryRemoteDataSourceImpl implements CatyegoryRemoteDataSource {
         }
     );
     //print(categoryModel);
+    if (response.statusCode == 200) {
+      return Future.value(unit);
+    } else {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<Unit> AccepetCategory(int CategorieId) async {
+   final user= await userLocalDataSource.getCachedUser();
+
+    final response = await client.put(
+      Uri.parse(BASE_URL_BACKEND +
+          "/category/AcceptCategory/${CategorieId.toString()}"),
+       headers:{
+        'Authorization': 'Bearer ${user!.accessToken}'
+        }
+    );
+
+    if (response.statusCode == 200) {
+      return Future.value(unit);
+    } else {
+      throw ServerException();
+    }
+  }
+
+
+
+  @override
+  Future<Unit> RejectCategory(int CategorieId) async {
+   final user= await userLocalDataSource.getCachedUser();
+
+    final response = await client.put(
+      Uri.parse(BASE_URL_BACKEND +
+          "/category/RejectCategory/${CategorieId.toString()}"),
+       headers:{
+        'Authorization': 'Bearer ${user!.accessToken}'
+        }
+    );
+
     if (response.statusCode == 200) {
       return Future.value(unit);
     } else {

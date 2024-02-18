@@ -4,6 +4,8 @@ import 'package:mobile/Core/widgets/LandingPage.dart';
 import 'package:mobile/Features/Auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:mobile/Features/Auth/presentation/bloc/signup/signup_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
+import 'package:mobile/Features/Categorie/Presentation/bloc/RequestCategory/request_category_bloc.dart';
+import 'package:mobile/Features/Categorie/Presentation/bloc/accept_reject_category/accept_category_bloc_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/add_delete_update_category/adddeleteupdate_category_bloc.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/Product/product_bloc.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/add_delete_update_product/adddeleteupdate_product_bloc.dart';
@@ -27,6 +29,8 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => di.sl<CategoryBloc>()..add(GetAllCategoryEvent())),
         BlocProvider(create: (_) => di.sl<AdddeleteupdateCategoryBloc>()),
+        BlocProvider(create: (_) => di.sl<AcceptCategoryBlocBloc>()),
+        BlocProvider(create: (_) => di.sl<RequestBloc>()),
         BlocProvider(create: (_) => di.sl<ProductBloc>()),
         BlocProvider(create: (_) => di.sl<AdddeleteupdateProductBloc>()),
         BlocProvider(create: (_) => di.sl<AuthBloc>()),

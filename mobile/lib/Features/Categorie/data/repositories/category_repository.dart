@@ -68,9 +68,23 @@ Future<Either<Failure, List<Category>>> getAllRequest(int status) async{
 
   @override
   Future<Either<Failure, Unit>> deleteCategory(int categoryId) async {
-    // Get Message next Time 
     return await _getMessage(() {
       return remoteDataSource.deleteCategory(categoryId);
+    });
+  }
+
+
+   @override
+  Future<Either<Failure, Unit>> AcceptCategory(int categoryId) async {
+    return await _getMessage(() {
+      return remoteDataSource.AccepetCategory(categoryId);
+    });
+  }
+
+   @override
+  Future<Either<Failure, Unit>> RejectCategory(int categoryId) async {
+    return await _getMessage(() {
+      return remoteDataSource.RejectCategory(categoryId);
     });
   }
 

@@ -15,7 +15,7 @@ class RequestBloc extends Bloc<RequestCategoryEvent, RequestCategoryState> {
     on<RequestCategoryEvent>((event, emit) async {
        if (event is GetAllRequestCategoryEvent) {
         emit(LoadingCategoryREquestState());
-        final furtureCategory = await getAllRequestCategory(0);
+        final furtureCategory = await getAllRequestCategory(event.status);
         furtureCategory.fold((failure) {
           print("I failed");
           emit(ErrorRequestState(message: _mapFailureToMessage(failure)));

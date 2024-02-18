@@ -10,7 +10,14 @@ sealed class RequestCategoryEvent {
   List<Object> get props => [];
 }
 
-class GetAllRequestCategoryEvent extends RequestCategoryEvent {}
+class GetAllRequestCategoryEvent extends RequestCategoryEvent {
+  final int status;
+
+  GetAllRequestCategoryEvent({required this.status});
+
+  @override
+  List<Object> get props => [status];
+}
 
 
 class RefreshRequestCategoryEvent extends RequestCategoryEvent {}

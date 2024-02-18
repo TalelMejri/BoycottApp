@@ -15,12 +15,14 @@ import 'package:mobile/Features/Auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:mobile/Features/Auth/presentation/bloc/signup/signup_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/RequestCategory/request_category_bloc.dart';
+import 'package:mobile/Features/Categorie/Presentation/bloc/accept_reject_category/accept_category_bloc_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/add_delete_update_category/adddeleteupdate_category_bloc.dart';
 import 'package:mobile/Features/Categorie/data/dataressource/category_local_data_source.dart';
 import 'package:mobile/Features/Categorie/data/dataressource/category_remote_data_source.dart';
 import 'package:mobile/Features/Categorie/data/repositories/category_repository.dart';
 import 'package:mobile/Features/Categorie/domain/repositories/CategoryRepository.dart';
 import 'package:mobile/Features/Categorie/domain/usecases/UpdateCategory.dart';
+import 'package:mobile/Features/Categorie/domain/usecases/accept_category.dart';
 import 'package:mobile/Features/Categorie/domain/usecases/addCategory.dart';
 import 'package:mobile/Features/Categorie/domain/usecases/deleteCategory.dart';
 import 'package:mobile/Features/Categorie/domain/usecases/get_all.dart';
@@ -29,6 +31,7 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:mobile/Features/Categorie/domain/usecases/get_all_request.dart';
+import 'package:mobile/Features/Categorie/domain/usecases/reject_category.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/Product/product_bloc.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/add_delete_update_product/adddeleteupdate_product_bloc.dart';
 import 'package:mobile/Features/Product/data/dataressource/product_remote_data_source.dart';
@@ -54,6 +57,9 @@ Future<void> init() async
   sl.registerFactory(() => AdddeleteupdateCategoryBloc(
       addCategory: sl(), updateCategory: sl(), deleteCategory: sl()));
   
+   sl.registerFactory(() => AcceptCategoryBlocBloc(
+       acceptCategory: sl(),rejectCategory: sl()));
+
   sl.registerFactory(() => ProductBloc(getAllProduct: sl()));
   sl.registerFactory(() => AdddeleteupdateProductBloc(
       addProduct: sl(), updateProduct: sl(), deleteProduct: sl()));
@@ -65,7 +71,8 @@ Future<void> init() async
   ));
 
   sl.registerFactory(() => SignupBloc(
-      signUpUserUseCase: sl(), verifyEmailUseCase: sl(),forgetPasswordUseCase: sl(),resetPasswordUserUseCase: sl()));
+      signUpUserUseCase: sl(), verifyEmailUseCase: sl(),
+      forgetPasswordUseCase: sl(),resetPasswordUserUseCase: sl()));
 
 
 
@@ -77,6 +84,8 @@ Future<void> init() async
   sl.registerLazySingleton(() => AddCategoryUsecase(sl()));
   sl.registerLazySingleton(() => DeleteCategoryUsecase(sl()));
   sl.registerLazySingleton(() => UpdateCategoryUsecase(sl()));
+  sl.registerLazySingleton(() => AcceptCategoryUsecase(sl()));
+  sl.registerLazySingleton(() => RejectCategoryUsecase(sl()));
 
   sl.registerLazySingleton(() => GetAllProductUsecase(sl()));
   sl.registerLazySingleton(() => AddProductUsecase(sl()));
