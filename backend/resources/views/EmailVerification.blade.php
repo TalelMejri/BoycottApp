@@ -10,5 +10,5 @@
       <br>
     <button style="text-align: center" style="color: green">{{$user->email_token}}</button>
  @endcomponent
- <p style="text-align:center"> Matrix Masters Team</p>
+ <p style="text-align:center"> BoyCootApp </p>
 @endcomponent
