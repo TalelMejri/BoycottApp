@@ -8,7 +8,7 @@ class ProductController extends Controller
 {
     public function GetProducts($id)
     {
-        $products = Product::where('categorie_id',$id)->get();
+        $products = Product::where("status",1)->where('categorie_id',$id)->get();
         return response()->json([
             'products' => $products
         ], 200);
@@ -52,6 +52,7 @@ class ProductController extends Controller
         $Product->update([
             'status'=> 2
         ]);
+        $Product->delete();
         return response()->json(["message"=>"Product Rejected"]);
     }
 
