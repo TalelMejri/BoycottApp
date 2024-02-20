@@ -1,8 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Mail\Accept_Reject_Item;
 use Illuminate\Http\Request;
 use App\Models\Categorie;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 
 class CategoryController extends Controller
 {
@@ -47,14 +51,19 @@ class CategoryController extends Controller
         $category->update([
             'status'=> 1
         ]);
+        $user=User::find($category->user_id);
+        Mail::to($user->email)->send(new Accept_Reject_Item("Thanks For Your Suppor "+$user->nom+" "+"Your Category With Label "+$category->name +" Accepted"));
         return response()->json(["message"=>"Categpry Accpeted"]);
     }
 
     public function RejectCategory($id){
         $category=Categorie::find($id);
-        $category->update([
-            'status'=> 2
-        ]);
+        // $category->update([
+        //     'status'=> 2
+        // ]);
+        $user=User::find($category->user_id);
+        Mail::to($user->email)->send(new Accept_Reject_Item($user->nom+" "+"Your Category With Label "+$category->name +" Rejected"));
+        $category->delete();
         return response()->json(["message"=>"Categpry Rejected"]);
     }
 
