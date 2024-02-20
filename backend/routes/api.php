@@ -45,9 +45,9 @@ Route::middleware("auth:sanctum")->group(function(){
         Route::post('/AddProduct',[ProductController::class,'AddProduct']);
         Route::delete('/DeleteProduct/{id}',[ProductController::class,'DeleteProduct']);
         Route::put('/UpdateProduct/{id}',[ProductController::class,'UpdateProduct']);
-        Route::put('/AcceptProduct/{id}',[CategoryController::class,'AcceptProduct']);
-        Route::put('/RejectProduct/{id}',[CategoryController::class,'RejectProduct']);
-        Route::get('/ListProduct/{id}',[CategoryController::class,'ListProduct']);
+        Route::put('/AcceptProduct/{id}',[ProductController::class,'AcceptProduct']);
+        Route::put('/RejectProduct/{id}',[ProductController::class,'RejectProduct']);
+        Route::get('/ListProduct/{id}',[ProductController::class,'ListProduct']);
     });
 
     Route::group(['prefix'=>'/category'],function(){
