@@ -34,6 +34,7 @@ import 'package:mobile/Features/Categorie/domain/usecases/get_all_request.dart';
 import 'package:mobile/Features/Categorie/domain/usecases/reject_category.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/Product/product_bloc.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/add_delete_update_product/adddeleteupdate_product_bloc.dart';
+import 'package:mobile/Features/Product/Presentation/bloc/reject_accept_product/reject_accept_product_bloc.dart';
 import 'package:mobile/Features/Product/data/dataressource/product_remote_data_source.dart';
 import 'package:mobile/Features/Product/data/dataressource/product_local_data_source.dart';
 import 'package:mobile/Features/Product/data/repositories/Product_repository.dart';
@@ -42,13 +43,13 @@ import 'package:mobile/Features/Product/domain/usecases/UpdateProduct.dart';
 import 'package:mobile/Features/Product/domain/usecases/addProduct.dart';
 import 'package:mobile/Features/Product/domain/usecases/deleteProduct.dart';
 import 'package:mobile/Features/Product/domain/usecases/get_all.dart';
+import 'package:mobile/Features/Product/domain/usecases/get_products_request.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final sl = GetIt.instance;
 
 Future<void> init() async 
 {
-
   //bloc
   sl.registerFactory(() => CategoryBloc(getAllCategory: sl()));
   
@@ -61,10 +62,11 @@ Future<void> init() async
        acceptCategory: sl(),rejectCategory: sl()));
 
   sl.registerFactory(() => ProductBloc(getAllProduct: sl()));
+
+  sl.registerFactory(() => RejectAcceptProductBloc(getAllRequestProduct: sl()));
+
   sl.registerFactory(() => AdddeleteupdateProductBloc(
       addProduct: sl(), updateProduct: sl(), deleteProduct: sl()));
-
-  
 
   sl.registerFactory(() => AuthBloc(
       signInUserUseCase: sl(),signOutUserUseCase: sl()
@@ -73,10 +75,6 @@ Future<void> init() async
   sl.registerFactory(() => SignupBloc(
       signUpUserUseCase: sl(), verifyEmailUseCase: sl(),
       forgetPasswordUseCase: sl(),resetPasswordUserUseCase: sl()));
-
-
-
-
   
   //usecases
   sl.registerLazySingleton(() => GetAllCategoryUsecase(sl()));
@@ -88,6 +86,8 @@ Future<void> init() async
   sl.registerLazySingleton(() => RejectCategoryUsecase(sl()));
 
   sl.registerLazySingleton(() => GetAllProductUsecase(sl()));
+  sl.registerLazySingleton(() => GetAllRequestProductUsecase(sl()));
+
   sl.registerLazySingleton(() => AddProductUsecase(sl()));
   sl.registerLazySingleton(() => DeleteProductUsecase(sl()));
   sl.registerLazySingleton(() => UpdateProductUsecase(sl()));
@@ -101,8 +101,6 @@ Future<void> init() async
   sl.registerLazySingleton(() => ForgetPasswordUserUseCase(sl()));
   sl.registerLazySingleton(() => ResetPasswordUserUseCase(sl()));
 
-  
-
   //repository
   sl.registerLazySingleton<CategoryRepository>(() => CategoryRepositoryImpl(
       remoteDataSource: sl(), localDataSource: sl(), networkInfo: sl()));
@@ -112,7 +110,6 @@ Future<void> init() async
    
   sl.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(
       userLocalDataSource: sl(), userRemoteDataSource: sl(), networtkInfo: sl()));
-  
 
   //Datasources
   sl.registerLazySingleton<CatyegoryRemoteDataSource>(
@@ -138,6 +135,5 @@ Future<void> init() async
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => InternetConnectionChecker());
-
     
 }
