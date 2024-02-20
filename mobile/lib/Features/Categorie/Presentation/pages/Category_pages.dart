@@ -57,14 +57,14 @@ class _CategoriePagesState extends State<CategoriePages> {
   @override
   Widget build(BuildContext context) {
      return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: _selectIndex!=2 ? _buildAppBar() : null,
       body: _buildBody(),
       bottomNavigationBar: auth ?  _buildBottomNavigationBar() : null,
     );
   }
 
   AppBar _buildAppBar() => AppBar(
-     title: _selectIndex==0 ? const Text('Category') : const Text('Add Category'),
+     title: _selectIndex==0 ? const Text('Category') :   const Text('Add Category') ,
      leading: IconButton(onPressed: (){ 
        Navigator.push(context, MaterialPageRoute(builder: (context)=>const LandingPage()));
       },icon: const Icon(Icons.arrow_back)),

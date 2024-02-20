@@ -12,6 +12,7 @@ abstract class ProductRemoteDataSource {
   Future<Unit> updateProduct(ProductModel productModel);
   Future<Unit> addProduct(ProductModel productModel);
   Future<Unit> deleteProduct(int id);
+  Future<List<ProductModel>> getAllRequestProduct(int id);
 }
 
 class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
@@ -40,6 +41,32 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
       throw ServerException();
     }
   }
+
+  @override
+  Future<List<ProductModel>> getAllRequestProduct(int id) async {
+    final user= await userLocalDataSource.getCachedUser();
+    try {
+      final response = await client.get(
+        Uri.parse("$BASE_URL_BACKEND/product/ListProduct/$id"),
+        headers: {
+          'Authorization': 'Bearer ${user!.accessToken}'
+         },
+      );
+      if (response.statusCode == 200) {
+        final List data = json.decode(response.body)['products'] as List;
+        final List<ProductModel> productModels = data
+            .map<ProductModel>((json) => ProductModel.fromJson(json))
+            .toList();
+        
+        return productModels;
+      } else {
+        throw ServerException();
+      }
+    } on Exception {
+      throw ServerException();
+    }
+  }
+
 
   @override
   Future<Unit> addProduct(ProductModel productModel) async {

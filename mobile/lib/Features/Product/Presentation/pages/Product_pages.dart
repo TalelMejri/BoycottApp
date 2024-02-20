@@ -8,6 +8,7 @@ import 'package:mobile/Features/Categorie/Presentation/pages/Category_pages.dart
 import 'package:mobile/Features/Categorie/Presentation/widgets/categories_widgets/MessageDisplayWidget.dart';
 import 'package:mobile/Features/Categorie/domain/entities/category.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/Product/product_bloc.dart';
+import 'package:mobile/Features/Product/Presentation/pages/AllRequestProeuct.dart';
 import 'package:mobile/Features/Product/Presentation/pages/add_update_product.dart';
 import 'package:mobile/Features/Product/Presentation/widgets/Product_widgets/WidgetListProduct.dart';
 import 'package:mobile/injection_container.dart';
@@ -57,11 +58,15 @@ class _ProductPagesState extends State<ProductPages> {
     );
   }
 
-
   AppBar _buildAppBar() => AppBar(title: Text("Product Belong to "+widget.category.name),
      leading: IconButton(onPressed: (){
        Navigator.push(context, MaterialPageRoute(builder: (context)=>const CategoriePages()));
-     },icon: const Icon(Icons.arrow_back),));
+     },icon: const Icon(Icons.arrow_back)),
+     actions: [
+       auth && user?.role==1 ? IconButton(onPressed: (){
+         Navigator.push(context, MaterialPageRoute(builder: (context)=>( AllRequestProduct(category: widget.category,))));
+      }, icon:const Icon(Icons.new_releases))   : Container()
+     ],);
 
   Widget _buildBody() {
     return Padding(

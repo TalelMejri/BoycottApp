@@ -45,6 +45,27 @@ class ProductRepositoryImpl implements ProductRepository {
     }
   }
 
+
+  @override
+   Future<Either<Failure, List<Product>>> getAllRequestProduct(int id) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteCategory = await remoteDataSource.getAllRequestProduct(id);
+        localDataSource.cacheProduct(remoteCategory);
+        return Right(remoteCategory);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      try {
+        final localCategory = await localDataSource.getCachedProduct();
+        return Right(localCategory);
+      } on EmptyCacheException {
+        return Left(EmptyCacheFailure());
+      }
+    }
+  }
+
   @override
   Future<Either<Failure, Unit>> AddProduct(Product product) async {
     final ProductModel productModel = ProductModel(name: product.name, photo: product.photo, description: product.description, id_categorie: product.id_categorie);

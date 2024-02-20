@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile/Core/utils/snack_bar_message.dart';
 import 'package:mobile/Core/widgets/EmptyPage.dart';
 import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart';
 import 'package:mobile/Features/Auth/data/model/UserModelLogin.dart';
@@ -26,112 +27,133 @@ class WidgetListProduct extends StatefulWidget {
 }
 
 class _ProductListWidgetState extends State<WidgetListProduct> {
-   final UserLocalDataSource userLocalDataSource=sl.get<UserLocalDataSource>();
- 
+  final UserLocalDataSource userLocalDataSource = sl.get<UserLocalDataSource>();
+
   @override
   void initState() {
     getAuth();
     super.initState();
   }
-  UserModelLogin? user=null;
 
-  void getAuth () async{
-    var res=await userLocalDataSource.getCachedUser()!=null ? true : false;
-    if(res){
-      user=await userLocalDataSource.getCachedUser();
+  UserModelLogin? user = null;
+
+  void getAuth() async {
+    var res = await userLocalDataSource.getCachedUser() != null ? true : false;
+    if (res) {
+      user = await userLocalDataSource.getCachedUser();
     }
-    setState(()  {
-      auth=res;
+    setState(() {
+      auth = res;
     });
   }
-  
-  int _selectIndex=0;
-  bool auth=false;
 
-   Future<void> ConfirmDelete(id) async { 
-     String ? message=await showDialog(
-      barrierDismissible: false,
-      context: context,
-       builder:(BuildContext context){
+  int _selectIndex = 0;
+  bool auth = false;
+
+  Future<void> ConfirmDelete(id) async {
+    String? message = await showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
           return SimpleDialogWidget();
         });
-        if (message!=null){
-          if(message=="yes"){
-            BlocProvider.of<AdddeleteupdateProductBloc>(context)
+    if (message != null) {
+      if (message == "yes") {
+        BlocProvider.of<AdddeleteupdateProductBloc>(context)
             .add(DeleteProductEvent(ProductId: id));
-          }
-        }
-   }
-
-  Future<void> AlertBottomSheet(Product product)async{
-    await showModalBottomSheet(
-      context: context, 
-      builder:(BuildContext context){
-        return  boottomWidget(product:product);
-    });
+      }
     }
+  }
+
+  Future<void> AlertBottomSheet(Product product) async {
+    await showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return boottomWidget(product: product);
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
     return widget.product == null || widget.product.isEmpty
-        ? const EmptyPage(message: "Product",)
-        : ListView.builder(itemCount: widget.product.length,itemBuilder: (context,index) {
-               final item=widget.product[index];
-               return Dismissible(
-                    key: Key(item.name),
-                      background:  Container(
-                               color: Colors.red,
-                                child:const Icon(Icons.delete,size: 40,color: Colors.white,),
+        ? const EmptyPage(
+            message: "Product",
+          )
+        : ListView.builder(
+            itemCount: widget.product.length,
+            itemBuilder: (context, index) {
+              final item = widget.product[index];
+              return Dismissible(
+                key: Key(item.name),
+                background: Container(
+                  color: Colors.red,
+                  child:
+                      const Icon(Icons.delete, size: 40, color: Colors.white),
+                ),
+                onDismissed: (direction) {
+                  setState(() {
+                  if ((auth &&
+                          user?.id.toString() == item.user_id.toString()) ||
+                      (user?.role == 1)) {
+                    ConfirmDelete(item.id);
+                    widget.product.remove(item);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("You are not authorized to delete this item."),
                       ),
-                      onDismissed: (direction){
-                                setState(() {
-                                  ConfirmDelete(item.id);
-                                  //widget.product.remove(item);
-                                });
+                    );
+                  }
+                });
+                },
+                child: Card(
+                  child: ListTile(
+                      title: Text(item.name),
+                      subtitle: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.teal,
+                        ),
+                        onPressed: () {
+                          AlertBottomSheet(item);
                         },
-                    child: Card(
-                         child: ListTile(
-                         title: Text(item.name),
-                         subtitle: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.teal,
-                            ),
-                           onPressed: (){
-                                AlertBottomSheet(item);
-                           },
-                           child: const Text("Why ?"),
-                         ),
-                          trailing: Visibility(visible: auth,child:
-                            IconButton(icon: Icon(Icons.edit),onPressed: (){
-                            Navigator.push(
-                            context,MaterialPageRoute(builder: (context)=>ProductAddUpdatePage(
-                                category: widget.category,
-                                product: item,
-                                isUpdateProduct: true
-                               )
+                        child: const Text("Why ?"),
+                      ),
+                      trailing: Visibility(
+                          visible: (auth &&
+                                  user?.id.toString() ==
+                                      item.user_id.toString()) ||
+                              (user?.role == 1),
+                          child: IconButton(
+                            icon: Icon(Icons.edit),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ProductAddUpdatePage(
+                                              category: widget.category,
+                                              product: item,
+                                              isUpdateProduct: true)));
+                            },
+                          )),
+                      leading: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color.fromARGB(255, 161, 142, 142),
                               )
-                            );
-                          },)), 
-                          leading:Container(
-                                  width: 50, 
-                                  height: 50, 
-                                  decoration: BoxDecoration(
-                                     borderRadius: BorderRadius.circular(25), 
-                                     boxShadow:[
-                                       BoxShadow(
-                                          color: const Color.fromARGB(255, 161, 142, 142),
-                                      )
-                                     ]
-                                  ),
-                                  child: Image.memory(
-  base64Decode(base64Url.normalize((item.photo).split(',').last)),
-  fit: BoxFit.cover,
-),
-                                )
-                                ),
-                            ),
-                      );
-           });
-      }
+                            ]),
+                        child: Image.memory(
+                          base64Decode(base64Url
+                              .normalize((item.photo).split(',').last)),
+                          fit: BoxFit.cover,
+                        ),
+                      )),
+                ),
+              );
+            });
+  }
 }
-

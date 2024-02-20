@@ -9,6 +9,7 @@ import 'package:mobile/Features/Categorie/Presentation/bloc/accept_reject_catego
 import 'package:mobile/Features/Categorie/Presentation/bloc/add_delete_update_category/adddeleteupdate_category_bloc.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/Product/product_bloc.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/add_delete_update_product/adddeleteupdate_product_bloc.dart';
+import 'package:mobile/Features/Product/Presentation/bloc/reject_accept_product/reject_accept_product_bloc.dart';
 import 'core/app_theme.dart';
 import 'injection_container.dart' as di;
 
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => di.sl<AcceptCategoryBlocBloc>()),
         BlocProvider(create: (_) => di.sl<RequestBloc>()),
         BlocProvider(create: (_) => di.sl<ProductBloc>()),
+        BlocProvider(create: (_) => di.sl<RejectAcceptProductBloc>()),
         BlocProvider(create: (_) => di.sl<AdddeleteupdateProductBloc>()),
         BlocProvider(create: (_) => di.sl<AuthBloc>()),
         BlocProvider(create: (_) => di.sl<SignupBloc>()),

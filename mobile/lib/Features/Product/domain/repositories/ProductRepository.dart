@@ -8,5 +8,6 @@ abstract class ProductRepository {
   Future<Either<Failure, Unit>> deleteProduct(int id);
   Future<Either<Failure, Unit>> UpdateProduct(Product product);
   Future<Either<Failure, Unit>> AddProduct(Product product);
+  Future<Either<Failure, List<Product>>> getAllRequestProduct(int id_categorie);
 
 }

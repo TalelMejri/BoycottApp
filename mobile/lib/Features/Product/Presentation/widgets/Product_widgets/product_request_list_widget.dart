@@ -1,29 +1,25 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
-import 'package:mobile/Features/Categorie/Presentation/bloc/RequestCategory/request_category_bloc.dart';
-import 'package:mobile/Features/Categorie/Presentation/bloc/accept_reject_category/accept_category_bloc_bloc.dart';
-import 'package:mobile/Features/Categorie/domain/entities/category.dart';
+import 'package:mobile/Features/Product/domain/entities/Product.dart';
 
-class RequestCategoryListWidget extends StatefulWidget {
-  final List<Category> category;
+class RequestProductWidget extends StatefulWidget {
+  final List<Product> product;
 
-  const RequestCategoryListWidget({
+  const RequestProductWidget({
     Key? key,
-    required this.category,
+    required this.product,
   }) : super(key: key);
 
   @override
-  State<RequestCategoryListWidget> createState() => _RequestCategoryListWidgetState();
+  State<RequestProductWidget> createState() => _RequestProductWidgetState();
 }
 
-class _RequestCategoryListWidgetState extends State<RequestCategoryListWidget> {
+class _RequestProductWidgetState extends State<RequestProductWidget> {
 
     Future<void> _onRefresh(BuildContext context) async {
-       BlocProvider.of<RequestBloc>(context).add(GetAllRequestCategoryEvent(status: 0));
-       BlocProvider.of<CategoryBloc>(context).add(GetAllCategoryEvent());
+      //  BlocProvider.of<RequestBloc>(context).add(GetAllRequestCategoryEvent(status: 0));
+      //  BlocProvider.of<CategoryBloc>(context).add(GetAllCategoryEvent());
        Navigator.of(context).pop();
     }
 
@@ -33,22 +29,22 @@ class _RequestCategoryListWidgetState extends State<RequestCategoryListWidget> {
     return Padding(
       padding: const EdgeInsets.all(15),
       child: Column(children: [
-        const Text("List Of Category Demanded"),
+        const Text("List Of Product Demanded"),
         const SizedBox(height: 20),
         Expanded(
           child: ListView.builder(
-            itemCount: widget.category.length,
+            itemCount: widget.product.length,
             itemBuilder: (BuildContext context, int index) {
-              final category = widget.category[index];
+              final product = widget.product[index];
               return Card(
                 child: ListTile(
                   leading:  Image.memory(
                           base64Decode(
-                              (category.photo).split(',').last),
+                              (product.photo).split(',').last),
                           width: 100,
                           height: 100,
                         ),
-                  title: Text(category.name), 
+                  title: Text(product.name), 
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -65,9 +61,9 @@ class _RequestCategoryListWidgetState extends State<RequestCategoryListWidget> {
                                     children: [
                                       ElevatedButton(
                                         onPressed: () {
-                                           BlocProvider.of<AcceptCategoryBlocBloc>(context)
-                                               .add(RejectCategoryEvent(categoryId: category.id!));
-                                                _onRefresh(context);
+                                          //  BlocProvider.of<AcceptCategoryBlocBloc>(context)
+                                          //      .add(RejectCategoryEvent(categoryId: product.id!));
+                                          //       _onRefresh(context);
                                         },
                                         style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
                                         child: const Text("Yes"),
@@ -104,9 +100,9 @@ class _RequestCategoryListWidgetState extends State<RequestCategoryListWidget> {
                                     children: [
                                       ElevatedButton(
                                         onPressed: () {
-                                            BlocProvider.of<AcceptCategoryBlocBloc>(context)
-                                               .add(AcceptCategoryEvent(categoryId: category.id!));
-                                                 _onRefresh(context);
+                                            // BlocProvider.of<AcceptCategoryBlocBloc>(context)
+                                            //    .add(AcceptCategoryEvent(categoryId: category.id!));
+                                            //      _onRefresh(context);
                                         },
                                         style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
                                         child: const Text("Yes"),

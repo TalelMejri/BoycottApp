@@ -1,7 +1,5 @@
 part of 'request_category_bloc.dart';
 
-
-
 @immutable
 abstract class RequestCategoryState extends Equatable {
   const RequestCategoryState();

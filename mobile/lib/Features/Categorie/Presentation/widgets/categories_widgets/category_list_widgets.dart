@@ -68,7 +68,7 @@ class _CategoryListWidgetState extends State<CategoryListWidget> {
   }
 
   Future<void> _onRefresh(BuildContext context) async {
-    BlocProvider.of<CategoryBloc>(context).add(RefreshCategoryEvent());
+    BlocProvider.of<CategoryBloc>(context).add(GetAllCategoryEvent());
   }
 
   @override
