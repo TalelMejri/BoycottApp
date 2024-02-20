@@ -1,4 +1,3 @@
-
 import 'package:mobile/Core/network/network_info.dart';
 import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart';
 import 'package:mobile/Features/Auth/data/datasource/user_remote_data_source.dart';
@@ -39,6 +38,8 @@ import 'package:mobile/Features/Product/data/dataressource/product_remote_data_s
 import 'package:mobile/Features/Product/data/dataressource/product_local_data_source.dart';
 import 'package:mobile/Features/Product/data/repositories/Product_repository.dart';
 import 'package:mobile/Features/Product/domain/repositories/ProductRepository.dart';
+import 'package:mobile/Features/Product/domain/usecases/Accept_Product.dart';
+import 'package:mobile/Features/Product/domain/usecases/Reject_Poduct.dart';
 import 'package:mobile/Features/Product/domain/usecases/UpdateProduct.dart';
 import 'package:mobile/Features/Product/domain/usecases/addProduct.dart';
 import 'package:mobile/Features/Product/domain/usecases/deleteProduct.dart';
@@ -48,34 +49,38 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 final sl = GetIt.instance;
 
-Future<void> init() async 
-{
+Future<void> init() async {
   //bloc
   sl.registerFactory(() => CategoryBloc(getAllCategory: sl()));
-  
+
   sl.registerFactory(() => RequestBloc(getAllRequestCategory: sl()));
 
   sl.registerFactory(() => AdddeleteupdateCategoryBloc(
       addCategory: sl(), updateCategory: sl(), deleteCategory: sl()));
-  
-   sl.registerFactory(() => AcceptCategoryBlocBloc(
-       acceptCategory: sl(),rejectCategory: sl()));
+
+  sl.registerFactory(
+      () => AcceptCategoryBlocBloc(acceptCategory: sl(), rejectCategory: sl()));
 
   sl.registerFactory(() => ProductBloc(getAllProduct: sl()));
 
   sl.registerFactory(() => RejectAcceptProductBloc(getAllRequestProduct: sl()));
 
   sl.registerFactory(() => AdddeleteupdateProductBloc(
-      addProduct: sl(), updateProduct: sl(), deleteProduct: sl()));
+      addProduct: sl(),
+      updateProduct: sl(),
+      deleteProduct: sl(),
+      acceptProduct: sl(),
+      rejectproduct: sl()));
 
-  sl.registerFactory(() => AuthBloc(
-      signInUserUseCase: sl(),signOutUserUseCase: sl()
-  ));
+  sl.registerFactory(
+      () => AuthBloc(signInUserUseCase: sl(), signOutUserUseCase: sl()));
 
   sl.registerFactory(() => SignupBloc(
-      signUpUserUseCase: sl(), verifyEmailUseCase: sl(),
-      forgetPasswordUseCase: sl(),resetPasswordUserUseCase: sl()));
-  
+      signUpUserUseCase: sl(),
+      verifyEmailUseCase: sl(),
+      forgetPasswordUseCase: sl(),
+      resetPasswordUserUseCase: sl()));
+
   //usecases
   sl.registerLazySingleton(() => GetAllCategoryUsecase(sl()));
   sl.registerLazySingleton(() => GetAllRequestUsecase(sl()));
@@ -91,6 +96,8 @@ Future<void> init() async
   sl.registerLazySingleton(() => AddProductUsecase(sl()));
   sl.registerLazySingleton(() => DeleteProductUsecase(sl()));
   sl.registerLazySingleton(() => UpdateProductUsecase(sl()));
+  sl.registerLazySingleton(() => RejectProductUsecase(sl()));
+  sl.registerLazySingleton(() => AcceptProductUsecase(sl()));
 
   sl.registerLazySingleton(() => SignInUserUseCase(sl()));
   sl.registerLazySingleton(() => SignOutUserUseCase(sl()));
@@ -107,9 +114,11 @@ Future<void> init() async
 
   sl.registerLazySingleton<ProductRepository>(() => ProductRepositoryImpl(
       remoteDataSource: sl(), localDataSource: sl(), networkInfo: sl()));
-   
+
   sl.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(
-      userLocalDataSource: sl(), userRemoteDataSource: sl(), networtkInfo: sl()));
+      userLocalDataSource: sl(),
+      userRemoteDataSource: sl(),
+      networtkInfo: sl()));
 
   //Datasources
   sl.registerLazySingleton<CatyegoryRemoteDataSource>(
@@ -122,11 +131,11 @@ Future<void> init() async
   sl.registerLazySingleton<ProductLocalDataSource>(
       () => ProductLocalDataSourceImpl(sharedPreferences: sl()));
 
-  sl.registerLazySingleton<UserRemoteDataSource>(() => UserRemoteDataSourceImpl(client: sl()));
-  sl.registerLazySingleton<UserLocalDataSource>(() =>
-                   UserLocalDataSourceImpl(sharedPreferences: sl())
-  );
-  
+  sl.registerLazySingleton<UserRemoteDataSource>(
+      () => UserRemoteDataSourceImpl(client: sl()));
+  sl.registerLazySingleton<UserLocalDataSource>(
+      () => UserLocalDataSourceImpl(sharedPreferences: sl()));
+
   //Core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
 
@@ -135,5 +144,4 @@ Future<void> init() async
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => InternetConnectionChecker());
-    
 }

@@ -13,6 +13,8 @@ abstract class ProductRemoteDataSource {
   Future<Unit> addProduct(ProductModel productModel);
   Future<Unit> deleteProduct(int id);
   Future<List<ProductModel>> getAllRequestProduct(int id);
+  Future<Unit> AccepetProduct(int ProductId);
+  Future<Unit> RejectProduct(int ProductId);
 }
 
 class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
@@ -133,4 +135,42 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     }
   }
   
+
+
+  @override
+  Future<Unit> AccepetProduct(int id) async {
+
+     final user= await userLocalDataSource.getCachedUser();
+    final response = await client.put(
+      Uri.parse(BASE_URL_BACKEND +
+          "/product/AcceptProduct/$id"),
+        headers:{
+        'Authorization': 'Bearer ${user!.accessToken}'
+        }
+    );
+    if (response.statusCode == 200) {
+      return Future.value(unit);
+    } else {
+      throw ServerException();
+    }
+  }
+
+
+    @override
+  Future<Unit> RejectProduct(int id) async {
+
+     final user= await userLocalDataSource.getCachedUser();
+    final response = await client.put(
+      Uri.parse(BASE_URL_BACKEND +
+          "/product/RejectProduct/$id"),
+        headers:{
+        'Authorization': 'Bearer ${user!.accessToken}'
+        }
+    );
+    if (response.statusCode == 200) {
+      return Future.value(unit);
+    } else {
+      throw ServerException();
+    }
+  }
 }

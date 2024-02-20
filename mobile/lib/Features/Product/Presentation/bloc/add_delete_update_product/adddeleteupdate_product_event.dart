@@ -33,3 +33,21 @@ class DeleteProductEvent extends AdddeleteupdateProductEvent {
   @override
   List<Object> get props => [ProductId];
 }
+
+class RejectProductEvent extends AdddeleteupdateProductEvent {
+  final int ProductId;
+
+  RejectProductEvent({required this.ProductId});
+
+  @override
+  List<Object> get props => [ProductId];
+}
+
+class AcceptProductEvent extends AdddeleteupdateProductEvent {
+  final int ProductId;
+
+  AcceptProductEvent({required this.ProductId});
+
+  @override
+  List<Object> get props => [ProductId];
+}

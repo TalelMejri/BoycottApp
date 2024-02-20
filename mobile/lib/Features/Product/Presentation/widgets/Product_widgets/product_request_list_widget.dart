@@ -1,14 +1,20 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile/Features/Product/Presentation/bloc/Product/product_bloc.dart';
+import 'package:mobile/Features/Product/Presentation/bloc/add_delete_update_product/adddeleteupdate_product_bloc.dart';
+import 'package:mobile/Features/Product/Presentation/bloc/reject_accept_product/reject_accept_product_bloc.dart';
 import 'package:mobile/Features/Product/domain/entities/Product.dart';
 
 class RequestProductWidget extends StatefulWidget {
   final List<Product> product;
+  final int id;
 
   const RequestProductWidget({
     Key? key,
     required this.product,
+    required this.id,
   }) : super(key: key);
 
   @override
@@ -18,8 +24,8 @@ class RequestProductWidget extends StatefulWidget {
 class _RequestProductWidgetState extends State<RequestProductWidget> {
 
     Future<void> _onRefresh(BuildContext context) async {
-      //  BlocProvider.of<RequestBloc>(context).add(GetAllRequestCategoryEvent(status: 0));
-      //  BlocProvider.of<CategoryBloc>(context).add(GetAllCategoryEvent());
+       BlocProvider.of<RejectAcceptProductBloc>(context).add(GetAllRequestProductEvent(category_id: widget.id!));
+       BlocProvider.of<ProductBloc>(context).add(GetAllProductEvent(id_categorie: widget.id));
        Navigator.of(context).pop();
     }
 
@@ -61,9 +67,9 @@ class _RequestProductWidgetState extends State<RequestProductWidget> {
                                     children: [
                                       ElevatedButton(
                                         onPressed: () {
-                                          //  BlocProvider.of<AcceptCategoryBlocBloc>(context)
-                                          //      .add(RejectCategoryEvent(categoryId: product.id!));
-                                          //       _onRefresh(context);
+                                           BlocProvider.of<AdddeleteupdateProductBloc>(context)
+                                               .add(RejectProductEvent(ProductId: product.id!));
+                                                _onRefresh(context);
                                         },
                                         style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
                                         child: const Text("Yes"),
@@ -100,9 +106,9 @@ class _RequestProductWidgetState extends State<RequestProductWidget> {
                                     children: [
                                       ElevatedButton(
                                         onPressed: () {
-                                            // BlocProvider.of<AcceptCategoryBlocBloc>(context)
-                                            //    .add(AcceptCategoryEvent(categoryId: category.id!));
-                                            //      _onRefresh(context);
+                                            BlocProvider.of<AdddeleteupdateProductBloc>(context)
+                                               .add(AcceptProductEvent(ProductId: product.id!));
+                                                _onRefresh(context);
                                         },
                                         style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
                                         child: const Text("Yes"),

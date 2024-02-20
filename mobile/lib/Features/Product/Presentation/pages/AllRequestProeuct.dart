@@ -46,7 +46,7 @@ void initState() {
         if (state is LoadingRejectAcceptProductState) {
           return const LoadingWidget();
         } else if (state is LoadedRequestProduct) {
-           return RequestProductWidget(product: state.product);
+           return RequestProductWidget(product: state.product,id:widget.category.id!);
         } else if (state is ErrorRequestProductState) {
           return MessageDisplayWidget(message:state.message);
         } else {

@@ -89,6 +89,20 @@ class ProductRepositoryImpl implements ProductRepository {
     });
   }
 
+    @override
+  Future<Either<Failure, Unit>> AcceptProduct(int categoryId) async {
+    return await _getMessage(() {
+      return remoteDataSource.AccepetProduct(categoryId);
+    });
+  }
+
+   @override
+  Future<Either<Failure, Unit>> RejectProduct(int categoryId) async {
+    return await _getMessage(() {
+      return remoteDataSource.RejectProduct(categoryId);
+    });
+  }
+
   Future<Either<Failure, Unit>> _getMessage(DeleteOrUpdateOrAddProduct deleteOrUpdateOrAddProduct) async {
     if (await networkInfo.isConnected) {
       try {
