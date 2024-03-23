@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -14,11 +16,15 @@ class ProductController extends Controller
         ], 200);
     }
 
-    public function AddProduct(Request $request)
+    public function AddProduct(ProductRequest $request)
     {
+
+        $file_name = time() . '_' . $request->photo->getClientOriginalName();
+        $image = $request->file('photo')->storeAs('images', $file_name, 'public');
+
         $product = new Product();
         $product->name = $request->name;
-        $product->photo = $request->photo;
+        $product->photo = '/storage/' . $image;
         $product->description = $request->description;
         $product->user_id = $request->user()->id;
         $product->categorie_id = $request->id_categorie;
@@ -49,32 +55,35 @@ class ProductController extends Controller
 
     public function RejectProduct($id){
         $Product=Product::find($id);
-        $Product->update([
-            'status'=> 2
-        ]);
         $Product->delete();
         return response()->json(["message"=>"Product Rejected"]);
     }
 
-    public function UpdateProduct(Request $request, $id)
-    {
+    public function UpdateProduct(Request $request,$id){
         $product = Product::find($id);
-        $product->name = $request->name;
-        $product->photo = $request->photo;
-        $product->description = $request->description;
-        $product->categorie_id = $request->id_categorie;
-        $product->save();
-
-        return response()->json([
-            'message' => 'Product updated successfully',
-        ], 200);
-    }
-
+        if(!$product){
+            return response()->json([
+                'message'=>'Product Not Found',
+            ],404);
+        }else{
+            $product->name = $request->name;
+            $product->description = $request->description;
+            $product->categorie_id = $request->id_categorie;
+            if($request->hasFile('photo')){
+                $file_name = time() . '_' . $request->photo->getClientOriginalName();
+                $image = $request->file('photo')->storeAs('images', $file_name, 'public');
+                $product->photo = '/storage/' . $image;
+            }
+            $product->save();
+            return response()->json([
+                'message'=>'Product Updated Successfully',
+            ],200);
+        }
+   }
     public function DeleteProduct($id)
     {
         $product = Product::find($id);
         $product->delete();
-
         return response()->json([
             'message' => 'Product deleted successfully'
         ], 200);

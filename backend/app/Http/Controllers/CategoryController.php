@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Mail\Accept_Reject_Item;
 use Illuminate\Http\Request;
 use App\Models\Categorie;
@@ -11,10 +12,13 @@ use Illuminate\Support\Facades\Mail;
 class CategoryController extends Controller
 {
 
-    public function AddCategory(Request $request){
+    public function AddCategory(CategoryRequest $request){
+        $file_name = time() . '_' . $request->photo->getClientOriginalName();
+        $image = $request->file('photo')->storeAs('images', $file_name, 'public');
+
         $categorie=new Categorie();
         $categorie->name=$request->name;
-        $categorie->photo=$request->photo;
+        $categorie->photo = '/storage/' . $image;
         $categorie->user_id=$request->user()->id;
         if($request->user()->Isadmin){
             $categorie->status=1;
@@ -102,7 +106,11 @@ class CategoryController extends Controller
             ],404);
         }else{
             $category->name=$request->name;
-            $category->photo=$request->photo;
+            if($request->hasFile('photo')){
+                $file_name = time() . '_' . $request->photo->getClientOriginalName();
+                $image = $request->file('photo')->storeAs('images', $file_name, 'public');
+                $category->photo = '/storage/' . $image;
+            }
             $category->save();
             return response()->json([
                 'message'=>'Category Updated Successfully',

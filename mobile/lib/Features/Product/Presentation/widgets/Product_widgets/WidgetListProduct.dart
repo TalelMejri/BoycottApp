@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Core/utils/snack_bar_message.dart';
@@ -146,10 +147,15 @@ class _ProductListWidgetState extends State<WidgetListProduct> {
                                 color: const Color.fromARGB(255, 161, 142, 142),
                               )
                             ]),
-                        child: Image.memory(
-                          base64Decode(base64Url
-                              .normalize((item.photo).split(',').last)),
-                          fit: BoxFit.cover,
+                        child: CachedNetworkImage(
+                          width: 100,
+                          height: 100,
+                          imageUrl:
+                              "http://10.0.2.2:8000"+widget.product[index].photo.path,
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
                         ),
                       )),
                 ),

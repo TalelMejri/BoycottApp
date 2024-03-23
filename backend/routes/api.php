@@ -44,7 +44,7 @@ Route::middleware("auth:sanctum")->group(function(){
     Route::group(['prefix'=>'/product'],function(){
         Route::post('/AddProduct',[ProductController::class,'AddProduct']);
         Route::delete('/DeleteProduct/{id}',[ProductController::class,'DeleteProduct']);
-        Route::put('/UpdateProduct/{id}',[ProductController::class,'UpdateProduct']);
+        Route::post('/UpdateProduct/{id}',[ProductController::class,'UpdateProduct']);
         Route::put('/AcceptProduct/{id}',[ProductController::class,'AcceptProduct']);
         Route::put('/RejectProduct/{id}',[ProductController::class,'RejectProduct']);
         Route::get('/ListProduct/{id}',[ProductController::class,'ListProduct']);
@@ -54,7 +54,7 @@ Route::middleware("auth:sanctum")->group(function(){
         Route::post('/AddCategory',[CategoryController::class,'AddCategory']);
         Route::delete('/DeleteCategory/{id}',[CategoryController::class,'DeleteCategory']);
         Route::get('/EditCategory/{id}',[CategoryController::class,'EditCategory']);
-        Route::put('/UpdateCategory/{id}',[CategoryController::class,'UpdateCategory']);
+        Route::post('/UpdateCategory/{id}',[CategoryController::class,'UpdateCategory']);
         Route::put('/AcceptCategory/{id}',[CategoryController::class,'AcceptCategory']);
         Route::put('/RejectCategory/{id}',[CategoryController::class,'RejectCategory']);
         Route::get('/ListCategory',[CategoryController::class,'ListCategory']);

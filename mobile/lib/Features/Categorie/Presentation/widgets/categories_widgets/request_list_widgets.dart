@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
@@ -42,11 +41,15 @@ class _RequestCategoryListWidgetState extends State<RequestCategoryListWidget> {
               final category = widget.category[index];
               return Card(
                 child: ListTile(
-                  leading:  Image.memory(
-                          base64Decode(
-                              (category.photo).split(',').last),
+                  leading:CachedNetworkImage(
                           width: 100,
                           height: 100,
+                          imageUrl:
+                              "http://10.0.2.2:8000"+widget.category[index].photo.path,
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
                         ),
                   title: Text(category.name), 
                   trailing: Row(

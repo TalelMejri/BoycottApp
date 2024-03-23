@@ -1,9 +1,11 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 
 class Category extends Equatable {
     final int? id;
     final String name;
-    final String photo;
+    final File photo;
     final int? user_id;
     final int? products_count;
 

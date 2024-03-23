@@ -1,3 +1,5 @@
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Core/widgets/EmptyPage.dart';
@@ -9,7 +11,6 @@ import 'package:mobile/Features/Categorie/Presentation/pages/add_update_category
 import 'package:mobile/Features/Categorie/Presentation/widgets/category_add_update_widgets/SimpleDialog.dart';
 import 'package:mobile/Features/Categorie/domain/entities/category.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/Product/product_bloc.dart';
-import 'dart:convert';
 
 import 'package:mobile/Features/Product/Presentation/pages/Product_pages.dart';
 import 'package:mobile/injection_container.dart';
@@ -26,30 +27,27 @@ class CategoryListWidget extends StatefulWidget {
 }
 
 class _CategoryListWidgetState extends State<CategoryListWidget> {
+  final UserLocalDataSource userLocalDataSource = sl.get<UserLocalDataSource>();
 
-
-   final UserLocalDataSource userLocalDataSource=sl.get<UserLocalDataSource>();
- 
   @override
   void initState() {
     getAuth();
     super.initState();
   }
 
-  UserModelLogin? user=null;
+  UserModelLogin? user = null;
 
-  void getAuth () async{
-    var res=await userLocalDataSource.getCachedUser()!=null ? true : false;
-    if(res){
-      user=await userLocalDataSource.getCachedUser();
+  void getAuth() async {
+    var res = await userLocalDataSource.getCachedUser() != null ? true : false;
+    if (res) {
+      user = await userLocalDataSource.getCachedUser();
     }
-    setState(()  {
-      auth=res;
+    setState(() {
+      auth = res;
     });
   }
-  
-  int _selectIndex=0;
-  bool auth=false;
+
+  bool auth = false;
 
   Future<void> ConfirmDelete(id) async {
     String? message = await showDialog(
@@ -74,7 +72,7 @@ class _CategoryListWidgetState extends State<CategoryListWidget> {
   @override
   Widget build(BuildContext context) {
     return widget.category == null || widget.category.isEmpty
-        ? const EmptyPage(message:"Category")
+        ? const EmptyPage(message: "Category")
         : GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -100,64 +98,72 @@ class _CategoryListWidgetState extends State<CategoryListWidget> {
                   child: Card(
                     child: Column(
                       children: [
-                        Image.memory(
-                          base64Decode(
-                              (widget.category[index].photo).split(',').last),
-                          width: 200,
+                        CachedNetworkImage(
+                          width: 100,
                           height: 100,
+                          imageUrl:
+                              "http://10.0.2.2:8000"+widget.category[index].photo.path,
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Name:", style: TextStyle(color: Colors.red)),
-                            Text(widget.category[index].name ),
+                            const Text("Name:", style: TextStyle(color: Colors.red)),
+                            Text(widget.category[index].name),
                           ],
                         ),
+                        SizedBox(height: 12),
                         Visibility(
-                         visible: ( auth && user?.id.toString()==widget.category[index].user_id.toString() ) || (user?.role==1),
-                          child:
-                            Row(
-                          children: [
-                            ElevatedButton.icon(
-                              onPressed: () async {
-                                await ConfirmDelete(widget.category[index].id);
-                              },
-                              icon: const Icon(Icons.delete),
-                              label: const Text("Delete"),
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                  Colors.red,
+                            visible: (auth &&
+                                    user?.id.toString() ==
+                                        widget.category[index].user_id
+                                            .toString()) ||
+                                (user?.role == 1),
+                            child: Row(
+                              children: [
+                                ElevatedButton.icon(
+                                  onPressed: () async {
+                                    await ConfirmDelete(
+                                        widget.category[index].id);
+                                  },
+                                  icon: const Icon(Icons.delete),
+                                  label: const Text("Delete"),
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                      Colors.red,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 2,
-                            ),
-                            ElevatedButton.icon(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            CategoryAddUpdatePage(
-                                                isUpdateCategory: true,
-                                                category:
-                                                    widget.category[index])));
-                              },
-                              icon: const Icon(Icons.edit),
-                              label: const Text("Edit"),
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                  Colors.yellow,
+                                const SizedBox(
+                                  width: 2,
                                 ),
-                              ),
-                            ),
-                          ],
-                        ) )
-                       
+                                ElevatedButton.icon(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CategoryAddUpdatePage(
+                                                    isUpdateCategory: true,
+                                                    category: widget
+                                                        .category[index])));
+                                  },
+                                  icon: const Icon(Icons.edit),
+                                  label: const Text("Edit"),
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                      Colors.yellow,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ))
                       ],
                     ),
                   ));

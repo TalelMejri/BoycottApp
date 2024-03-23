@@ -5,6 +5,7 @@ import 'package:mobile/Features/Categorie/Presentation/pages/Category_pages.dart
 import 'package:mobile/Features/Categorie/Presentation/widgets/categories_widgets/MessageDisplayWidget.dart';
 import 'package:mobile/Features/Categorie/domain/entities/category.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/reject_accept_product/reject_accept_product_bloc.dart';
+import 'package:mobile/Features/Product/Presentation/pages/Product_pages.dart';
 import 'package:mobile/Features/Product/Presentation/widgets/Product_widgets/product_request_list_widget.dart';
 
 class AllRequestProduct extends StatefulWidget {
@@ -34,7 +35,7 @@ void initState() {
 
   AppBar _buildAppBar() => AppBar(
      leading: IconButton(onPressed: (){ 
-       Navigator.push(context, MaterialPageRoute(builder: (context)=>CategoriePages()));
+       Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductPages(category: widget.category)));
       },icon: const Icon(Icons.arrow_back)),
   );
 

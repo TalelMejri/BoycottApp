@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,38 +26,31 @@ class _FormWidgetState extends State<FormWidget> {
   final _formKey = GlobalKey<FormState>();
   String name = "";
   String photo = "";
-  File? imagePicker;
-  String base64Image = "";
+  late File imagePicker=File('path');
+  late File selectedImage=File('path');
   String imageError = "";
 
   @override
   void initState() {
     if (widget.isUpdateCategory) {
+      imagePicker=File(widget.category!.photo.path);
       name = widget.category!.name;
-      base64Image = widget.category!.photo;
     }
     super.initState();
   }
 
-  Future<void> onChangeImage(ImageSource source) async {
-    try {
-      XFile? pickeImage = await ImagePicker().pickImage(source: source);
-      if (pickeImage != null) {
-        final bytes = await (pickeImage).readAsBytes();
-        setState(() {
-          final bytes = File(pickeImage!.path).readAsBytesSync();
-          imagePicker = File(pickeImage.path);
-          base64Image = "data:image/png;base64," + base64Encode(bytes);
-        });
-      } else {
-        setState(() {
-          imageError = "Image Required";
-        });
-      }
-    } catch (e) {
-      print(e);
+ Future<void> onChangeImage(ImageSource source) async {
+  try {
+    XFile? pickedImage = await ImagePicker().pickImage(source: source);
+    if (pickedImage != null) {
+      setState(() {
+        selectedImage = File(pickedImage.path);
+      });
     }
+  } catch (e) {
+    print(e);
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -89,11 +82,16 @@ class _FormWidgetState extends State<FormWidget> {
                 ),
                 Visibility(
                   visible: widget.isUpdateCategory ? true : false,
-                  child: Image.memory(
-                    base64Decode((base64Image).split(',').last),
-                    width: 200,
-                    height: 100,
-                  ),
+                  child:  CachedNetworkImage(
+                          width: 100,
+                          height: 100,
+                          imageUrl:
+                              "http://10.0.2.2:8000"+imagePicker.path,
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
+                        ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -103,10 +101,11 @@ class _FormWidgetState extends State<FormWidget> {
                         onChangeImage(ImageSource.gallery);
                       },
                       child: const Text("Choose Your Photo"),
+                      
                     ),
-                    imagePicker == null
+                    selectedImage.path == 'path'
                         ? const Text("No Image Selected")
-                        : Image.file(imagePicker!, width: 50),
+                        : Image.file(selectedImage, width: 50),
                   ],
                 ),
                 Text(
@@ -140,7 +139,7 @@ class _FormWidgetState extends State<FormWidget> {
       final category = Category(
         id: widget.isUpdateCategory ? widget.category!.id : null,
         name: name,
-        photo: base64Image,
+        photo: selectedImage,
       );
       if (widget.isUpdateCategory) {
         BlocProvider.of<AdddeleteupdateCategoryBloc>(context)

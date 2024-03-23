@@ -1,9 +1,11 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 
 class Product extends Equatable {
     final int? id;
     final String name;
-    final String photo;
+    final File photo;
     final String description;
     final int? user_id;
     final int id_categorie;

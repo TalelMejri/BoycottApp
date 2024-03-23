@@ -21,7 +21,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   final http.Client client;
   ProductRemoteDataSourceImpl({required this.client});
 
-     final UserLocalDataSource userLocalDataSource=sl.get<UserLocalDataSource>();
+  final UserLocalDataSource userLocalDataSource = sl.get<UserLocalDataSource>();
 
   @override
   Future<List<ProductModel>> getAllProduct(int id) async {
@@ -46,20 +46,18 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<List<ProductModel>> getAllRequestProduct(int id) async {
-    final user= await userLocalDataSource.getCachedUser();
+    final user = await userLocalDataSource.getCachedUser();
     try {
       final response = await client.get(
         Uri.parse("$BASE_URL_BACKEND/product/ListProduct/$id"),
-        headers: {
-          'Authorization': 'Bearer ${user!.accessToken}'
-         },
+        headers: {'Authorization': 'Bearer ${user!.accessToken}'},
       );
       if (response.statusCode == 200) {
         final List data = json.decode(response.body)['products'] as List;
         final List<ProductModel> productModels = data
             .map<ProductModel>((json) => ProductModel.fromJson(json))
             .toList();
-        
+
         return productModels;
       } else {
         throw ServerException();
@@ -69,41 +67,38 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     }
   }
 
-
   @override
   Future<Unit> addProduct(ProductModel productModel) async {
-     final user= await userLocalDataSource.getCachedUser();
-
-    final request = {
-      "name": productModel.name,
-      "photo": productModel.photo,
-      "description": productModel.description,
-      "id_categorie": productModel.id_categorie.toString(),
-    };
-    final response = await client.post(
-        Uri.parse(BASE_URL_BACKEND + "/product/AddProduct"),
-        body: request,
-          headers:{
-        'Authorization': 'Bearer ${user!.accessToken}'
-        });
-    if (response.statusCode == 201) {
-      return Future.value(unit);
-    } else {
+    final user = await userLocalDataSource.getCachedUser();
+    var request = http.MultipartRequest(
+        'POST', Uri.parse(BASE_URL_BACKEND + "/product/AddProduct"));
+    request.fields['name'] = productModel.name;
+    request.fields['description'] = productModel.description;
+    request.fields['id_categorie'] = productModel.id_categorie.toString();
+    request.files.add(
+        await http.MultipartFile.fromPath('photo', productModel.photo.path));
+    request.headers['Authorization'] = 'Bearer ${user!.accessToken}';
+    try {
+      print(request.fields);
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+      print(response.body);
+      if (response.statusCode == 201) {
+        return Future.value(unit);
+      } else {
+        throw ServerException();
+      }
+    } catch (e) {
       throw ServerException();
     }
   }
 
   @override
   Future<Unit> deleteProduct(int id) async {
-
-     final user= await userLocalDataSource.getCachedUser();
+    final user = await userLocalDataSource.getCachedUser();
     final response = await client.delete(
-      Uri.parse(BASE_URL_BACKEND +
-          "/product/DeleteProduct/$id"),
-        headers:{
-        'Authorization': 'Bearer ${user!.accessToken}'
-        }
-    );
+        Uri.parse(BASE_URL_BACKEND + "/product/DeleteProduct/$id"),
+        headers: {'Authorization': 'Bearer ${user!.accessToken}'});
     if (response.statusCode == 200) {
       return Future.value(unit);
     } else {
@@ -113,41 +108,37 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<Unit> updateProduct(ProductModel productModel) async {
-     final user= await userLocalDataSource.getCachedUser();
+    final user = await userLocalDataSource.getCachedUser();
     final ProductId = productModel.id;
-    final request = {
-      "name": productModel.name,
-      "photo": productModel.photo,
-      "description": productModel.description,
-      "id_categorie": productModel.id_categorie.toString(),
-    };
-    final response = await client.put(
-      Uri.parse(BASE_URL_BACKEND + "/product/UpdateProduct/$ProductId"),
-      body: request,
-        headers:{
-        'Authorization': 'Bearer ${user!.accessToken}'
-        }
-    );
-    if (response.statusCode == 200) {
-      return Future.value(unit);
-    } else {
+    var request = http.MultipartRequest('POST',
+        Uri.parse(BASE_URL_BACKEND + "/product/UpdateProduct/$ProductId"));
+    request.fields['name'] = productModel.name;
+    request.fields['description'] = productModel.description;
+    request.fields['id_categorie'] = productModel.id_categorie.toString();
+    if (productModel.photo.path != 'path') {
+      request.files.add(
+          await http.MultipartFile.fromPath('photo', productModel.photo.path));
+    }
+    request.headers['Authorization'] = 'Bearer ${user!.accessToken}';
+    try {
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+      if (response.statusCode == 200) {
+        return Future.value(unit);
+      } else {
+        throw ServerException();
+      }
+    } catch (e) {
       throw ServerException();
     }
   }
-  
-
 
   @override
   Future<Unit> AccepetProduct(int id) async {
-
-     final user= await userLocalDataSource.getCachedUser();
+    final user = await userLocalDataSource.getCachedUser();
     final response = await client.put(
-      Uri.parse(BASE_URL_BACKEND +
-          "/product/AcceptProduct/$id"),
-        headers:{
-        'Authorization': 'Bearer ${user!.accessToken}'
-        }
-    );
+        Uri.parse(BASE_URL_BACKEND + "/product/AcceptProduct/$id"),
+        headers: {'Authorization': 'Bearer ${user!.accessToken}'});
     if (response.statusCode == 200) {
       return Future.value(unit);
     } else {
@@ -155,18 +146,12 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     }
   }
 
-
-    @override
+  @override
   Future<Unit> RejectProduct(int id) async {
-
-     final user= await userLocalDataSource.getCachedUser();
+    final user = await userLocalDataSource.getCachedUser();
     final response = await client.put(
-      Uri.parse(BASE_URL_BACKEND +
-          "/product/RejectProduct/$id"),
-        headers:{
-        'Authorization': 'Bearer ${user!.accessToken}'
-        }
-    );
+        Uri.parse(BASE_URL_BACKEND + "/product/RejectProduct/$id"),
+        headers: {'Authorization': 'Bearer ${user!.accessToken}'});
     if (response.statusCode == 200) {
       return Future.value(unit);
     } else {
