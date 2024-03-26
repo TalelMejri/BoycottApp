@@ -30,7 +30,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            if (!$user->hasVerifiedEmail()) {
+            if (!$user->hasVerifiedEmail() && $user->Isadmin==false) {
                 return response()->json(['data' => "votre email n'est pas vérifié"], 401);
             }
             $token = $user->createToken('api_token')->plainTextToken;
@@ -42,7 +42,6 @@ class AuthController extends Controller
                 'nom' => $user->nom,
                 'prenom' => $user->prenom,
                 'isAdmin' => $user->Isadmin,
-                "photo" => $user->photo,
             ];
 
             return response()->json($respnose, 200);
