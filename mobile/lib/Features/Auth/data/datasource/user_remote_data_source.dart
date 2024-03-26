@@ -37,7 +37,7 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
     } catch (e) {
       print("exception " + e.toString());
     }
-    print(response.body);
+    response.body["photo"]="";
     if (response.statusCode == 200) {
       try {
         final user = UserModelLogin.fromJson(jsonDecode(response.body));
