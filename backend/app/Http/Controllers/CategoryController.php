@@ -56,8 +56,8 @@ class CategoryController extends Controller
             'status'=> 1
         ]);
         $user=User::find($category->user_id);
-        Mail::to($user->email)->send(new Accept_Reject_Item("Thanks For Your Suppor "+$user->nom+" "+"Your Category With Label "+$category->name +" Accepted"));
-        return response()->json(["message"=>"Categpry Accpeted"]);
+        Mail::to($user->email)->send(new Accept_Reject_Item("Thanks For Your Support ".$user->nom+" "." Your Category With Label ".$category->name ." Accepted"));
+        return response()->json(["message"=>"Category Accepted"]);
     }
 
     public function RejectCategory($id){
@@ -66,9 +66,9 @@ class CategoryController extends Controller
         //     'status'=> 2
         // ]);
         $user=User::find($category->user_id);
-        Mail::to($user->email)->send(new Accept_Reject_Item($user->nom+" "+"Your Category With Label "+$category->name +" Rejected"));
+        Mail::to($user->email)->send(new Accept_Reject_Item($user->nom+" "." Your Category With Label ".$category->name ." Rejected"));
         $category->delete();
-        return response()->json(["message"=>"Categpry Rejected"]);
+        return response()->json(["message"=>"Category Rejected"]);
     }
 
     public function DeleteCategory($id){

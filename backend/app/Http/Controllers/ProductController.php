@@ -18,7 +18,6 @@ class ProductController extends Controller
 
     public function AddProduct(ProductRequest $request)
     {
-
         $file_name = time() . '_' . $request->photo->getClientOriginalName();
         $image = $request->file('photo')->storeAs('images', $file_name, 'public');
 
