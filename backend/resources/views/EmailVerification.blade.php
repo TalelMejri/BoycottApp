@@ -3,7 +3,7 @@
     Hi {{$user->LastName}}<br>
     We're happy you signed up for Boycott.To start<br>
     exploring the App.<br>
-    please confirm your emails address.
+    please confirm your emails address.'
 </p>
  @component('mail::panel')
  <p style="text-align:center">Token Verification</p>
