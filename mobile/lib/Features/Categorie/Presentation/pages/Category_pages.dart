@@ -69,10 +69,10 @@ class _CategoriePagesState extends State<CategoriePages> {
        Navigator.push(context, MaterialPageRoute(builder: (context)=>const LandingPage()));
       },icon: const Icon(Icons.arrow_back)),
     actions: [
-      auth && user?.role==1 ? IconButton(onPressed: (){
+      auth && user?.role=="1" ? IconButton(onPressed: (){
          Navigator.push(context, MaterialPageRoute(builder: (context)=> const Statistique()));
       }, icon: const Icon(Icons.pie_chart_sharp))   : Container(),
-       auth && user?.role==1 ? IconButton(onPressed: (){
+       auth && user?.role=="1" ? IconButton(onPressed: (){
          Navigator.push(context, MaterialPageRoute(builder: (context)=>(const AllRequest())));
       }, icon:const Icon(Icons.new_releases))   : Container()
     ],
@@ -88,7 +88,7 @@ class _CategoriePagesState extends State<CategoriePages> {
         } else if (state is LoadedCategory) {
             return RefreshIndicator(
                 child: _selectIndex==0  ?
-                       CategoryListWidget(category: state.categorys) :
+                       CategoryListWidget(categories: state.categorys) :
                        _selectIndex==1 ?   const CategoryAddUpdatePage(isUpdateCategory: false) :const InfoUser(),
                 onRefresh: ()=>_onRefresh(context),
               );

@@ -63,7 +63,7 @@ class _ProductPagesState extends State<ProductPages> {
        Navigator.push(context, MaterialPageRoute(builder: (context)=>const CategoriePages()));
      },icon: const Icon(Icons.arrow_back)),
      actions: [
-       auth && user?.role==1 ? IconButton(onPressed: (){
+       auth && user?.role=="1" ? IconButton(onPressed: (){
          Navigator.push(context, MaterialPageRoute(builder: (context)=>( AllRequestProduct(category: widget.category,))));
       }, icon:const Icon(Icons.new_releases))   : Container()
      ],);
