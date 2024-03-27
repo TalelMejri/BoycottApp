@@ -12,9 +12,13 @@ class FormSubmitBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton.icon(
+    return ElevatedButton(
         onPressed: onPressed,
-        icon: isUpdateCategory ? Icon(Icons.edit) : Icon(Icons.add),
-        label: Text(isUpdateCategory ? "Update" : "Add"));
+        style: ElevatedButton.styleFrom(
+          primary: Colors.green,
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          textStyle: const TextStyle(fontSize: 18),
+        ),
+        child: Text(isUpdateCategory ? "Update Category" : "Add Category"));
   }
 }

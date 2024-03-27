@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile/Core/Strings/constantes.dart';
 import 'package:mobile/Core/utils/snack_bar_message.dart';
 import 'package:mobile/Core/widgets/EmptyPage.dart';
 import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart';
@@ -95,7 +96,7 @@ class _ProductListWidgetState extends State<WidgetListProduct> {
                   setState(() {
                   if ((auth &&
                           user?.id.toString() == item.user_id.toString()) ||
-                      (user?.role == 1)) {
+                      (user?.role == "1")) {
                     ConfirmDelete(item.id);
                     widget.product.remove(item);
                   } else {
@@ -123,7 +124,7 @@ class _ProductListWidgetState extends State<WidgetListProduct> {
                           visible: (auth &&
                                   user?.id.toString() ==
                                       item.user_id.toString()) ||
-                              (user?.role == 1),
+                              (user?.role == "1"),
                           child: IconButton(
                             icon: Icon(Icons.edit),
                             onPressed: () {
@@ -143,19 +144,19 @@ class _ProductListWidgetState extends State<WidgetListProduct> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
                             boxShadow: [
-                              BoxShadow(
-                                color: const Color.fromARGB(255, 161, 142, 142),
+                               BoxShadow(
+                                color:  Color.fromARGB(255, 161, 142, 142),
                               )
                             ]),
                         child: CachedNetworkImage(
                           width: 100,
                           height: 100,
                           imageUrl:
-                              "http://10.0.2.2:8000"+widget.product[index].photo.path,
+                              BASE_URL_STORAGE+widget.product[index].photo.path,
                           placeholder: (context, url) =>
-                              CircularProgressIndicator(),
+                              const CircularProgressIndicator(),
                           errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
+                             const Icon(Icons.error),
                         ),
                       )),
                 ),

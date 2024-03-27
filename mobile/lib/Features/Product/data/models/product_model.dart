@@ -4,7 +4,7 @@ import 'package:mobile/Features/Product/domain/entities/Product.dart';
 
 class ProductModel extends Product{
 
-  const ProductModel({int? id, required String name, required File photo,required String description,required int id_categorie,int? products_count,int? user_id})
+  const ProductModel({int? id, required String name, required File photo,required String description,required String id_categorie,int? products_count,String? user_id})
       : super(id: id, name: name, photo: photo, description: description, id_categorie: id_categorie);
 
    factory ProductModel.fromJson(Map<String,dynamic> json){

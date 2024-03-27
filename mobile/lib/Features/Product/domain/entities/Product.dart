@@ -7,8 +7,8 @@ class Product extends Equatable {
     final String name;
     final File photo;
     final String description;
-    final int? user_id;
-    final int id_categorie;
+    final String? user_id;
+    final String id_categorie;
 
 
     const Product({

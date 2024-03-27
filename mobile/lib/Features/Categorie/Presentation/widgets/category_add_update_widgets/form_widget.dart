@@ -3,7 +3,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile/Core/Strings/constantes.dart';
 import 'package:mobile/Core/utils/validator.dart';
+import 'package:mobile/Core/widgets/custom_scaffold.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/add_delete_update_category/adddeleteupdate_category_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/widgets/category_add_update_widgets/form_submit_btn.dart';
 import 'package:mobile/Features/Categorie/Presentation/widgets/category_add_update_widgets/text_form_field_widget.dart';
@@ -26,103 +28,166 @@ class _FormWidgetState extends State<FormWidget> {
   final _formKey = GlobalKey<FormState>();
   String name = "";
   String photo = "";
-  late File imagePicker=File('path');
-  late File selectedImage=File('path');
+  late File imagePicker = File('path');
+  late File selectedImage = File('path');
   String imageError = "";
 
   @override
   void initState() {
     if (widget.isUpdateCategory) {
-      imagePicker=File(widget.category!.photo.path);
+      imagePicker = File(widget.category!.photo.path);
       name = widget.category!.name;
     }
     super.initState();
   }
 
- Future<void> onChangeImage(ImageSource source) async {
-  try {
-    XFile? pickedImage = await ImagePicker().pickImage(source: source);
-    if (pickedImage != null) {
-      setState(() {
-        selectedImage = File(pickedImage.path);
-      });
+  Future<void> onChangeImage(ImageSource source) async {
+    try {
+      XFile? pickedImage = await ImagePicker().pickImage(source: source);
+      if (pickedImage != null) {
+        setState(() {
+          selectedImage = File(pickedImage.path);
+        });
+      }
+    } catch (e) {
+      print(e);
     }
-  } catch (e) {
-    print(e);
   }
-}
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: Form(
-          key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 50,
+    return CustomScaffold(
+      child: Column(
+        children: [
+          const Expanded(
+            flex: 2,
+            child: SizedBox(
+              height: 10,
+            ),
+          ),
+          Expanded(
+            flex: 4,
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(25.0, 50.0, 25.0, 20.0),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(40.0),
+                  topRight: Radius.circular(40.0),
                 ),
-                TextFormFieldWidget(
-                  initialValue: name,
-                  validation: validateName,
-                  onChanged: (value) {
-                    name = value;
-                  },
-                  hintText: 'Enter your name',
-                  icon: Icons.edit,
-                  keyboardType: TextInputType.name,
-                  labelText: 'Name',
-                ),
-                SizedBox(
-                  height: 30.0,
-                ),
-                Visibility(
-                  visible: widget.isUpdateCategory ? true : false,
-                  child:  CachedNetworkImage(
+              ),
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        !widget.isUpdateCategory
+                            ? 'Add Category '
+                            : "Update Category",
+                        style: const TextStyle(
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.red,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 40.0,
+                      ),
+                      TextFormFieldWidget(
+                        initialValue: name,
+                        validation: validateName,
+                        onChanged: (value) {
+                          name = value;
+                        },
+                        hintText: 'Enter your name',
+                        icon: Icons.edit,
+                        keyboardType: TextInputType.name,
+                        labelText: 'Name',
+                      ),
+                      const SizedBox(
+                        height: 25.0,
+                      ),
+                      const SizedBox(
+                        height: 25.0,
+                      ),
+                      Visibility(
+                        visible: widget.isUpdateCategory ? true : false,
+                        child: CachedNetworkImage(
                           width: 100,
                           height: 100,
-                          imageUrl:
-                              "http://10.0.2.2:8000"+imagePicker.path,
+                          imageUrl: BASE_URL_STORAGE + imagePicker.path,
                           placeholder: (context, url) =>
                               CircularProgressIndicator(),
                           errorWidget: (context, url, error) =>
                               Icon(Icons.error),
                         ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              onChangeImage(ImageSource.gallery);
+                            },
+                            child: const Text("Choose Your Photo"),
+                          ),
+                          selectedImage.path == 'path'
+                              ? const Text("No Image Selected")
+                              : Image.file(selectedImage, width: 50),
+                        ],
+                      ),
+                      Text(
+                        imageError.isNotEmpty ? imageError : '',
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: FormSubmitBtn(
+                          isUpdateCategory: widget.isUpdateCategory,
+                          onPressed: validateFormThenUpdateOrAddPost,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 25.0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Divider(
+                              thickness: 0.7,
+                              color: Colors.grey.withOpacity(0.5),
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 0,
+                              horizontal: 10,
+                            ),
+                            child: Text(
+                              'Thank you for your support',
+                              style: TextStyle(
+                                color: Colors.black45,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Divider(
+                              thickness: 0.7,
+                              color: Colors.grey.withOpacity(0.5),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        onChangeImage(ImageSource.gallery);
-                      },
-                      child: const Text("Choose Your Photo"),
-                      
-                    ),
-                    selectedImage.path == 'path'
-                        ? const Text("No Image Selected")
-                        : Image.file(selectedImage, width: 50),
-                  ],
-                ),
-                Text(
-                  imageError.isNotEmpty ? imageError : '',
-                  style: const TextStyle(color: Colors.red),
-                ),
-                SizedBox(
-                  height: 15.0,
-                ),
-                FormSubmitBtn(
-                  isUpdateCategory: widget.isUpdateCategory,
-                  onPressed: validateFormThenUpdateOrAddPost,
-                ),
-              ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

@@ -21,9 +21,7 @@ class TextFormFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        child: TextFormField(
+    return  TextFormField(
           initialValue: initialValue,
           validator: validation,
           keyboardType: keyboardType,
@@ -36,6 +34,6 @@ class TextFormFieldWidget extends StatelessWidget {
                hintText: "$hintText",
                label:  Text("$labelText"),
            ),
-        ));
+        );
   }
 }

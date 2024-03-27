@@ -11,11 +11,14 @@ class FormSubmitBtn extends StatelessWidget {
     required this.isUpdateProduct,
   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton.icon(
+   Widget build(BuildContext context) {
+    return ElevatedButton(
         onPressed: onPressed,
-        icon: isUpdateProduct ? Icon(Icons.edit) : Icon(Icons.add),
-        label: Text(isUpdateProduct ? "Update" : "Add"));
+        style: ElevatedButton.styleFrom(
+          primary: Colors.green,
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          textStyle: const TextStyle(fontSize: 18),
+        ),
+        child: Text(isUpdateProduct ? "Update Product" : "Add Product"));
   }
 }

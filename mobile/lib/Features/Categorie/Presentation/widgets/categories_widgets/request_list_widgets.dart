@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile/Core/Strings/constantes.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/RequestCategory/request_category_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/accept_reject_category/accept_category_bloc_bloc.dart';
@@ -45,7 +46,7 @@ class _RequestCategoryListWidgetState extends State<RequestCategoryListWidget> {
                           width: 100,
                           height: 100,
                           imageUrl:
-                              "http://10.0.2.2:8000"+widget.category[index].photo.path,
+                              BASE_URL_STORAGE+""+widget.category[index].photo.path,
                           placeholder: (context, url) =>
                               CircularProgressIndicator(),
                           errorWidget: (context, url, error) =>

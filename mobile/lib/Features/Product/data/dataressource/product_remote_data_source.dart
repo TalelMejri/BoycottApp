@@ -79,7 +79,6 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
         await http.MultipartFile.fromPath('photo', productModel.photo.path));
     request.headers['Authorization'] = 'Bearer ${user!.accessToken}';
     try {
-      print(request.fields);
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
       print(response.body);
