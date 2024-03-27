@@ -30,6 +30,7 @@ class CategoryRemoteDataSourceImpl implements CatyegoryRemoteDataSource {
         Uri.parse("$BASE_URL_BACKEND/category/AllCategory"),
         headers: {"Content-Type": "application/json"},
       ).timeout(const Duration(seconds: 5));
+      print(response.body);
       if (response.statusCode == 200) {
         final List data = json.decode(response.body)['categories'] as List;
         final List<CategoryModel> categoryModels = data

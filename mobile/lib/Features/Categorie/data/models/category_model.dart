@@ -4,7 +4,7 @@ import 'package:mobile/Features/Categorie/domain/entities/category.dart';
 
 class CategoryModel extends Category{
 
-  const CategoryModel({int? id, required String name, required File photo,int? products_count,int? user_id})
+  const CategoryModel({int? id, required String name, required File photo,String? products_count,String? user_id})
       : super(id: id, name: name, photo: photo,products_count:products_count,user_id: user_id);
 
    factory CategoryModel.fromJson(Map<String,dynamic> json){

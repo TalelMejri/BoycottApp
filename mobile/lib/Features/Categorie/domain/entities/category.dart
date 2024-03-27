@@ -6,8 +6,8 @@ class Category extends Equatable {
     final int? id;
     final String name;
     final File photo;
-    final int? user_id;
-    final int? products_count;
+    final String? user_id;
+    final String? products_count;
 
     const Category({
       this.id,

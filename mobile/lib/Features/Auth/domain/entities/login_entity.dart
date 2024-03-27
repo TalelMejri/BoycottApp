@@ -4,7 +4,7 @@ class LoginEntity extends Equatable {
   final int? id;
   final String email;
   final String? password;
-  final int? role;
+  final String? role;
   final String? accessToken;
   final String? nom;
   final String? prenom;

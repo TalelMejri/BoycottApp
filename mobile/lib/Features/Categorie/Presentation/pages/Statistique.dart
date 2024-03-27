@@ -25,7 +25,7 @@ class _StatistiqueState extends State<Statistique> {
   Map<String, double> map = {};
 
     for (var category in categories) {
-      map[category.name] = category.products_count!.toDouble();
+      map[category.name] = double.parse(category.products_count.toString());
     }
     return map;
   }
