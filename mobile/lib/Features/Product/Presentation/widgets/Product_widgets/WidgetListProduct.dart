@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Core/Strings/constantes.dart';
-import 'package:mobile/Core/utils/snack_bar_message.dart';
 import 'package:mobile/Core/widgets/EmptyPage.dart';
 import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart';
 import 'package:mobile/Features/Auth/data/model/UserModelLogin.dart';
@@ -11,7 +10,6 @@ import 'package:mobile/Features/Product/Presentation/bloc/add_delete_update_prod
 import 'package:mobile/Features/Product/Presentation/pages/add_update_product.dart';
 import 'package:mobile/Features/Product/Presentation/widgets/Product_add_update_widgets/SimpleDialog.dart';
 import 'package:mobile/Features/Product/Presentation/widgets/Product_widgets/bottomSheetWidget.dart';
-import 'dart:convert';
 import 'package:mobile/Features/Product/domain/entities/Product.dart';
 import 'package:mobile/injection_container.dart';
 
@@ -99,13 +97,7 @@ class _ProductListWidgetState extends State<WidgetListProduct> {
                       (user?.role == "1")) {
                     ConfirmDelete(item.id);
                     widget.product.remove(item);
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("You are not authorized to delete this item."),
-                      ),
-                    );
-                  }
+                  } 
                 });
                 },
                 child: Card(

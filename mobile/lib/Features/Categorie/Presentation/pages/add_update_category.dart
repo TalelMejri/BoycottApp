@@ -23,15 +23,12 @@ class CategoryAddUpdatePage extends StatelessWidget {
   }
   
   AppBar _buildAppbar() {
-    return AppBar(title: Text("Edit Category" ));
+    return AppBar(title: const Text("Category"));
   }
 
   Widget _buildBody() {
-    return Center(
-      child: Padding(
-          padding: EdgeInsets.all(10),
-          child:
-              BlocConsumer<AdddeleteupdateCategoryBloc, AdddeleteupdateCategoryState>(
+    return
+          BlocConsumer<AdddeleteupdateCategoryBloc, AdddeleteupdateCategoryState>(
             listener: (context, state) {
               if (state is MessageAddUpdateDeleteCategoryState) {
                 SnackBarMessage().showSuccessSnackBar(
@@ -52,8 +49,7 @@ class CategoryAddUpdatePage extends StatelessWidget {
               return FormWidget(
                   isUpdateCategory: isUpdateCategory, category: isUpdateCategory ? category : null);
             },
-          )),
-    );
+          );
   }
 
     Future<void> _onRefresh(BuildContext context) async{

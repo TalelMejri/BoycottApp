@@ -58,7 +58,7 @@ class LoginFormState extends State<LoginForm> {
               autocorrect: false,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'le mot de passe est obligatoire'; //!! dans Strings
+                  return 'le mot de passe est obligatoire';
                 }
                 return null;
               },

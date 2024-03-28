@@ -37,7 +37,9 @@ class _SignUpFormState extends State<SignUpForm> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
                const SizedBox(height: 4,),
-               TextFormFieldWidget(
+               Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child:TextFormFieldWidget(
                      initialValue: nom,
                      validation:validateName,
                      onChanged: (value) {
@@ -48,8 +50,10 @@ class _SignUpFormState extends State<SignUpForm> {
                       keyboardType: TextInputType.name,
                       labelText: 'Name',
                       obscuretext: false,
-                ),
-                 TextFormFieldWidget(
+                )),
+                 Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child:TextFormFieldWidget(
                      initialValue: prenom,
                      validation:validateName,
                      onChanged: (value) {
@@ -60,8 +64,10 @@ class _SignUpFormState extends State<SignUpForm> {
                       keyboardType: TextInputType.text,
                       labelText: 'LastName',
                        obscuretext: false,
-                ),
-                  TextFormFieldWidget(
+                )),
+                  Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child:TextFormFieldWidget(
                      initialValue: email,
                      validation:validateName,
                      onChanged: (value) {
@@ -72,8 +78,10 @@ class _SignUpFormState extends State<SignUpForm> {
                       keyboardType: TextInputType.emailAddress,
                       labelText: 'Email',
                        obscuretext: false,
-                ),
-                  TextFormFieldWidget(
+                )),
+                  Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child:TextFormFieldWidget(
                      initialValue: password,
                      validation:validateDescription,
                      onChanged: (value) {
@@ -84,7 +92,7 @@ class _SignUpFormState extends State<SignUpForm> {
                       keyboardType: TextInputType.text,
                       labelText: 'Password',
                        obscuretext: true,
-                ),
+                )),
               
            Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),

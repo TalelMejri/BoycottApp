@@ -65,7 +65,7 @@ class _FormWidgetState extends State<FormWidgetProduct> {
       child: Column(
         children: [
           const Expanded(
-            flex: 2,
+            flex: 1,
             child: SizedBox(
               height: 10,
             ),
@@ -92,7 +92,7 @@ class _FormWidgetState extends State<FormWidgetProduct> {
                             ? 'Add Product '
                             : "Update Product",
                         style: const TextStyle(
-                          fontSize: 25.0,
+                          fontSize: 22.0,
                           fontWeight: FontWeight.w900,
                           color: Colors.red,
                         ),
@@ -166,7 +166,7 @@ class _FormWidgetState extends State<FormWidgetProduct> {
                         ),
                       ),
                       const SizedBox(
-                        height: 25.0,
+                        height: 18.0,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -180,7 +180,7 @@ class _FormWidgetState extends State<FormWidgetProduct> {
                           const Padding(
                             padding: EdgeInsets.symmetric(
                               vertical: 0,
-                              horizontal: 10,
+                              horizontal: 8,
                             ),
                             child: Text(
                               'Thank you for your support',
