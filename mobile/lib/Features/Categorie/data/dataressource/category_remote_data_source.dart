@@ -27,15 +27,16 @@ class CategoryRemoteDataSourceImpl implements CatyegoryRemoteDataSource {
   Future<List<CategoryModel>> getAllCategory() async {
     try {
       final response = await client.get(
-        Uri.parse("http://192.168.1.101:8000/api/category/AllCategory"),
+        Uri.parse("$BASE_URL_BACKEND/category/AllCategory"),
         headers: {"Content-Type": "application/json"},
-      );
-      print(response);
+      ).timeout(const Duration(seconds: 5));
+      print(response.body);
       if (response.statusCode == 200) {
         final List data = json.decode(response.body)['categories'] as List;
         final List<CategoryModel> categoryModels = data
             .map<CategoryModel>((json) => CategoryModel.fromJson(json))
             .toList();
+        print(categoryModels);
         return categoryModels;
       } else {
         throw ServerException();

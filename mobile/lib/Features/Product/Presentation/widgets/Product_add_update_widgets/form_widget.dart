@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/Core/Strings/constantes.dart';
+import 'package:mobile/Core/utils/snack_bar_message.dart';
 import 'package:mobile/Core/utils/validator.dart';
 import 'package:mobile/Core/widgets/custom_scaffold.dart';
 import 'package:mobile/Features/Categorie/domain/entities/category.dart';
@@ -34,7 +35,7 @@ class _FormWidgetState extends State<FormWidgetProduct> {
   String name = "";
   String photo = "";
   String description = "";
-  String code_fabricant = "";
+  String code_fabricant = "12345";
   late File imagePicker = File('path');
   late File selectedImage = File('path');
   String imageError = "";
@@ -234,6 +235,13 @@ class _FormWidgetState extends State<FormWidgetProduct> {
     if (imagePicker == null && !widget.isUpdateProduct) {
       setState(() {
         imageError = "Image Required";
+      });
+      return;
+    }
+
+    if(code_fabricant.isEmpty){
+      setState(() {
+         SnackBarMessage().showErrorSnackBar(message: "Code Fabricant Required", context: context);
       });
       return;
     }

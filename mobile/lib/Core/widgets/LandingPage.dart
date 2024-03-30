@@ -47,7 +47,7 @@ class _LandingPageState extends State<LandingPage> {
 
   void test() {
     BlocProvider.of<ProductBloc>(context)
-        .add(CheckExisteProductEvent(code_fabricant: "1"));
+        .add(CheckExisteProductEvent(code_fabricant: "12345"));
   }
 
   void logout() {
@@ -89,6 +89,7 @@ class _LandingPageState extends State<LandingPage> {
                         builder: (context, state) {
                       if (state is LoadedProductExite) {
                         print("ok");
+                        print(state.isExiste);
                         // SnackBarMessage().showSuccessSnackBar(message: "ddddd", context: context);
                       } else if (state is ErrorProductState) {
                         print("no");

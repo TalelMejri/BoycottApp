@@ -21,11 +21,11 @@ class UserModelLogin extends LoginEntity {
   factory UserModelLogin.fromJson(Map<String, dynamic> json) {
     return UserModelLogin(
       id: json['id'] as int?,
-      email: json['email'] ?? '',
-      password: json['password'] ?? '',
-      nom: json['nom'] ?? '',
-      prenom: json['prenom'] ?? '',
-      role: json['isAdmin'],
+      email: "json['email'] ?? ''",
+      password: "json['password'] ?? ''",
+      nom: "json['nom'] ?? ''",
+      prenom: "json['prenom'] ?? ''",
+      role: "1",
       accessToken: json['token'] ?? '',
     );
   }
