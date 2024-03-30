@@ -11,6 +11,8 @@ import 'package:mobile/Features/Product/Presentation/bloc/add_delete_update_prod
 import 'package:mobile/Features/Product/Presentation/widgets/Product_add_update_widgets/form_submit_btn.dart';
 import 'package:mobile/Features/Categorie/Presentation/widgets/category_add_update_widgets/text_form_field_widget.dart';
 import 'package:mobile/Features/Product/domain/entities/Product.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter/services.dart';
 
 class FormWidgetProduct extends StatefulWidget {
   final bool isUpdateProduct;
@@ -32,6 +34,7 @@ class _FormWidgetState extends State<FormWidgetProduct> {
   String name = "";
   String photo = "";
   String description = "";
+  String code_fabricant = "";
   late File imagePicker = File('path');
   late File selectedImage = File('path');
   String imageError = "";
@@ -42,8 +45,23 @@ class _FormWidgetState extends State<FormWidgetProduct> {
       imagePicker = File(widget.product!.photo.path);
       name = widget.product!.name;
       description = widget.product!.description;
+      code_fabricant = widget.product!.code_fabricant;
     }
     super.initState();
+  }
+
+  Future<void> scanBarcodeNormal() async {
+    String barcodeScanRes;
+    try {
+      FlutterBarcodeScanner.getBarcodeStreamReceiver(
+              '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
+          .listen((barcode) => setState(() {
+                code_fabricant = barcode;
+              }));
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+    if (!mounted) return;
   }
 
   Future<void> onChangeImage(ImageSource source) async {
@@ -114,7 +132,7 @@ class _FormWidgetState extends State<FormWidgetProduct> {
                       const SizedBox(
                         height: 25.0,
                       ),
-                         TextFormFieldWidget(
+                      TextFormFieldWidget(
                         initialValue: description,
                         validation: validateDescription,
                         onChanged: (value) {
@@ -158,6 +176,9 @@ class _FormWidgetState extends State<FormWidgetProduct> {
                         imageError.isNotEmpty ? imageError : '',
                         style: const TextStyle(color: Colors.red),
                       ),
+                      ElevatedButton(
+                          onPressed: () => scanBarcodeNormal(),
+                          child: const Text('BarCode Scan')),
                       SizedBox(
                         width: double.infinity,
                         child: FormSubmitBtn(
@@ -208,7 +229,6 @@ class _FormWidgetState extends State<FormWidgetProduct> {
     );
   }
 
-
   void validateFormThenUpdateOrAddProduct() {
     final isValid = _formKey.currentState!.validate();
     if (imagePicker == null && !widget.isUpdateProduct) {
@@ -220,12 +240,12 @@ class _FormWidgetState extends State<FormWidgetProduct> {
 
     if (isValid) {
       final product = Product(
-        id: widget.isUpdateProduct ? widget.product!.id : null,
-        name: name,
-        photo: selectedImage,
-        description: description,
-        id_categorie: widget.category.id.toString()!,
-      );
+          id: widget.isUpdateProduct ? widget.product!.id : null,
+          name: name,
+          photo: selectedImage,
+          description: description,
+          id_categorie: widget.category.id.toString()!,
+          code_fabricant: code_fabricant);
       if (widget.isUpdateProduct) {
         BlocProvider.of<AdddeleteupdateProductBloc>(context)
             .add(UpdateProductEvent(product: product));

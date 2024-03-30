@@ -15,3 +15,13 @@ class GetAllProductEvent extends ProductEvent {
   @override
   List<Object> get props => [id_categorie];
 }
+
+
+class CheckExisteProductEvent extends ProductEvent {
+  final String code_fabricant;
+
+  CheckExisteProductEvent({required this.code_fabricant});
+
+  @override
+  List<Object> get props => [code_fabricant];
+}

@@ -39,6 +39,7 @@ import 'package:mobile/Features/Product/data/dataressource/product_local_data_so
 import 'package:mobile/Features/Product/data/repositories/Product_repository.dart';
 import 'package:mobile/Features/Product/domain/repositories/ProductRepository.dart';
 import 'package:mobile/Features/Product/domain/usecases/Accept_Product.dart';
+import 'package:mobile/Features/Product/domain/usecases/CheckExisteCodeBar.dart';
 import 'package:mobile/Features/Product/domain/usecases/Reject_Poduct.dart';
 import 'package:mobile/Features/Product/domain/usecases/UpdateProduct.dart';
 import 'package:mobile/Features/Product/domain/usecases/addProduct.dart';
@@ -61,7 +62,7 @@ Future<void> init() async {
   sl.registerFactory(
       () => AcceptCategoryBlocBloc(acceptCategory: sl(), rejectCategory: sl()));
 
-  sl.registerFactory(() => ProductBloc(getAllProduct: sl()));
+  sl.registerFactory(() => ProductBloc(getAllProduct: sl(),checkProduct: sl()));
 
   sl.registerFactory(() => RejectAcceptProductBloc(getAllRequestProduct: sl()));
 
@@ -92,7 +93,7 @@ Future<void> init() async {
 
   sl.registerLazySingleton(() => GetAllProductUsecase(sl()));
   sl.registerLazySingleton(() => GetAllRequestProductUsecase(sl()));
-
+  sl.registerLazySingleton(() => CheckProductUsecase(sl()));
   sl.registerLazySingleton(() => AddProductUsecase(sl()));
   sl.registerLazySingleton(() => DeleteProductUsecase(sl()));
   sl.registerLazySingleton(() => UpdateProductUsecase(sl()));

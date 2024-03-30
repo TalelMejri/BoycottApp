@@ -10,7 +10,7 @@ class ProductController extends Controller
 {
     public function GetProducts($id)
     {
-        $products = Product::where("status",1)->where('categorie_id',$id)->get();
+        $products = Product::where("status", 1)->where('categorie_id', $id)->get();
         return response()->json([
             'products' => $products
         ], 200);
@@ -27,58 +27,77 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->user_id = $request->user()->id;
         $product->categorie_id = $request->id_categorie;
-        if($request->user()->Isadmin){
-            $product->status=1;
+        $product->code_fabricant = $request->code_fabricant;
+        if ($request->user()->Isadmin) {
+            $product->status = 1;
         }
         $product->save();
         return response()->json([
             'message' => 'Product added successfully',
         ], 201);
-
     }
 
-    public function ListProduct($id){
-        $products = Product::where("status",0)->where('categorie_id',$id)->get();
+    public function ListProduct($id)
+    {
+        $products = Product::where("status", 0)->where('categorie_id', $id)->get();
         return response()->json([
-            'products'=>$products,
-        ],200);
+            'products' => $products,
+        ], 200);
     }
 
-    public function AcceptProduct($id){
-        $Product=Product::find($id);
+    public function AcceptProduct($id)
+    {
+        $Product = Product::find($id);
         $Product->update([
-            'status'=> 1
+            'status' => 1
         ]);
-        return response()->json(["message"=>"Product Accpeted"]);
+        return response()->json(["message" => "Product Accpeted"]);
     }
 
-    public function RejectProduct($id){
-        $Product=Product::find($id);
-        $Product->delete();
-        return response()->json(["message"=>"Product Rejected"]);
-    }
-
-    public function UpdateProduct(Request $request,$id){
-        $product = Product::find($id);
-        if(!$product){
+    public function IsCodeFabricantExist($code)
+    {
+        $product = Product::where('code_fabricant', $code )->first();
+        if ($product) {
             return response()->json([
-                'message'=>'Product Not Found',
-            ],404);
-        }else{
+                'data' =>  $product,
+            ], 200);
+        } else {
+            return response()->json([
+                'data' => "Code Fabricant Not Found"
+            ], 400);
+        }
+    }
+
+    public function RejectProduct($id)
+    {
+        $Product = Product::find($id);
+        $Product->delete();
+        return response()->json(["message" => "Product Rejected"]);
+    }
+
+    public function UpdateProduct(Request $request, $id)
+    {
+        $product = Product::find($id);
+        if (!$product) {
+            return response()->json([
+                'message' => 'Product Not Found',
+            ], 404);
+        } else {
             $product->name = $request->name;
             $product->description = $request->description;
             $product->categorie_id = $request->id_categorie;
-            if($request->hasFile('photo')){
+            $product->code_fabricant = $request->code_fabricant;
+            if ($request->hasFile('photo')) {
                 $file_name = time() . '_' . $request->photo->getClientOriginalName();
                 $image = $request->file('photo')->storeAs('images', $file_name, 'public');
                 $product->photo = '/storage/' . $image;
             }
             $product->save();
             return response()->json([
-                'message'=>'Product Updated Successfully',
-            ],200);
+                'message' => 'Product Updated Successfully',
+            ], 200);
         }
-   }
+    }
     public function DeleteProduct($id)
     {
         $product = Product::find($id);
@@ -87,5 +106,4 @@ class ProductController extends Controller
             'message' => 'Product deleted successfully'
         ], 200);
     }
-
 }

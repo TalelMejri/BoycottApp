@@ -15,6 +15,7 @@ abstract class ProductRemoteDataSource {
   Future<List<ProductModel>> getAllRequestProduct(int id);
   Future<Unit> AccepetProduct(int ProductId);
   Future<Unit> RejectProduct(int ProductId);
+  Future<ProductModel> CheckExisteProductTest(String code_fabricant);
 }
 
 class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
@@ -75,6 +76,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     request.fields['name'] = productModel.name;
     request.fields['description'] = productModel.description;
     request.fields['id_categorie'] = productModel.id_categorie.toString();
+    request.fields['code_fabricant'] = productModel.code_fabricant.toString();
     request.files.add(
         await http.MultipartFile.fromPath('photo', productModel.photo.path));
     request.headers['Authorization'] = 'Bearer ${user!.accessToken}';
@@ -114,6 +116,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     request.fields['name'] = productModel.name;
     request.fields['description'] = productModel.description;
     request.fields['id_categorie'] = productModel.id_categorie.toString();
+    request.fields['code_fabricant'] = productModel.code_fabricant.toString();
     if (productModel.photo.path != 'path') {
       request.files.add(
           await http.MultipartFile.fromPath('photo', productModel.photo.path));
@@ -154,6 +157,27 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     if (response.statusCode == 200) {
       return Future.value(unit);
     } else {
+      throw ServerException();
+    }
+  }
+
+  @override
+ Future<ProductModel> CheckExisteProductTest(String code_fabricant) async {
+    try {
+      final response = await client.get(
+        Uri.parse(
+            "$BASE_URL_BACKEND/product/IsCodeFabricantExist/$code_fabricant"),
+      );
+      print(response.body);
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body)['data'];
+        final ProductModel productModel = ProductModel.fromJson(data);
+       
+        return Future.value(productModel);
+      } else {
+        throw Exception(json.decode(response.body)['data']);
+      }
+    } on ServerException {
       throw ServerException();
     }
   }

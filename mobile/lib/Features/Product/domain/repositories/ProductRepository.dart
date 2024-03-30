@@ -11,5 +11,5 @@ abstract class ProductRepository {
   Future<Either<Failure, List<Product>>> getAllRequestProduct(int id_categorie);
   Future<Either<Failure, Unit>> AcceptProduct(int id); 
   Future<Either<Failure, Unit>> RejectProduct(int id);
-
+  Future<Either<Failure, Product>> CheckExisteProduct(String code_fabricant);
 }

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile/Core/utils/snack_bar_message.dart';
+import 'package:mobile/Core/widgets/Loading_widget.dart';
+
 import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart';
 import 'package:mobile/Features/Auth/presentation/pages/login_pages.dart';
 import 'package:mobile/Features/Auth/presentation/pages/signup_pages.dart';
 import 'package:mobile/Features/Categorie/Presentation/pages/Category_pages.dart';
+import 'package:mobile/Features/Product/Presentation/bloc/Product/product_bloc.dart';
 import 'package:mobile/injection_container.dart';
-
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -14,27 +18,28 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
+  bool auth = false;
+  final UserLocalDataSource userLocalDataSource = sl.get<UserLocalDataSource>();
 
-  bool auth=false;
-  final UserLocalDataSource userLocalDataSource=sl.get<UserLocalDataSource>();
-
-  void getAuth () async{
-    var res=await userLocalDataSource.getCachedUser()!=null ? true : false;
-    setState(()  {
-      auth=res;
+  void getAuth() async {
+    var res = await userLocalDataSource.getCachedUser() != null ? true : false;
+    setState(() {
+      auth = res;
     });
   }
 
-  void logout(){
+  void test() {
+    BlocProvider.of<ProductBloc>(context)
+        .add(CheckExisteProductEvent(code_fabricant: "1"));
+  }
+
+  void logout() {
     userLocalDataSource.clearCachedUser();
     setState(() {
-      auth=false;
+      auth = false;
     });
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => const LoginPage())
-    );
+        context, MaterialPageRoute(builder: (context) => const LoginPage()));
   }
 
   @override
@@ -42,8 +47,9 @@ class _LandingPageState extends State<LandingPage> {
     getAuth();
     super.initState();
   }
-    @override
-  Widget build(BuildContext context)  { 
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -58,6 +64,21 @@ class _LandingPageState extends State<LandingPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  SafeArea(
+                    child: BlocBuilder<ProductBloc, ProductState>(
+                        builder: (context, state) {
+                      if (state is LoadedProductExite) {
+                        print("ok");
+                        // SnackBarMessage().showSuccessSnackBar(message: "ddddd", context: context);
+                      } else if (state is ErrorProductState) {
+                        print("no");
+                          //  SnackBarMessage().showErrorSnackBar(message: "ddddd", context: context);
+                        print(state.message);
+                      }
+                      return Text("d");
+                    }),
+                  ),
+                  ElevatedButton(onPressed: test, child: Text("test")),
                   const Text(
                     "Support Palestine. Boycott Israel",
                     style: TextStyle(
@@ -86,8 +107,8 @@ class _LandingPageState extends State<LandingPage> {
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Colors.black,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 15),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -102,59 +123,80 @@ class _LandingPageState extends State<LandingPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                          Visibility( visible: !auth,child:
-                      ElevatedButton.icon(
-                        onPressed: (){
-                          Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginPage()));
-                            }, 
-                            icon: const Icon(Icons.account_circle,color: Colors.black,),
-                            label:const Text("Login",style: TextStyle(color: Colors.black),),
-                                style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
+                      Visibility(
+                        visible: !auth,
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const LoginPage()));
+                          },
+                          icon: const Icon(
+                            Icons.account_circle,
+                            color: Colors.black,
+                          ),
+                          label: const Text(
+                            "Login",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.white,
                             shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                              elevation: 5,
+                            elevation: 5,
+                          ),
                         ),
                       ),
-                     ),
                       const SizedBox(width: 10),
-                      Visibility( visible: !auth,child:
-                         ElevatedButton.icon(
-                            onPressed: (){
-                                Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SignUpPage()));
-                            }, 
-                            icon: const Icon(Icons.manage_accounts,color: Colors.black,),
-                            label:const Text("Signup",style: TextStyle(color: Colors.black),),
-                                style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
+                      Visibility(
+                        visible: !auth,
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const SignUpPage()));
+                          },
+                          icon: const Icon(
+                            Icons.manage_accounts,
+                            color: Colors.black,
+                          ),
+                          label: const Text(
+                            "Signup",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.white,
                             shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                              elevation: 5,
+                            elevation: 5,
+                          ),
                         ),
-                     ) ,
-                     ),
-                     Visibility( visible: auth,child:
-                         ElevatedButton.icon(
-                            onPressed: logout, 
-                            icon: const Icon(Icons.logout,color: Colors.black,),
-                            label:const Text("Logout",style: TextStyle(color: Colors.black),),
-                                style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
+                      ),
+                      Visibility(
+                        visible: auth,
+                        child: ElevatedButton.icon(
+                          onPressed: logout,
+                          icon: const Icon(
+                            Icons.logout,
+                            color: Colors.black,
+                          ),
+                          label: const Text(
+                            "Logout",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.white,
                             shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                              elevation: 5,
+                            elevation: 5,
+                          ),
                         ),
-                     ) ,
-                     ),
+                      ),
                     ],
                   ),
                 ],
@@ -166,4 +208,3 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 }
-

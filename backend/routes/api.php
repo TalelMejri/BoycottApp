@@ -28,6 +28,7 @@ Route::group(['prefix'=>'/category'],function(){
 
 Route::group(['prefix'=>'/product'],function(){
     Route::get('/GetProducts/{id}',[ProductController::class,'GetProducts']);
+    Route::get('/IsCodeFabricantExist/{code}',[ProductController::class,'IsCodeFabricantExist']);
 });
 
 Route::group(['prefix'=>'/auth'],function(){
