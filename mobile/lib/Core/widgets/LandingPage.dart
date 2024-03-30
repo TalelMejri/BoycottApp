@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/Core/utils/snack_bar_message.dart';
-import 'package:mobile/Core/widgets/Loading_widget.dart';
-
 import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart';
 import 'package:mobile/Features/Auth/presentation/pages/login_pages.dart';
 import 'package:mobile/Features/Auth/presentation/pages/signup_pages.dart';
 import 'package:mobile/Features/Categorie/Presentation/pages/Category_pages.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/Product/product_bloc.dart';
 import 'package:mobile/injection_container.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter/services.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -26,6 +25,24 @@ class _LandingPageState extends State<LandingPage> {
     setState(() {
       auth = res;
     });
+  }
+
+  Future<void> scanBarcodeNormal() async {
+    String barcodeScanRes;
+    try {
+      // FlutterBarcodeScanner.getBarcodeStreamReceiver(
+      //         '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
+      //     .listen((barcode) => setState(() {
+      //           print(barcode);
+      //         }));
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
+        
+      print(barcodeScanRes.substring(1,6));
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+    if (!mounted) return;
   }
 
   void test() {
@@ -64,6 +81,9 @@ class _LandingPageState extends State<LandingPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  ElevatedButton(
+                      onPressed: () => scanBarcodeNormal(),
+                      child: const Text('BarCode Scan')),
                   SafeArea(
                     child: BlocBuilder<ProductBloc, ProductState>(
                         builder: (context, state) {
@@ -72,7 +92,7 @@ class _LandingPageState extends State<LandingPage> {
                         // SnackBarMessage().showSuccessSnackBar(message: "ddddd", context: context);
                       } else if (state is ErrorProductState) {
                         print("no");
-                          //  SnackBarMessage().showErrorSnackBar(message: "ddddd", context: context);
+                        //  SnackBarMessage().showErrorSnackBar(message: "ddddd", context: context);
                         print(state.message);
                       }
                       return Text("d");

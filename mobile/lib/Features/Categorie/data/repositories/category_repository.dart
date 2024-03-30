@@ -27,22 +27,13 @@ class CategoryRepositoryImpl implements CategoryRepository {
 
    @override
    Future<Either<Failure, List<Category>>> getAllCategories() async {
-    if (await networkInfo.isConnected) {
       try {
         final remoteCategory = await remoteDataSource.getAllCategory();
-        localDataSource.cachecategory(remoteCategory);
         return Right(remoteCategory);
       } on ServerException {
         return Left(ServerFailure());
       }
-    } else {
-      try {
-        final localCategory = await localDataSource.getCachedCategory();
-        return Right(localCategory);
-      } on EmptyCacheException {
-        return Left(EmptyCacheFailure());
-      }
-    }
+ 
   }
 @override
 Future<Either<Failure, List<Category>>> getAllRequest(int status) async{
