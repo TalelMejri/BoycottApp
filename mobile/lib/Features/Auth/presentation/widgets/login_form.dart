@@ -38,7 +38,7 @@ class LoginFormState extends State<LoginForm> {
             child: TextFormField(
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'username est obligatoire'; //dans le dossier Strings
+                  return 'username is required'; //dans le dossier Strings
                 }
                 return null;
               },
@@ -46,7 +46,7 @@ class LoginFormState extends State<LoginForm> {
               controller: _usernameController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Entrer votre email',
+                labelText: 'Enter your email',
               ),
             ),
           ),
@@ -58,14 +58,14 @@ class LoginFormState extends State<LoginForm> {
               autocorrect: false,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'le mot de passe est obligatoire';
+                  return 'password is required';
                 }
                 return null;
               },
               controller: _pwdController,
               decoration:  InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Entrer votre mot de passe',
+                labelText: 'Enter your password',
                 suffixIcon:IconButton(icon: Icon(!Hidden ? Icons.visibility : Icons.visibility_off),onPressed: (){
                        setState(() {
                          Hidden=!Hidden;
@@ -84,7 +84,7 @@ class LoginFormState extends State<LoginForm> {
                               builder: (context) => const ForgetPasswordPage()));
                                     },
                                     child:const Text(
-                                      'Forget Pasword ?',
+                                      'Forget Password ?',
                                       style: TextStyle(
                                           fontSize: 12.0,
                                           color: Colors.blue,

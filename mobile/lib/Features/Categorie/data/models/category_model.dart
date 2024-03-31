@@ -12,8 +12,8 @@ class CategoryModel extends Category{
           id: json['id'], 
           name: json['name'],
           photo:File(json['photo']),
-          user_id:json['user_id'].toString(),
-          products_count:json['products_count'].toString(),
+          user_id:json['user_id'],
+          products_count:json['products_count'],
         );
    }
 

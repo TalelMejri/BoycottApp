@@ -35,7 +35,7 @@ class _FormWidgetState extends State<FormWidgetProduct> {
   String name = "";
   String photo = "";
   String description = "";
-  String code_fabricant = "12345";
+  String code_fabricant = "";
   late File imagePicker = File('path');
   late File selectedImage = File('path');
   String imageError = "";
@@ -54,11 +54,11 @@ class _FormWidgetState extends State<FormWidgetProduct> {
   Future<void> scanBarcodeNormal() async {
     String barcodeScanRes;
     try {
-      FlutterBarcodeScanner.getBarcodeStreamReceiver(
-              '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
-          .listen((barcode) => setState(() {
-                code_fabricant = barcode;
-              }));
+       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
+          setState(() {
+            code_fabricant = barcodeScanRes.substring(1,6);
+          });
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
@@ -239,9 +239,9 @@ class _FormWidgetState extends State<FormWidgetProduct> {
       return;
     }
 
-    if(code_fabricant.isEmpty){
+    if(code_fabricant==""){
       setState(() {
-         SnackBarMessage().showErrorSnackBar(message: "Code Fabricant Required", context: context);
+         SnackBarMessage().showErrorSnackBar(message: "Scan the required manufacturer code", context: context);
       });
       return;
     }

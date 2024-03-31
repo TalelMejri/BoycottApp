@@ -23,7 +23,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['prefix'=>'/category'],function(){
     Route::get('/AllCategory',[CategoryController::class,'AllCategory']);
     Route::get('/AllRequest',[CategoryController::class,'AllRequest']);
-
 });
 
 Route::group(['prefix'=>'/product'],function(){

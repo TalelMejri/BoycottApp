@@ -73,7 +73,7 @@ class _SignUpFormState extends State<SignUpForm> {
                      onChanged: (value) {
                           email = value;
                       },
-                      hintText: 'fouln@gmail.com',
+                      hintText: 'user@gmail.com',
                       icon: Icons.edit,
                       keyboardType: TextInputType.emailAddress,
                       labelText: 'Email',

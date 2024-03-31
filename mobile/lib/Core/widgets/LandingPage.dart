@@ -5,6 +5,7 @@ import 'package:mobile/Features/Auth/presentation/pages/login_pages.dart';
 import 'package:mobile/Features/Auth/presentation/pages/signup_pages.dart';
 import 'package:mobile/Features/Categorie/Presentation/pages/Category_pages.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/Product/product_bloc.dart';
+import 'package:mobile/Features/Product/domain/entities/Product.dart';
 import 'package:mobile/injection_container.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter/services.dart';
@@ -30,24 +31,35 @@ class _LandingPageState extends State<LandingPage> {
   Future<void> scanBarcodeNormal() async {
     String barcodeScanRes;
     try {
-      // FlutterBarcodeScanner.getBarcodeStreamReceiver(
-      //         '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
-      //     .listen((barcode) => setState(() {
-      //           print(barcode);
-      //         }));
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           '#ff6666', 'Cancel', true, ScanMode.BARCODE);
-        
-      print(barcodeScanRes.substring(1,6));
+      BlocProvider.of<ProductBloc>(context).add(CheckExisteProductEvent(
+          code_fabricant: barcodeScanRes.substring(1, 6)));
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
     if (!mounted) return;
   }
 
-  void test() {
-    BlocProvider.of<ProductBloc>(context)
-        .add(CheckExisteProductEvent(code_fabricant: "12345"));
+  void _showProductExistenceAlert(Product productExists) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('boycotted'),
+          content: Text(productExists.name +
+              " is one of the brands that are supporting Israel and must be boycotted"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void logout() {
@@ -57,6 +69,36 @@ class _LandingPageState extends State<LandingPage> {
     });
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const LoginPage()));
+  }
+
+  void _showSnackBar(String message, {Color backgroundColor = Colors.green}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: const TextStyle(color: Colors.white),
+        ),
+        backgroundColor: backgroundColor,
+      ),
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    BlocProvider.of<ProductBloc>(context).stream.listen((state) {
+      _handleProductState(state);
+    });
+  }
+
+  void _handleProductState(ProductState state) {
+    if (state is LoadedProductExite) {
+      _showProductExistenceAlert(state.isExiste);
+    } else if (state is ErrorProductState) {
+      _showSnackBar(
+          "Sorry, this product doesn't match any in our database. We recommend verifying it through its designated channels for your peace of mind.",
+          backgroundColor: Colors.red);
+    }
   }
 
   @override
@@ -77,150 +119,187 @@ class _LandingPageState extends State<LandingPage> {
           ),
           Center(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                      onPressed: () => scanBarcodeNormal(),
-                      child: const Text('BarCode Scan')),
-                  SafeArea(
-                    child: BlocBuilder<ProductBloc, ProductState>(
-                        builder: (context, state) {
-                      if (state is LoadedProductExite) {
-                        print("ok");
-                        print(state.isExiste);
-                        // SnackBarMessage().showSuccessSnackBar(message: "ddddd", context: context);
-                      } else if (state is ErrorProductState) {
-                        print("no");
-                        //  SnackBarMessage().showErrorSnackBar(message: "ddddd", context: context);
-                        print(state.message);
-                      }
-                      return Text("d");
-                    }),
-                  ),
-                  ElevatedButton(onPressed: test, child: Text("test")),
-                  const Text(
-                    "Support Palestine. Boycott Israel",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24.0,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 16.0),
-                  const Text(
-                    "Stand with the Palestinians in their struggle for freedom, justice, and equality. While our governments financially support the apartheid state, we don't have to. PLEASE NOTE: This list is not complete and is constantly being added to. If you know about a brand that should be on the list, please use the Something missing button below to submit it. Thanks.",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.0,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 16.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const CategoriePages()));
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 15),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+              padding: const EdgeInsets.all(12.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Support Palestine. Boycott Israel",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24.0,
                       ),
-                      elevation: 5,
+                      textAlign: TextAlign.center,
                     ),
-                    child: const Text(
-                      "Browse Categories",
-                      style: TextStyle(fontSize: 16),
+                    const SizedBox(height: 16.0),
+                    const Text(
+                      "Stand with the Palestinians during their fight for freedom, justice, and equality.",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Visibility(
-                        visible: !auth,
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const LoginPage()));
-                          },
-                          icon: const Icon(
-                            Icons.account_circle,
-                            color: Colors.black,
+                    const SizedBox(height: 16.0),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const CategoriePages()));
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.black,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        elevation: 5,
+                      ),
+                      icon: const Icon(Icons.category, color: Colors.red),
+                      label: const Text(
+                        "Browse Categories",
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    ElevatedButton.icon(
+                        onPressed: () => scanBarcodeNormal(),
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.black,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 15),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          label: const Text(
-                            "Login",
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                          elevation: 5,
+                        ),
+                        label: const Text(
+                          "Scan BarCode",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        icon: const Icon(
+                          Icons.qr_code_scanner,
+                          color: Colors.red,
+                        )),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Visibility(
+                          visible: !auth,
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const LoginPage()));
+                            },
+                            icon: const Icon(
+                              Icons.account_circle,
+                              color: Colors.black,
                             ),
-                            elevation: 5,
+                            label: const Text(
+                              "Login",
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              elevation: 5,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      Visibility(
-                        visible: !auth,
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const SignUpPage()));
-                          },
-                          icon: const Icon(
-                            Icons.manage_accounts,
-                            color: Colors.black,
-                          ),
-                          label: const Text(
-                            "Signup",
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                        const SizedBox(width: 10),
+                        Visibility(
+                          visible: !auth,
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SignUpPage()));
+                            },
+                            icon: const Icon(
+                              Icons.manage_accounts,
+                              color: Colors.black,
                             ),
-                            elevation: 5,
+                            label: const Text(
+                              "Signup",
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              elevation: 5,
+                            ),
                           ),
                         ),
-                      ),
-                      Visibility(
-                        visible: auth,
-                        child: ElevatedButton.icon(
-                          onPressed: logout,
-                          icon: const Icon(
-                            Icons.logout,
-                            color: Colors.black,
-                          ),
-                          label: const Text(
-                            "Logout",
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                        Visibility(
+                          visible: auth,
+                          child: ElevatedButton.icon(
+                            onPressed: logout,
+                            icon: const Icon(
+                              Icons.logout,
+                              color: Colors.black,
                             ),
-                            elevation: 5,
+                            label: const Text(
+                              "Logout",
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              elevation: 5,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 100),
+                      child: Column(children: [
+                        Text(
+                          "PLEASE NOTE: ",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          "This list is not complete and is constantly being updated. If you know about a brand that should be on the list, please create an account with us then you can add some more.",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          "Thanks for your support.",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ]),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

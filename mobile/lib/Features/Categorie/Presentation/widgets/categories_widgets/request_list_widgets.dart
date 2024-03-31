@@ -33,7 +33,7 @@ class _RequestCategoryListWidgetState extends State<RequestCategoryListWidget> {
     return Padding(
       padding: const EdgeInsets.all(15),
       child: Column(children: [
-        const Text("List Of Category Demanded"),
+        const Text("List of categories is requested"),
         const SizedBox(height: 20),
         Expanded(
           child: ListView.builder(
@@ -62,7 +62,7 @@ class _RequestCategoryListWidgetState extends State<RequestCategoryListWidget> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                title: const Text("Do You Want to Reject?"),
+                                title: const Text("Would you like to reject ?"),
                                 actions: [
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -101,7 +101,7 @@ class _RequestCategoryListWidgetState extends State<RequestCategoryListWidget> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                title: const Text("Do You Want to Accept ?"),
+                                title: const Text("Would you like to accept ?"),
                                 actions: [
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -129,7 +129,7 @@ class _RequestCategoryListWidgetState extends State<RequestCategoryListWidget> {
                             },
                           );
                         },
-                        icon: Icon(Icons.check_sharp, color: Colors.green,),
+                        icon: const Icon(Icons.check_sharp, color: Colors.green,),
                       ),
                     ],
                   ),

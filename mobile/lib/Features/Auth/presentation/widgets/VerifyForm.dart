@@ -34,7 +34,7 @@ class VerifyFormFormState extends State<VerifyForm> {
             child: TextFormField(
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Code est obligatoire'; 
+                  return 'Code is required'; 
                 }
                 return null;
               },
@@ -42,7 +42,7 @@ class VerifyFormFormState extends State<VerifyForm> {
               controller: _code,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Entrer votre Token',
+                labelText: 'Enter your Token',
               ),
             ),
           ),
@@ -53,14 +53,14 @@ class VerifyFormFormState extends State<VerifyForm> {
               autocorrect: false,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Email Obligatoire';
+                  return 'Email is required';
                 }
                 return null;
               },
               controller: _email,
               decoration:  const InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Enter Email',
+                labelText: 'Enter your Email',
               ),
             ),
           ),

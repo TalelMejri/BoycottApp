@@ -27,8 +27,6 @@ class _ProductPagesState extends State<ProductPages> {
  
   @override
   void initState() {
-     /*BlocProvider.of<ProductBloc>(context)
-            .add(GetAllProductEvent(id_categorie:widget.category.id!));*/
     getAuth();
     super.initState();
   }
@@ -58,7 +56,7 @@ class _ProductPagesState extends State<ProductPages> {
     );
   }
 
-  AppBar _buildAppBar() => AppBar(title: Text("Product Belong to "+widget.category.name),
+  AppBar _buildAppBar() => AppBar(title: Text("Items under the "+widget.category.name +" brand"),
      leading: IconButton(onPressed: (){
        Navigator.push(context, MaterialPageRoute(builder: (context)=>const CategoriePages()));
      },icon: const Icon(Icons.arrow_back)),

@@ -5,7 +5,7 @@ class SimpleDialogWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-        title: const Text("Do You Wanna Delete This Product ?"),
+        title: const Text("Would you like to Delete This Product ?"),
         children: [
           SimpleDialogOption(
             child: const Row(

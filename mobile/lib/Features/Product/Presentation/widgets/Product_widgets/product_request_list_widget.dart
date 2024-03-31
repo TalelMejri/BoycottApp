@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile/Core/Strings/constantes.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/Product/product_bloc.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/add_delete_update_product/adddeleteupdate_product_bloc.dart';
 import 'package:mobile/Features/Product/Presentation/bloc/reject_accept_product/reject_accept_product_bloc.dart';
@@ -36,7 +37,7 @@ class _RequestProductWidgetState extends State<RequestProductWidget> {
     return Padding(
       padding: const EdgeInsets.all(15),
       child: Column(children: [
-        const Text("List Of Product Demanded"),
+        const Text("List of Items is requested"),
         const SizedBox(height: 20),
         Expanded(
           child: ListView.builder(
@@ -49,7 +50,7 @@ class _RequestProductWidgetState extends State<RequestProductWidget> {
                           width: 100,
                           height: 100,
                           imageUrl:
-                              "http://10.0.2.2:8000"+product.photo.path,
+                             BASE_URL_STORAGE+""+product.photo.path,
                           placeholder: (context, url) =>
                               CircularProgressIndicator(),
                           errorWidget: (context, url, error) =>
@@ -65,7 +66,7 @@ class _RequestProductWidgetState extends State<RequestProductWidget> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                title: const Text("Do You Want to Reject?"),
+                                title: const Text("Would you like to reject ?"),
                                 actions: [
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -104,7 +105,7 @@ class _RequestProductWidgetState extends State<RequestProductWidget> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                title: const Text("Do You Want to Accept ?"),
+                                title: const Text("Would you like to accept ?"),
                                 actions: [
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -132,7 +133,7 @@ class _RequestProductWidgetState extends State<RequestProductWidget> {
                             },
                           );
                         },
-                        icon: Icon(Icons.check_sharp, color: Colors.green,),
+                        icon:const Icon(Icons.check_sharp, color: Colors.green,),
                       ),
                     ],
                   ),

@@ -39,7 +39,7 @@ class ResetPasswordState extends State<ResetPasswordForm> {
             child: TextFormField(
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Email est obligatoire'; 
+                  return 'Email is required'; 
                 }
                 return null;
               },
@@ -47,7 +47,7 @@ class ResetPasswordState extends State<ResetPasswordForm> {
               controller: _email,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Entrer votre Email',
+                labelText: 'Enter your Email',
               ),
             ),
           ),
@@ -59,7 +59,7 @@ class ResetPasswordState extends State<ResetPasswordForm> {
               autocorrect: false,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Code Obligatoire';
+                  return 'Code is required';
                 }
                 return null;
               },
@@ -77,7 +77,7 @@ class ResetPasswordState extends State<ResetPasswordForm> {
               autocorrect: false,
               validator: (value) {
                 if (value == null || value.isEmpty || _password.text!=_passwordconfirm.text) {
-                  return 'Password Obligatoire Obligatoire';
+                  return 'Password is required ';
                 }
                 return null;
               },

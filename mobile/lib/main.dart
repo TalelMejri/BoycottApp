@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/Core/widgets/LandingPage.dart';
+import 'package:mobile/Core/widgets/splash_screen.dart';
 import 'package:mobile/Features/Auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:mobile/Features/Auth/presentation/bloc/signup/signup_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
@@ -40,9 +40,9 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'BycottApp',
+        title: 'BoycottBZ',
         theme: appTheme,
-        home: const LandingPage(),
+        home: const SplashScreen(),
       ),
     );
   }

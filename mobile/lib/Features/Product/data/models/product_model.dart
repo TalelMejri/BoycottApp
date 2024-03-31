@@ -12,9 +12,9 @@ class ProductModel extends Product{
           id: json['id'], 
           name: json['name'],
           photo: File(json['photo']),
-          user_id:json['user_id'].toString(),
+          user_id:json['user_id'],
           description: json['description'],
-          id_categorie: json['categorie_id'].toString(),
+          id_categorie: json['categorie_id'],
           code_fabricant:json['code_fabricant']
         );
    }

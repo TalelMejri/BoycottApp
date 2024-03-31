@@ -58,7 +58,7 @@ class _ProductListWidgetState extends State<WidgetListProduct> {
           return SimpleDialogWidget();
         });
     if (message != null) {
-      if (message == "yes") {
+      if (message == "Yes") {
         BlocProvider.of<AdddeleteupdateProductBloc>(context)
             .add(DeleteProductEvent(ProductId: id));
       }
@@ -77,82 +77,138 @@ class _ProductListWidgetState extends State<WidgetListProduct> {
   Widget build(BuildContext context) {
     return widget.product == null || widget.product.isEmpty
         ? const EmptyPage(
-            message: "Product",
+            message: "Items",
           )
         : ListView.builder(
             itemCount: widget.product.length,
             itemBuilder: (context, index) {
               final item = widget.product[index];
-              return Dismissible(
-                key: Key(item.name),
-                background: Container(
-                  color: Colors.red,
-                  child:
-                      const Icon(Icons.delete, size: 40, color: Colors.white),
-                ),
-                onDismissed: (direction) {
-                  setState(() {
-                  if ((auth &&
-                          user?.id.toString() == item.user_id.toString()) ||
-                      (user?.role == "1")) {
-                    ConfirmDelete(item.id);
-                    widget.product.remove(item);
-                  } 
-                });
-                },
-                child: Card(
-                  child: ListTile(
-                      title: Text(item.name),
-                      subtitle: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.teal,
-                        ),
-                        onPressed: () {
-                          AlertBottomSheet(item);
-                        },
-                        child: const Text("Why ?"),
+              return auth &&
+                      (user?.id.toString() == item.user_id.toString() ||
+                          user?.role == "1")
+                  ? Dismissible(
+                      key: Key(item.name),
+                      background: Container(
+                        color: Colors.red,
+                        child: const Icon(Icons.delete,
+                            size: 40, color: Colors.white),
                       ),
-                      trailing: Visibility(
-                          visible: (auth &&
-                                  user?.id.toString() ==
-                                      item.user_id.toString()) ||
-                              (user?.role == "1"),
-                          child: IconButton(
-                            icon: Icon(Icons.edit),
+                      onDismissed: (direction) {
+                        setState(() {
+                          ConfirmDelete(item.id);
+                          widget.product.remove(item);
+                        });
+                      },
+                      child: Card(
+                        child: ListTile(
+                          title: Text(item.name),
+                          subtitle: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.teal,
+                            ),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          ProductAddUpdatePage(
-                                              category: widget.category,
-                                              product: item,
-                                              isUpdateProduct: true)));
+                              AlertBottomSheet(item);
                             },
-                          )),
-                      leading: Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
+                            child: const Text("Why ?"),
+                          ),
+                          trailing: Visibility(
+                              visible: (auth &&
+                                      user?.id.toString() ==
+                                          item.user_id.toString()) ||
+                                  (user?.role == "1"),
+                              child: IconButton(
+                                icon: const Icon(Icons.edit),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ProductAddUpdatePage(
+                                                  category: widget.category,
+                                                  product: item,
+                                                  isUpdateProduct: true)));
+                                },
+                              )),
+                          leading: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromARGB(255, 161, 142, 142),
+                                ),
+                              ],
+                            ),
+                            child: CachedNetworkImage(
+                              width: 100,
+                              height: 100,
+                              imageUrl: BASE_URL_STORAGE +
+                                  widget.product[index].photo.path,
+                              placeholder: (context, url) =>
+                                  const CircularProgressIndicator(),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  : Card(
+                      child: ListTile(
+                        title: Text(item.name),
+                        subtitle: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.teal,
+                          ),
+                          onPressed: () {
+                            AlertBottomSheet(item);
+                          },
+                          child: const Text("Why ?"),
+                        ),
+                        trailing: Visibility(
+                            visible: (auth &&
+                                    user?.id.toString() ==
+                                        item.user_id.toString()) ||
+                                (user?.role == "1"),
+                            child: IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ProductAddUpdatePage(
+                                                category: widget.category,
+                                                product: item,
+                                                isUpdateProduct: true)));
+                              },
+                            )),
+                        leading: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
                             boxShadow: [
-                               BoxShadow(
-                                color:  Color.fromARGB(255, 161, 142, 142),
-                              )
-                            ]),
-                        child: CachedNetworkImage(
-                          width: 100,
-                          height: 100,
-                          imageUrl:
-                              BASE_URL_STORAGE+widget.product[index].photo.path,
-                          placeholder: (context, url) =>
-                              const CircularProgressIndicator(),
-                          errorWidget: (context, url, error) =>
-                             const Icon(Icons.error),
+                              BoxShadow(
+                                color: Color.fromARGB(255, 161, 142, 142),
+                              ),
+                            ],
+                          ),
+                          child: CachedNetworkImage(
+                            width: 100,
+                            height: 100,
+                            imageUrl: BASE_URL_STORAGE +
+                                widget.product[index].photo.path,
+                            placeholder: (context, url) =>
+                                const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
+                          ),
                         ),
-                      )),
-                ),
-              );
-            });
+                      ),
+                    );
+            },
+          );
   }
 }

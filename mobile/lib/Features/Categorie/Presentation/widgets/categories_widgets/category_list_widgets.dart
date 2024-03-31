@@ -51,6 +51,7 @@ class _CategoryListWidgetState extends State<CategoryListWidget> {
       context: context,
       builder: (_) => SimpleDialogWidget(),
     );
+    print(message);
     if (message == 'yes') {
       BlocProvider.of<AdddeleteupdateCategoryBloc>(context)
           .add(DeleteCategoryEvent(categoryId: id));
@@ -161,7 +162,7 @@ Widget _buildActionButton({
     child: IconButton(
       onPressed: onPressed,
       icon: Icon(icon),
-      color: Colors.white, // Change the icon color if needed
+      color: Colors.white,
     ),
   );
 }

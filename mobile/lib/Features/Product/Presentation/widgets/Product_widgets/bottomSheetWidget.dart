@@ -18,7 +18,7 @@ class boottomWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "Why Should Bycott " + product.name,
+              "Why it's important to boycott " + product.name,
               textAlign: TextAlign.center,
               style: const TextStyle(
                   color: Colors.black,

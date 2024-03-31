@@ -34,7 +34,7 @@ class ForgetFormState extends State<ForgetForm> {
               autocorrect: false,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Email Obligatoire';
+                  return 'Email Required';
                 }
                 return null;
               },
