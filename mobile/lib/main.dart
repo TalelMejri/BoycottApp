@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/Core/widgets/splash_screen.dart';
+import 'package:mobile/Core/widgets/LandingPage.dart';
 import 'package:mobile/Features/Auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:mobile/Features/Auth/presentation/bloc/signup/signup_bloc.dart';
 import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
@@ -12,13 +12,12 @@ import 'package:mobile/Features/Product/Presentation/bloc/add_delete_update_prod
 import 'package:mobile/Features/Product/Presentation/bloc/reject_accept_product/reject_accept_product_bloc.dart';
 import 'core/app_theme.dart';
 import 'injection_container.dart' as di;
-
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
   await di.init();
-
   runApp(const MyApp());
+  FlutterNativeSplash.remove();
 }
 
 class MyApp extends StatelessWidget {
@@ -42,7 +41,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'BoycottBZ',
         theme: appTheme,
-        home: const SplashScreen(),
+        home: const LandingPage(),
       ),
     );
   }

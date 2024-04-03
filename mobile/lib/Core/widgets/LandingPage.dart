@@ -117,189 +117,193 @@ class _LandingPageState extends State<LandingPage> {
           Container(
             color: Colors.black.withOpacity(0.4),
           ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Support Palestine. Boycott Israel",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24.0,
-                      ),
-                      textAlign: TextAlign.center,
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 120.0),
+                  const Text(
+                    "Support Palestine. Boycott Israel",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24.0,
                     ),
-                    const SizedBox(height: 16.0),
-                    const Text(
-                      "Stand with the Palestinians during their fight for freedom, justice, and equality.",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.0,
-                      ),
-                      textAlign: TextAlign.center,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20.0),
+                  const Text(
+                    "Stand with the Palestinians during their fight for freedom, justice, and equality.",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
                     ),
-                    const SizedBox(height: 16.0),
-                    ElevatedButton.icon(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const CategoriePages()));
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.black,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        elevation: 5,
-                      ),
-                      icon: const Icon(Icons.category, color: Colors.red),
-                      label: const Text(
-                        "Browse Categories",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    ElevatedButton.icon(
-                        onPressed: () => scanBarcodeNormal(),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 100.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const CategoriePages()));
+                        },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.black,
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 15),
+                              horizontal: 15, vertical: 10),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
                           elevation: 5,
                         ),
+                        icon: const Icon(Icons.category, color: Colors.red),
                         label: const Text(
-                          "Scan BarCode",
-                          style: TextStyle(fontSize: 16),
+                          "Browse Categories",
+                          style: TextStyle(fontSize: 12),
                         ),
-                        icon: const Icon(
-                          Icons.qr_code_scanner,
-                          color: Colors.red,
-                        )),
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Visibility(
-                          visible: !auth,
-                          child: ElevatedButton.icon(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const LoginPage()));
-                            },
-                            icon: const Icon(
-                              Icons.account_circle,
-                              color: Colors.black,
+                      ),
+                      ElevatedButton.icon(
+                          onPressed: () => scanBarcodeNormal(),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.black,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 10),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                            label: const Text(
-                              "Login",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              elevation: 5,
-                            ),
+                            elevation: 5,
                           ),
-                        ),
-                        const SizedBox(width: 10),
-                        Visibility(
-                          visible: !auth,
-                          child: ElevatedButton.icon(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SignUpPage()));
-                            },
-                            icon: const Icon(
-                              Icons.manage_accounts,
-                              color: Colors.black,
-                            ),
-                            label: const Text(
-                              "Signup",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              elevation: 5,
-                            ),
+                          label: const Text(
+                            "Scan BarCode",
+                            style: TextStyle(fontSize: 12),
                           ),
+                          icon: const Icon(
+                            Icons.qr_code_scanner,
+                            color: Colors.red,
+                          )),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 160),
+                    child: Column(children: [
+                      Text(
+                        "PLEASE NOTE: ",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
                         ),
-                        Visibility(
-                          visible: auth,
-                          child: ElevatedButton.icon(
-                            onPressed: logout,
-                            icon: const Icon(
-                              Icons.logout,
-                              color: Colors.black,
-                            ),
-                            label: const Text(
-                              "Logout",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              elevation: 5,
-                            ),
-                          ),
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        "This list is not complete and is constantly being updated. If you know about a brand that should be on the list, please create an account with us then you can add some more.",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
                         ),
-                      ],
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 100),
-                      child: Column(children: [
-                        Text(
-                          "PLEASE NOTE: ",
-                          style: TextStyle(
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        "Thanks for your support.",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ]),
+                  ),
+                  SizedBox(height: 10,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Visibility(
+                        visible: !auth,
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const LoginPage()));
+                          },
+                          icon: const Icon(
+                            Icons.account_circle,
                             color: Colors.black,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
                           ),
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          "This list is not complete and is constantly being updated. If you know about a brand that should be on the list, please create an account with us then you can add some more.",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
+                          label: const Text(
+                            "Login",
+                            style: TextStyle(color: Colors.black),
                           ),
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          "Thanks for your support.",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            elevation: 5,
                           ),
-                          textAlign: TextAlign.center,
                         ),
-                      ]),
-                    ),
-                  ],
-                ),
+                      ),
+                      const SizedBox(width: 10),
+                      Visibility(
+                        visible: !auth,
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const SignUpPage()));
+                          },
+                          icon: const Icon(
+                            Icons.manage_accounts,
+                            color: Colors.black,
+                          ),
+                          label: const Text(
+                            "Signup",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            elevation: 5,
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: auth,
+                        child: ElevatedButton.icon(
+                          onPressed: logout,
+                          icon: const Icon(
+                            Icons.logout,
+                            color: Colors.black,
+                          ),
+                          label: const Text(
+                            "Logout",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            elevation: 5,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Text('© 2024. All rights reserved.'),
+                ],
               ),
             ),
           ),

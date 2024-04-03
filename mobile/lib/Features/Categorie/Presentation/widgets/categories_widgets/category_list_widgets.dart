@@ -27,7 +27,7 @@ class CategoryListWidget extends StatefulWidget {
 class _CategoryListWidgetState extends State<CategoryListWidget> {
   final UserLocalDataSource _userLocalDataSource =
       sl.get<UserLocalDataSource>();
-   bool _isAuthenticated=false;
+  bool _isAuthenticated = false;
   UserModelLogin? user = null;
   @override
   void initState() {
@@ -51,7 +51,6 @@ class _CategoryListWidgetState extends State<CategoryListWidget> {
       context: context,
       builder: (_) => SimpleDialogWidget(),
     );
-    print(message);
     if (message == 'yes') {
       BlocProvider.of<AdddeleteupdateCategoryBloc>(context)
           .add(DeleteCategoryEvent(categoryId: id));
@@ -95,7 +94,9 @@ class _CategoryListWidgetState extends State<CategoryListWidget> {
         );
       },
       child: Card(
+        shadowColor: Colors.black,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CachedNetworkImage(
               width: 100,
@@ -104,41 +105,38 @@ class _CategoryListWidgetState extends State<CategoryListWidget> {
               placeholder: (_, __) => CircularProgressIndicator(),
               errorWidget: (_, __, ___) => Icon(Icons.error),
             ),
-            Text(
-              category.name,
-              style: const TextStyle(color: Colors.red,fontSize: 18),
-            ),
-            const SizedBox(height: 12),
+            // Text(
+            //   category.name,
+            //   style: const TextStyle(color: Colors.red, fontSize: 18),
+            // ),
+            // const SizedBox(height: 12),
             Visibility(
               visible: (_isAuthenticated &&
                       user?.id.toString() == category.user_id.toString()) ||
                   (user?.role == "1"),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   _buildActionButton(
-                    onPressed: () => _confirmDelete(category.id!),
-                    icon: Icons.delete,
-                    color: Colors.red,
-                    borderRadius: 4.0
-                  ),
-                  const SizedBox(width: 2),
+                      onPressed: () => _confirmDelete(category.id!),
+                      icon: Icons.delete,
+                      color: Colors.red,
+                    ),
                   _buildActionButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => CategoryAddUpdatePage(
-                            isUpdateCategory: true,
-                            category: category,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => CategoryAddUpdatePage(
+                              isUpdateCategory: true,
+                              category: category,
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                    icon: Icons.edit,
-                    color: Colors.yellow,
-                    borderRadius: 4.0
-                  ),
+                        );
+                      },
+                      icon: Icons.edit,
+                      color: Colors.yellow,
+                    ),
                 ],
               ),
             )
@@ -148,22 +146,15 @@ class _CategoryListWidgetState extends State<CategoryListWidget> {
     );
   }
 
-Widget _buildActionButton({
-  required VoidCallback onPressed,
-  required IconData icon,
-  required Color color,
-  required double borderRadius,
-}) {
-  return Container(
-    decoration: BoxDecoration(
-      color: color,
-      borderRadius: BorderRadius.circular(borderRadius),
-    ),
-    child: IconButton(
+  Widget _buildActionButton({
+    required VoidCallback onPressed,
+    required IconData icon,
+    required Color color,
+  }) {
+    return IconButton(
       onPressed: onPressed,
       icon: Icon(icon),
-      color: Colors.white,
-    ),
-  );
-}
+      color: color
+    );
+  }
 }

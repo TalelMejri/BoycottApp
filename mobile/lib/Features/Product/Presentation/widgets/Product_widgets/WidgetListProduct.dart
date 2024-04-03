@@ -51,17 +51,14 @@ class _ProductListWidgetState extends State<WidgetListProduct> {
   bool auth = false;
 
   Future<void> ConfirmDelete(id) async {
-    String? message = await showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return SimpleDialogWidget();
-        });
-    if (message != null) {
-      if (message == "Yes") {
-        BlocProvider.of<AdddeleteupdateProductBloc>(context)
-            .add(DeleteProductEvent(ProductId: id));
-      }
+    final message = await showDialog<String>(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) => SimpleDialogWidget(),
+    );
+    if (message == "yes") {
+      BlocProvider.of<AdddeleteupdateProductBloc>(context)
+          .add(DeleteProductEvent(ProductId: id));
     }
   }
 
