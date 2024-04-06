@@ -81,12 +81,6 @@ class _LandingPageState extends State<LandingPage> {
       if (barcodeScanRes.length == 13 && isValidISBN(barcodeScanRes)) {
         BlocProvider.of<ProductBloc>(context).add(CheckExisteProductEvent(
             code_fabricant: barcodeScanRes.substring(1, 6)));
-        String country =
-            await getAddress(_locationData.latitude!, _locationData.longitude!);
-        if (country.compareTo("Tunisie") == 0) {
-          await flutterTts
-              .speak("You Should Boycott this product Tunisia is supporting");
-        }
       } else {
         _showSnackBar(
             "Sorry, this product doesn't match any in our database. We recommend verifying it through its designated channels for your peace of mind.",
@@ -98,17 +92,18 @@ class _LandingPageState extends State<LandingPage> {
     if (!mounted) return;
   }
 
-  void _showProductExistenceAlert(Product productExists) {
+  void _showProductExistenceAlert(Product productExists, String text,
+      {String title = "boycotted"}) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('boycotted'),
-          content: Text(productExists.name +
-              " is one of the brands that are supporting Israel and must be boycotted"),
+          content: Text(productExists.name + " " + text),
           actions: <Widget>[
             TextButton(
               onPressed: () {
+                flutterTts.stop();
                 Navigator.of(context).pop();
               },
               child: const Text('OK'),
@@ -148,9 +143,19 @@ class _LandingPageState extends State<LandingPage> {
     });
   }
 
-  void _handleProductState(ProductState state) {
+  void _handleProductState(ProductState state) async {
     if (state is LoadedProductExite) {
-      _showProductExistenceAlert(state.isExiste);
+      String country =
+          await getAddress(_locationData.latitude!, _locationData.longitude!);
+      if (country.compareTo("Tunisie") == 0) {
+        await flutterTts.speak(
+            "This product funds the Israeli forces, contributes to the genocide, and results in the deaths of thousands of our Palestinian brothers. It must be boycotted. However, Tunisia is a country that stands on the right side of history by supporting Palestine unwaveringly until the end.");
+      }
+      String text = country.compareTo("Tunisie") == 0
+          ? "هي إحدى العلامات التجارية الداعمة لإسرائيل ويجب مقاطعتها"
+          : "is one of the brands that are supporting Israel and must be boycotted";
+      _showProductExistenceAlert(state.isExiste, text,
+          title: country.compareTo("Tunisie") == 0 ? "مقاطعتها" : "boycotted");
     } else if (state is ErrorProductState) {
       _showSnackBar(
           "Sorry, this product doesn't match any in our database. We recommend verifying it through its designated channels for your peace of mind.",
@@ -159,14 +164,16 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Future<void> _initTts() async {
-    await flutterTts.setSharedInstance(true);
-    flutterTts = FlutterTts();
+    await flutterTts.setLanguage("en-US");
+    await flutterTts.setSpeechRate(0);
+    await flutterTts.setPitch(1.0);
   }
 
   @override
   void initState() {
     super.initState();
     getAuth();
+    flutterTts = FlutterTts();
     _initTts();
     _getPosition();
   }
