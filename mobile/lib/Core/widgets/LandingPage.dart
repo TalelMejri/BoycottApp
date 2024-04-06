@@ -9,6 +9,9 @@ import 'package:mobile/Features/Product/domain/entities/Product.dart';
 import 'package:mobile/injection_container.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter/services.dart';
+import 'package:geocoding/geocoding.dart' as geocoding;
+import 'package:location/location.dart' as location;
+import 'package:flutter_tts/flutter_tts.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -20,6 +23,7 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   bool auth = false;
   final UserLocalDataSource userLocalDataSource = sl.get<UserLocalDataSource>();
+  late FlutterTts flutterTts;
 
   void getAuth() async {
     var res = await userLocalDataSource.getCachedUser() != null ? true : false;
@@ -28,13 +32,66 @@ class _LandingPageState extends State<LandingPage> {
     });
   }
 
+  location.Location _location = location.Location();
+  late location.LocationData _locationData;
+
+  Future<String> getAddress(double latitude, double longitude) async {
+    print(latitude);
+    var addresses =
+        await geocoding.placemarkFromCoordinates(latitude, longitude);
+    if (addresses.isNotEmpty) {
+      geocoding.Placemark placemark = addresses[0];
+      return placemark.country ?? "No country found";
+    } else {
+      return "No country found";
+    }
+  }
+
+  Future<void> _getPosition() async {
+    try {
+      _locationData = await _location.getLocation();
+    } catch (e) {
+      print('$e');
+    }
+  }
+
+  bool isValidISBN(String isbn) {
+    isbn = isbn.replaceAll("-", "").replaceAll(" ", "");
+    if (isbn.length != 13) {
+      return false;
+    }
+    if (!RegExp(r'^[0-9]+$').hasMatch(isbn.substring(0, 12))) {
+      return false;
+    }
+    int checksum = 0;
+    for (int i = 0; i < 12; i++) {
+      int digit = int.parse(isbn[i]);
+      checksum += i.isEven ? digit : digit * 3;
+    }
+    int remainder = checksum % 10;
+    int computedChecksum = (10 - remainder) % 10;
+    return computedChecksum == int.parse(isbn[12]);
+  }
+
   Future<void> scanBarcodeNormal() async {
     String barcodeScanRes;
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           '#ff6666', 'Cancel', true, ScanMode.BARCODE);
-      BlocProvider.of<ProductBloc>(context).add(CheckExisteProductEvent(
-          code_fabricant: barcodeScanRes.substring(1, 6)));
+      if (barcodeScanRes.length == 13 && isValidISBN(barcodeScanRes)) {
+        BlocProvider.of<ProductBloc>(context).add(CheckExisteProductEvent(
+            code_fabricant: barcodeScanRes.substring(1, 6)));
+        String country =
+            await getAddress(_locationData.latitude!, _locationData.longitude!);
+        if (country.compareTo("Tunisie") == 0) {
+          await flutterTts
+              .speak("You Should Boycott this product Tunisia is supporting");
+        }
+      } else {
+        _showSnackBar(
+            "Sorry, this product doesn't match any in our database. We recommend verifying it through its designated channels for your peace of mind.",
+            backgroundColor: Colors.red);
+      }
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
@@ -101,10 +158,17 @@ class _LandingPageState extends State<LandingPage> {
     }
   }
 
+  Future<void> _initTts() async {
+    await flutterTts.setSharedInstance(true);
+    flutterTts = FlutterTts();
+  }
+
   @override
   void initState() {
-    getAuth();
     super.initState();
+    getAuth();
+    _initTts();
+    _getPosition();
   }
 
   @override
@@ -222,7 +286,9 @@ class _LandingPageState extends State<LandingPage> {
                       ),
                     ]),
                   ),
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
