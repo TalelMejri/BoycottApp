@@ -1,13 +1,13 @@
 import 'package:dartz/dartz.dart';
-import 'package:mobile/Core/failures/exception.dart';
-import 'package:mobile/Core/failures/failures.dart';
-import 'package:mobile/Core/network/network_info.dart';
-import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart';
-import 'package:mobile/Features/Auth/data/datasource/user_remote_data_source.dart';
-import 'package:mobile/Features/Auth/data/model/UserModelLogin.dart';
-import 'package:mobile/Features/Auth/domain/entities/Payload.dart';
-import 'package:mobile/Features/Auth/domain/entities/login_entity.dart';
-import 'package:mobile/Features/Auth/domain/repositories/UserRepository.dart';
+import 'package:com.talel.boycott/Core/failures/exception.dart';
+import 'package:com.talel.boycott/Core/failures/failures.dart';
+import 'package:com.talel.boycott/Core/network/network_info.dart';
+import 'package:com.talel.boycott/Features/Auth/data/datasource/user_local_data_source.dart';
+import 'package:com.talel.boycott/Features/Auth/data/datasource/user_remote_data_source.dart';
+import 'package:com.talel.boycott/Features/Auth/data/model/UserModelLogin.dart';
+import 'package:com.talel.boycott/Features/Auth/domain/entities/Payload.dart';
+import 'package:com.talel.boycott/Features/Auth/domain/entities/login_entity.dart';
+import 'package:com.talel.boycott/Features/Auth/domain/repositories/UserRepository.dart';
 
 typedef Future<Unit> AddOrVerifyUser();
 class UserRepositoryImpl extends UserRepository {

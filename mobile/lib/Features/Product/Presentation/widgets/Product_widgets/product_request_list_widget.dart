@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/Core/Strings/constantes.dart';
-import 'package:mobile/Features/Product/Presentation/bloc/Product/product_bloc.dart';
-import 'package:mobile/Features/Product/Presentation/bloc/add_delete_update_product/adddeleteupdate_product_bloc.dart';
-import 'package:mobile/Features/Product/Presentation/bloc/reject_accept_product/reject_accept_product_bloc.dart';
-import 'package:mobile/Features/Product/domain/entities/Product.dart';
+import 'package:com.talel.boycott/Core/Strings/constantes.dart';
+import 'package:com.talel.boycott/Features/Product/Presentation/bloc/Product/product_bloc.dart';
+import 'package:com.talel.boycott/Features/Product/Presentation/bloc/add_delete_update_product/adddeleteupdate_product_bloc.dart';
+import 'package:com.talel.boycott/Features/Product/Presentation/bloc/reject_accept_product/reject_accept_product_bloc.dart';
+import 'package:com.talel.boycott/Features/Product/domain/entities/Product.dart';
 
 class RequestProductWidget extends StatefulWidget {
   final List<Product> product;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/Features/Auth/domain/entities/Payload.dart';
-import 'package:mobile/Features/Auth/presentation/bloc/signup/signup_bloc.dart';
-import 'package:mobile/Features/Auth/presentation/widgets/auth_btn.dart';
+import 'package:com.talel.boycott/Features/Auth/domain/entities/Payload.dart';
+import 'package:com.talel.boycott/Features/Auth/presentation/bloc/signup/signup_bloc.dart';
+import 'package:com.talel.boycott/Features/Auth/presentation/widgets/auth_btn.dart';
 
 class ResetPasswordForm extends StatefulWidget {
   const ResetPasswordForm({super.key});

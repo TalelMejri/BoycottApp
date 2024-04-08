@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
-import 'package:mobile/Features/Categorie/Presentation/pages/Category_pages.dart';
-import 'package:mobile/Features/Categorie/domain/entities/category.dart';
+import 'package:com.talel.boycott/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
+import 'package:com.talel.boycott/Features/Categorie/Presentation/pages/Category_pages.dart';
+import 'package:com.talel.boycott/Features/Categorie/domain/entities/category.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:mobile/Features/Product/domain/entities/Product.dart';
+import 'package:com.talel.boycott/Features/Product/domain/entities/Product.dart';
 
 class ProductModel extends Product{
 

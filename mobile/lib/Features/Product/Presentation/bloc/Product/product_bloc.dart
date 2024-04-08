@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:mobile/Core/Strings/failures.dart';
-import 'package:mobile/Core/failures/failures.dart';
-import 'package:mobile/Features/Product/domain/entities/Product.dart';
-import 'package:mobile/Features/Product/domain/usecases/CheckExisteCodeBar.dart';
-import 'package:mobile/Features/Product/domain/usecases/get_all.dart';
+import 'package:com.talel.boycott/Core/Strings/failures.dart';
+import 'package:com.talel.boycott/Core/failures/failures.dart';
+import 'package:com.talel.boycott/Features/Product/domain/entities/Product.dart';
+import 'package:com.talel.boycott/Features/Product/domain/usecases/CheckExisteCodeBar.dart';
+import 'package:com.talel.boycott/Features/Product/domain/usecases/get_all.dart';
 part 'product_event.dart';
 part 'product_state.dart';
 

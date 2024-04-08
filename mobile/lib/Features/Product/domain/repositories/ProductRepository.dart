@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:mobile/Core/failures/failures.dart';
+import 'package:com.talel.boycott/Core/failures/failures.dart';
 import '../entities/Product.dart';
 
 abstract class ProductRepository {

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/Core/utils/snack_bar_message.dart';
-import 'package:mobile/Core/widgets/Loading_widget.dart';
-import 'package:mobile/Features/Categorie/domain/entities/category.dart';
-import 'package:mobile/Features/Product/Presentation/bloc/Product/product_bloc.dart';
-import 'package:mobile/Features/Product/Presentation/bloc/add_delete_update_product/adddeleteupdate_product_bloc.dart';
-import 'package:mobile/Features/Product/Presentation/pages/Product_pages.dart';
-import 'package:mobile/Features/Product/Presentation/widgets/Product_add_update_widgets/form_widget.dart';
-import 'package:mobile/Features/Product/domain/entities/Product.dart';
+import 'package:com.talel.boycott/Core/utils/snack_bar_message.dart';
+import 'package:com.talel.boycott/Core/widgets/Loading_widget.dart';
+import 'package:com.talel.boycott/Features/Categorie/domain/entities/category.dart';
+import 'package:com.talel.boycott/Features/Product/Presentation/bloc/Product/product_bloc.dart';
+import 'package:com.talel.boycott/Features/Product/Presentation/bloc/add_delete_update_product/adddeleteupdate_product_bloc.dart';
+import 'package:com.talel.boycott/Features/Product/Presentation/pages/Product_pages.dart';
+import 'package:com.talel.boycott/Features/Product/Presentation/widgets/Product_add_update_widgets/form_widget.dart';
+import 'package:com.talel.boycott/Features/Product/domain/entities/Product.dart';
 
 class ProductAddUpdatePage extends StatelessWidget {
   final Product? product;

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/Core/utils/snack_bar_message.dart';
-import 'package:mobile/Features/Auth/presentation/bloc/auth/auth_bloc.dart';
-import 'package:mobile/Features/Auth/presentation/pages/signup_pages.dart';
-import 'package:mobile/Features/Auth/presentation/widgets/login_form.dart';
-import 'package:mobile/Features/Categorie/Presentation/pages/Category_pages.dart';
+import 'package:com.talel.boycott/Core/utils/snack_bar_message.dart';
+import 'package:com.talel.boycott/Features/Auth/presentation/bloc/auth/auth_bloc.dart';
+import 'package:com.talel.boycott/Features/Auth/presentation/pages/signup_pages.dart';
+import 'package:com.talel.boycott/Features/Auth/presentation/widgets/login_form.dart';
+import 'package:com.talel.boycott/Features/Categorie/Presentation/pages/Category_pages.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});

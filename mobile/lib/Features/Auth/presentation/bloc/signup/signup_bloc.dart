@@ -1,14 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:mobile/Core/Strings/failures.dart';
-import 'package:mobile/Core/failures/failures.dart';
-import 'package:mobile/Features/Auth/domain/entities/Payload.dart';
-import 'package:mobile/Features/Auth/domain/entities/login_entity.dart';
-import 'package:mobile/Features/Auth/domain/usecases/forget_password_user.dart';
-import 'package:mobile/Features/Auth/domain/usecases/reset_password_user.dart';
-import 'package:mobile/Features/Auth/domain/usecases/sign_up_user.dart';
-import 'package:mobile/Features/Auth/domain/usecases/verify_email_user.dart';
+import 'package:com.talel.boycott/Core/Strings/failures.dart';
+import 'package:com.talel.boycott/Core/failures/failures.dart';
+import 'package:com.talel.boycott/Features/Auth/domain/entities/Payload.dart';
+import 'package:com.talel.boycott/Features/Auth/domain/entities/login_entity.dart';
+import 'package:com.talel.boycott/Features/Auth/domain/usecases/forget_password_user.dart';
+import 'package:com.talel.boycott/Features/Auth/domain/usecases/reset_password_user.dart';
+import 'package:com.talel.boycott/Features/Auth/domain/usecases/sign_up_user.dart';
+import 'package:com.talel.boycott/Features/Auth/domain/usecases/verify_email_user.dart';
 
 part 'signup_event.dart';
 part 'signup_state.dart';

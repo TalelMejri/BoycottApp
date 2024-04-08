@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart';
-import 'package:mobile/Features/Auth/data/model/UserModelLogin.dart';
-import 'package:mobile/Features/Categorie/domain/entities/category.dart';
-import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
-import 'package:mobile/Features/Categorie/Presentation/bloc/add_delete_update_category/adddeleteupdate_category_bloc.dart';
-import 'package:mobile/Features/Product/Presentation/bloc/Product/product_bloc.dart';
-import 'package:mobile/Features/Product/Presentation/pages/Product_pages.dart';
-import 'package:mobile/Core/Strings/constantes.dart';
-import 'package:mobile/Core/widgets/EmptyPage.dart';
-import 'package:mobile/Features/Categorie/Presentation/pages/add_update_category.dart';
-import 'package:mobile/Features/Categorie/Presentation/widgets/category_add_update_widgets/SimpleDialog.dart';
-import 'package:mobile/injection_container.dart';
+import 'package:com.talel.boycott/Features/Auth/data/datasource/user_local_data_source.dart';
+import 'package:com.talel.boycott/Features/Auth/data/model/UserModelLogin.dart';
+import 'package:com.talel.boycott/Features/Categorie/domain/entities/category.dart';
+import 'package:com.talel.boycott/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
+import 'package:com.talel.boycott/Features/Categorie/Presentation/bloc/add_delete_update_category/adddeleteupdate_category_bloc.dart';
+import 'package:com.talel.boycott/Features/Product/Presentation/bloc/Product/product_bloc.dart';
+import 'package:com.talel.boycott/Features/Product/Presentation/pages/Product_pages.dart';
+import 'package:com.talel.boycott/Core/Strings/constantes.dart';
+import 'package:com.talel.boycott/Core/widgets/EmptyPage.dart';
+import 'package:com.talel.boycott/Features/Categorie/Presentation/pages/add_update_category.dart';
+import 'package:com.talel.boycott/Features/Categorie/Presentation/widgets/category_add_update_widgets/SimpleDialog.dart';
+import 'package:com.talel.boycott/injection_container.dart';
 
 class CategoryListWidget extends StatefulWidget {
   final List<Category> categories;

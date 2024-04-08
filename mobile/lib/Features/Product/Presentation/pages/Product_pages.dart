@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/Core/widgets/Loading_widget.dart';
-import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart';
-import 'package:mobile/Features/Auth/data/model/UserModelLogin.dart';
-import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
+import 'package:com.talel.boycott/Core/widgets/Loading_widget.dart';
+import 'package:com.talel.boycott/Features/Auth/data/datasource/user_local_data_source.dart';
+import 'package:com.talel.boycott/Features/Auth/data/model/UserModelLogin.dart';
+import 'package:com.talel.boycott/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/Features/Categorie/Presentation/pages/Category_pages.dart';
-import 'package:mobile/Features/Categorie/Presentation/widgets/categories_widgets/MessageDisplayWidget.dart';
-import 'package:mobile/Features/Categorie/domain/entities/category.dart';
-import 'package:mobile/Features/Product/Presentation/bloc/Product/product_bloc.dart';
-import 'package:mobile/Features/Product/Presentation/pages/AllRequestProeuct.dart';
-import 'package:mobile/Features/Product/Presentation/pages/add_update_product.dart';
-import 'package:mobile/Features/Product/Presentation/widgets/Product_widgets/WidgetListProduct.dart';
-import 'package:mobile/injection_container.dart';
+import 'package:com.talel.boycott/Features/Categorie/Presentation/pages/Category_pages.dart';
+import 'package:com.talel.boycott/Features/Categorie/Presentation/widgets/categories_widgets/MessageDisplayWidget.dart';
+import 'package:com.talel.boycott/Features/Categorie/domain/entities/category.dart';
+import 'package:com.talel.boycott/Features/Product/Presentation/bloc/Product/product_bloc.dart';
+import 'package:com.talel.boycott/Features/Product/Presentation/pages/AllRequestProeuct.dart';
+import 'package:com.talel.boycott/Features/Product/Presentation/pages/add_update_product.dart';
+import 'package:com.talel.boycott/Features/Product/Presentation/widgets/Product_widgets/WidgetListProduct.dart';
+import 'package:com.talel.boycott/injection_container.dart';
 
 class ProductPages extends StatefulWidget {
   final Category category;

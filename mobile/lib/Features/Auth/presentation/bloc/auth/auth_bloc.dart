@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/Core/Strings/failures.dart';
-import 'package:mobile/Core/failures/failures.dart';
-import 'package:mobile/Features/Auth/domain/entities/login_entity.dart';
-import 'package:mobile/Features/Auth/domain/usecases/sign_in_user.dart';
-import 'package:mobile/Features/Auth/domain/usecases/sign_out_user.dart';
+import 'package:com.talel.boycott/Core/Strings/failures.dart';
+import 'package:com.talel.boycott/Core/failures/failures.dart';
+import 'package:com.talel.boycott/Features/Auth/domain/entities/login_entity.dart';
+import 'package:com.talel.boycott/Features/Auth/domain/usecases/sign_in_user.dart';
+import 'package:com.talel.boycott/Features/Auth/domain/usecases/sign_out_user.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';

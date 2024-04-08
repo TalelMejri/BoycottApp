@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/Core/Strings/constantes.dart';
-import 'package:mobile/Features/Product/domain/entities/Product.dart';
+import 'package:com.talel.boycott/Core/Strings/constantes.dart';
+import 'package:com.talel.boycott/Features/Product/domain/entities/Product.dart';
 
 class boottomWidget extends StatelessWidget {
   final Product product;

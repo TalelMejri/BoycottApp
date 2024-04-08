@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:mobile/Features/Categorie/domain/entities/category.dart';
+import 'package:com.talel.boycott/Features/Categorie/domain/entities/category.dart';
 
 class CategoryModel extends Category{
 

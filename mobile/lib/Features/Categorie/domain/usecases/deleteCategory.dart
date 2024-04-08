@@ -1,5 +1,5 @@
-import 'package:mobile/Core/failures/failures.dart';
-import 'package:mobile/Features/Categorie/domain/repositories/CategoryRepository.dart';
+import 'package:com.talel.boycott/Core/failures/failures.dart';
+import 'package:com.talel.boycott/Features/Categorie/domain/repositories/CategoryRepository.dart';
 import 'package:dartz/dartz.dart';
 
 class DeleteCategoryUsecase {

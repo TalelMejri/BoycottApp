@@ -1,11 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/Core/utils/validator.dart';
-import 'package:mobile/Features/Auth/domain/entities/login_entity.dart';
-import 'package:mobile/Features/Auth/presentation/bloc/signup/signup_bloc.dart';
-import 'package:mobile/Features/Auth/presentation/widgets/auth_btn.dart';
-import 'package:mobile/Features/Product/Presentation/widgets/Product_add_update_widgets/text_form_field_widget.dart';
+import 'package:com.talel.boycott/Core/utils/validator.dart';
+import 'package:com.talel.boycott/Features/Auth/domain/entities/login_entity.dart';
+import 'package:com.talel.boycott/Features/Auth/presentation/bloc/signup/signup_bloc.dart';
+import 'package:com.talel.boycott/Features/Auth/presentation/widgets/auth_btn.dart';
+import 'package:com.talel.boycott/Features/Product/Presentation/widgets/Product_add_update_widgets/text_form_field_widget.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({

@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/Core/Strings/constantes.dart';
-import 'package:mobile/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
-import 'package:mobile/Features/Categorie/Presentation/bloc/RequestCategory/request_category_bloc.dart';
-import 'package:mobile/Features/Categorie/Presentation/bloc/accept_reject_category/accept_category_bloc_bloc.dart';
-import 'package:mobile/Features/Categorie/domain/entities/category.dart';
+import 'package:com.talel.boycott/Core/Strings/constantes.dart';
+import 'package:com.talel.boycott/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
+import 'package:com.talel.boycott/Features/Categorie/Presentation/bloc/RequestCategory/request_category_bloc.dart';
+import 'package:com.talel.boycott/Features/Categorie/Presentation/bloc/accept_reject_category/accept_category_bloc_bloc.dart';
+import 'package:com.talel.boycott/Features/Categorie/domain/entities/category.dart';
 
 class RequestCategoryListWidget extends StatefulWidget {
   final List<Category> category;

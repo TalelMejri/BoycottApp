@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/Core/widgets/LandingPage.dart';
-import 'package:mobile/Core/widgets/Loading_widget.dart';
+import 'package:com.talel.boycott/Core/widgets/LandingPage.dart';
+import 'package:com.talel.boycott/Core/widgets/Loading_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/Features/Categorie/Presentation/bloc/RequestCategory/request_category_bloc.dart';
-import 'package:mobile/Features/Categorie/Presentation/widgets/categories_widgets/MessageDisplayWidget.dart';
-import 'package:mobile/Features/Categorie/Presentation/widgets/categories_widgets/request_list_widgets.dart';
+import 'package:com.talel.boycott/Features/Categorie/Presentation/bloc/RequestCategory/request_category_bloc.dart';
+import 'package:com.talel.boycott/Features/Categorie/Presentation/widgets/categories_widgets/MessageDisplayWidget.dart';
+import 'package:com.talel.boycott/Features/Categorie/Presentation/widgets/categories_widgets/request_list_widgets.dart';
 
 class AllRequest extends StatefulWidget {
   const AllRequest({super.key});

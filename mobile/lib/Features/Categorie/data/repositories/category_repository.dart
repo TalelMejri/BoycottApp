@@ -1,12 +1,12 @@
 import 'package:dartz/dartz.dart';
-import 'package:mobile/Core/failures/exception.dart';
-import 'package:mobile/Core/failures/failures.dart';
-import 'package:mobile/Core/network/network_info.dart';
-import 'package:mobile/Features/Categorie/data/dataressource/category_local_data_source.dart';
-import 'package:mobile/Features/Categorie/data/dataressource/category_remote_data_source.dart';
-import 'package:mobile/Features/Categorie/data/models/category_model.dart';
-import 'package:mobile/Features/Categorie/domain/entities/category.dart';
-import 'package:mobile/Features/Categorie/domain/repositories/CategoryRepository.dart';
+import 'package:com.talel.boycott/Core/failures/exception.dart';
+import 'package:com.talel.boycott/Core/failures/failures.dart';
+import 'package:com.talel.boycott/Core/network/network_info.dart';
+import 'package:com.talel.boycott/Features/Categorie/data/dataressource/category_local_data_source.dart';
+import 'package:com.talel.boycott/Features/Categorie/data/dataressource/category_remote_data_source.dart';
+import 'package:com.talel.boycott/Features/Categorie/data/models/category_model.dart';
+import 'package:com.talel.boycott/Features/Categorie/domain/entities/category.dart';
+import 'package:com.talel.boycott/Features/Categorie/domain/repositories/CategoryRepository.dart';
 
 
 typedef Future<Unit> DeleteOrUpdateOrAddCategory();

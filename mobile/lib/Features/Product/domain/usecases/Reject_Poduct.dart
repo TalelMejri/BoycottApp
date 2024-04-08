@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:mobile/Core/failures/failures.dart';
-import 'package:mobile/Features/Product/domain/repositories/ProductRepository.dart';
+import 'package:com.talel.boycott/Core/failures/failures.dart';
+import 'package:com.talel.boycott/Features/Product/domain/repositories/ProductRepository.dart';
 
 
 class RejectProductUsecase {

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/Core/widgets/Loading_widget.dart';
-import 'package:mobile/Features/Categorie/Presentation/widgets/categories_widgets/MessageDisplayWidget.dart';
-import 'package:mobile/Features/Categorie/domain/entities/category.dart';
-import 'package:mobile/Features/Product/Presentation/bloc/reject_accept_product/reject_accept_product_bloc.dart';
-import 'package:mobile/Features/Product/Presentation/pages/Product_pages.dart';
-import 'package:mobile/Features/Product/Presentation/widgets/Product_widgets/product_request_list_widget.dart';
+import 'package:com.talel.boycott/Core/widgets/Loading_widget.dart';
+import 'package:com.talel.boycott/Features/Categorie/Presentation/widgets/categories_widgets/MessageDisplayWidget.dart';
+import 'package:com.talel.boycott/Features/Categorie/domain/entities/category.dart';
+import 'package:com.talel.boycott/Features/Product/Presentation/bloc/reject_accept_product/reject_accept_product_bloc.dart';
+import 'package:com.talel.boycott/Features/Product/Presentation/pages/Product_pages.dart';
+import 'package:com.talel.boycott/Features/Product/Presentation/widgets/Product_widgets/product_request_list_widget.dart';
 
 class AllRequestProduct extends StatefulWidget {
  

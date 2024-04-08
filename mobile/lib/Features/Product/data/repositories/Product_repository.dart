@@ -1,12 +1,12 @@
 import 'package:dartz/dartz.dart';
-import 'package:mobile/Core/failures/exception.dart';
-import 'package:mobile/Core/failures/failures.dart';
-import 'package:mobile/Core/network/network_info.dart';
-import 'package:mobile/Features/Product/data/dataressource/product_remote_data_source.dart';
-import 'package:mobile/Features/Product/data/dataressource/product_local_data_source.dart';
-import 'package:mobile/Features/Product/data/models/product_model.dart';
-import 'package:mobile/Features/Product/domain/entities/Product.dart';
-import 'package:mobile/Features/Product/domain/repositories/ProductRepository.dart';
+import 'package:com.talel.boycott/Core/failures/exception.dart';
+import 'package:com.talel.boycott/Core/failures/failures.dart';
+import 'package:com.talel.boycott/Core/network/network_info.dart';
+import 'package:com.talel.boycott/Features/Product/data/dataressource/product_remote_data_source.dart';
+import 'package:com.talel.boycott/Features/Product/data/dataressource/product_local_data_source.dart';
+import 'package:com.talel.boycott/Features/Product/data/models/product_model.dart';
+import 'package:com.talel.boycott/Features/Product/domain/entities/Product.dart';
+import 'package:com.talel.boycott/Features/Product/domain/repositories/ProductRepository.dart';
 
 typedef Future<Unit> DeleteOrUpdateOrAddProduct();
 

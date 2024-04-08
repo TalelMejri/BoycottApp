@@ -1,4 +1,4 @@
-import 'package:mobile/Features/Auth/domain/entities/login_entity.dart';
+import 'package:com.talel.boycott/Features/Auth/domain/entities/login_entity.dart';
 
 class UserModelLogin extends LoginEntity {
   UserModelLogin({

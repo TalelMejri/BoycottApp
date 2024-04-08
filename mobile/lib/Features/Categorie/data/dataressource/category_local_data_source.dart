@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:dartz/dartz.dart';
-import 'package:mobile/Core/failures/exception.dart';
-import 'package:mobile/Features/Categorie/data/models/category_model.dart';
+import 'package:com.talel.boycott/Core/failures/exception.dart';
+import 'package:com.talel.boycott/Features/Categorie/data/models/category_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class CategoryLocalDataSource {

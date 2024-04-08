@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:mobile/Core/failures/failures.dart';
-import 'package:mobile/Features/Categorie/domain/usecases/accept_category.dart';
-import 'package:mobile/Features/Categorie/domain/usecases/reject_category.dart';
-import 'package:mobile/Core/Strings/failures.dart';
+import 'package:com.talel.boycott/Core/failures/failures.dart';
+import 'package:com.talel.boycott/Features/Categorie/domain/usecases/accept_category.dart';
+import 'package:com.talel.boycott/Features/Categorie/domain/usecases/reject_category.dart';
+import 'package:com.talel.boycott/Core/Strings/failures.dart';
 
 part 'accept_category_bloc_event.dart';
 part 'accept_category_bloc_state.dart';

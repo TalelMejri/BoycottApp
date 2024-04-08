@@ -1,17 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/Core/Strings/constantes.dart';
-import 'package:mobile/Core/widgets/EmptyPage.dart';
-import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart';
-import 'package:mobile/Features/Auth/data/model/UserModelLogin.dart';
-import 'package:mobile/Features/Categorie/domain/entities/category.dart';
-import 'package:mobile/Features/Product/Presentation/bloc/add_delete_update_product/adddeleteupdate_product_bloc.dart';
-import 'package:mobile/Features/Product/Presentation/pages/add_update_product.dart';
-import 'package:mobile/Features/Product/Presentation/widgets/Product_add_update_widgets/SimpleDialog.dart';
-import 'package:mobile/Features/Product/Presentation/widgets/Product_widgets/bottomSheetWidget.dart';
-import 'package:mobile/Features/Product/domain/entities/Product.dart';
-import 'package:mobile/injection_container.dart';
+import 'package:com.talel.boycott/Core/Strings/constantes.dart';
+import 'package:com.talel.boycott/Core/widgets/EmptyPage.dart';
+import 'package:com.talel.boycott/Features/Auth/data/datasource/user_local_data_source.dart';
+import 'package:com.talel.boycott/Features/Auth/data/model/UserModelLogin.dart';
+import 'package:com.talel.boycott/Features/Categorie/domain/entities/category.dart';
+import 'package:com.talel.boycott/Features/Product/Presentation/bloc/add_delete_update_product/adddeleteupdate_product_bloc.dart';
+import 'package:com.talel.boycott/Features/Product/Presentation/pages/add_update_product.dart';
+import 'package:com.talel.boycott/Features/Product/Presentation/widgets/Product_add_update_widgets/SimpleDialog.dart';
+import 'package:com.talel.boycott/Features/Product/Presentation/widgets/Product_widgets/bottomSheetWidget.dart';
+import 'package:com.talel.boycott/Features/Product/domain/entities/Product.dart';
+import 'package:com.talel.boycott/injection_container.dart';
 
 class WidgetListProduct extends StatefulWidget {
   final Category category;

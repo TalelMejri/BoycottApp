@@ -1,15 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:mobile/Core/Strings/failures.dart';
-import 'package:mobile/Core/failures/failures.dart';
-import 'package:mobile/Features/Categorie/Presentation/bloc/accept_reject_category/accept_category_bloc_bloc.dart';
-import 'package:mobile/Features/Product/domain/entities/Product.dart';
-import 'package:mobile/Features/Product/domain/usecases/Accept_Product.dart';
-import 'package:mobile/Features/Product/domain/usecases/Reject_Poduct.dart';
-import 'package:mobile/Features/Product/domain/usecases/UpdateProduct.dart';
-import 'package:mobile/Features/Product/domain/usecases/addProduct.dart';
-import 'package:mobile/Features/Product/domain/usecases/deleteProduct.dart';
+import 'package:com.talel.boycott/Core/Strings/failures.dart';
+import 'package:com.talel.boycott/Core/failures/failures.dart';
+import 'package:com.talel.boycott/Features/Categorie/Presentation/bloc/accept_reject_category/accept_category_bloc_bloc.dart';
+import 'package:com.talel.boycott/Features/Product/domain/entities/Product.dart';
+import 'package:com.talel.boycott/Features/Product/domain/usecases/Accept_Product.dart';
+import 'package:com.talel.boycott/Features/Product/domain/usecases/Reject_Poduct.dart';
+import 'package:com.talel.boycott/Features/Product/domain/usecases/UpdateProduct.dart';
+import 'package:com.talel.boycott/Features/Product/domain/usecases/addProduct.dart';
+import 'package:com.talel.boycott/Features/Product/domain/usecases/deleteProduct.dart';
 part 'adddeleteupdate_product_event.dart';
 part 'adddeleteupdate_product_state.dart';
 

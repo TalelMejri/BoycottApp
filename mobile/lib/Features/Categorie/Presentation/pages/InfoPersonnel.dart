@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart';
-import 'package:mobile/Features/Auth/data/model/UserModelLogin.dart';
-import 'package:mobile/injection_container.dart';
+import 'package:com.talel.boycott/Features/Auth/data/datasource/user_local_data_source.dart';
+import 'package:com.talel.boycott/Features/Auth/data/model/UserModelLogin.dart';
+import 'package:com.talel.boycott/injection_container.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class InfoUser extends StatefulWidget {

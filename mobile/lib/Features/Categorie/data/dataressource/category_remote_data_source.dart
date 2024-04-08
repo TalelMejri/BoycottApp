@@ -1,11 +1,11 @@
 import 'dart:convert';
-import 'package:mobile/Core/Strings/constantes.dart';
-import 'package:mobile/Core/failures/exception.dart';
-import 'package:mobile/Features/Auth/data/datasource/user_local_data_source.dart';
-import 'package:mobile/Features/Categorie/data/models/category_model.dart';
+import 'package:com.talel.boycott/Core/Strings/constantes.dart';
+import 'package:com.talel.boycott/Core/failures/exception.dart';
+import 'package:com.talel.boycott/Features/Auth/data/datasource/user_local_data_source.dart';
+import 'package:com.talel.boycott/Features/Categorie/data/models/category_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/injection_container.dart';
+import 'package:com.talel.boycott/injection_container.dart';
 
 abstract class CatyegoryRemoteDataSource {
   Future<List<CategoryModel>> getAllCategory();
