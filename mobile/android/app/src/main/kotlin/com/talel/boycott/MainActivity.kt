@@ -1,4 +1,4 @@
-package com.example.mobile
+package com.talel.boycott
 
 import io.flutter.embedding.android.FlutterActivity
 
