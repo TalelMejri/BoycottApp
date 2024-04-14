@@ -9,8 +9,6 @@ import 'package:com.talel.boycott/Features/Product/domain/entities/Product.dart'
 import 'package:com.talel.boycott/injection_container.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter/services.dart';
-import 'package:geocoding/geocoding.dart' as geocoding;
-import 'package:location/location.dart' as location;
 import 'package:flutter_tts/flutter_tts.dart';
 
 class LandingPage extends StatefulWidget {
@@ -32,28 +30,6 @@ class _LandingPageState extends State<LandingPage> {
     });
   }
 
-  location.Location _location = location.Location();
-  late location.LocationData _locationData;
-
-  Future<String> getAddress(double latitude, double longitude) async {
-    print(latitude);
-    var addresses =
-        await geocoding.placemarkFromCoordinates(latitude, longitude);
-    if (addresses.isNotEmpty) {
-      geocoding.Placemark placemark = addresses[0];
-      return placemark.country ?? "No country found";
-    } else {
-      return "No country found";
-    }
-  }
-
-  Future<void> _getPosition() async {
-    try {
-      _locationData = await _location.getLocation();
-    } catch (e) {
-      print('$e');
-    }
-  }
 
   bool isValidISBN(String isbn) {
     isbn = isbn.replaceAll("-", "").replaceAll(" ", "");
@@ -145,17 +121,11 @@ class _LandingPageState extends State<LandingPage> {
 
   void _handleProductState(ProductState state) async {
     if (state is LoadedProductExite) {
-      String country =
-          await getAddress(_locationData.latitude!, _locationData.longitude!);
-      if (country.compareTo("Tunisie") == 0) {
-        await flutterTts.speak(
-            "This product funds the Israeli forces, contributes to the genocide, and results in the deaths of thousands of our Palestinian brothers. It must be boycotted. However, Tunisia is a country that stands on the right side of history by supporting Palestine unwaveringly until the end.");
-      }
-      String text = country.compareTo("Tunisie") == 0
-          ? "هي إحدى العلامات التجارية الداعمة لإسرائيل ويجب مقاطعتها"
-          : "is one of the brands that are supporting Israel and must be boycotted";
-      _showProductExistenceAlert(state.isExiste, text,
-          title: country.compareTo("Tunisie") == 0 ? "مقاطعتها" : "boycotted");
+      await flutterTts.speak(
+          "This product funds the Israeli forces, contributes to the genocide, and results in the deaths of thousands of our Palestinian brothers. It must be boycotted. However, Tunisia is a country that stands on the right side of history by supporting Palestine unwaveringly until the end.");
+      String text =
+          "is one of the brands that are supporting Israel and must be boycotted";
+      _showProductExistenceAlert(state.isExiste, text, title: "boycotted");
     } else if (state is ErrorProductState) {
       _showSnackBar(
           "Sorry, this product doesn't match any in our database. We recommend verifying it through its designated channels for your peace of mind.",
@@ -164,7 +134,6 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Future<void> _initTts() async {
-    await flutterTts.setLanguage("en-US");
     await flutterTts.setSpeechRate(0);
     await flutterTts.setPitch(1.0);
   }
@@ -175,7 +144,6 @@ class _LandingPageState extends State<LandingPage> {
     getAuth();
     flutterTts = FlutterTts();
     _initTts();
-    _getPosition();
   }
 
   @override

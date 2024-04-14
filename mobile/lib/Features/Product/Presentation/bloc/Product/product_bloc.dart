@@ -26,9 +26,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         });
       } else if (event is CheckExisteProductEvent) {
         emit(LoadingCheckProductState());
-        print("dsddddddddddd");
         final furtureProduct = await checkProduct(event.code_fabricant);
-        print(furtureProduct);
         furtureProduct.fold((failure) {
           emit(ErrorProductState(message: _mapFailureToMessage(failure)));
         }, (product) {
