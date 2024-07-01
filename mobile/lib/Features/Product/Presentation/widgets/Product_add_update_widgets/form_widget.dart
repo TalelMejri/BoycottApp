@@ -35,7 +35,7 @@ class _FormWidgetState extends State<FormWidgetProduct> {
   String name = "";
   String photo = "";
   String description = "";
-  String code_fabricant = "";
+  String code_fabricant = "null";
   late File imagePicker = File('path');
   late File selectedImage = File('path');
   String imageError = "";

@@ -13,6 +13,7 @@ import 'package:com.talel.boycott/Features/Product/Presentation/bloc/reject_acce
 import 'core/app_theme.dart';
 import 'injection_container.dart' as di;
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await di.init();
