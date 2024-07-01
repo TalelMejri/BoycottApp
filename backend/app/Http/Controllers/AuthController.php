@@ -20,7 +20,6 @@ class AuthController extends Controller
             'password'=>bcrypt($request->password),
             'Isadmin'=>false,
         ]);
-        $this->EnvoyerTokenEmail($request->email);
         return response()->json(['data'=>"user created"],200);
     }
 
@@ -30,9 +29,6 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            if (!$user->hasVerifiedEmail() ) {
-                return response()->json(['data' => "votre email n'est pas vérifié"], 401);
-            }
             $token = $user->createToken('api_token')->plainTextToken;
             $respnose = [
                 "id"=>$user->id,

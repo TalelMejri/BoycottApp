@@ -42,6 +42,7 @@ dependencies:
   equatable: ^2.0.3
   # Service locator
   get_it: ^7.2.0
+
   flutter_native_splash: ^2.3.7
   # Remote API
   internet_connection_checker: ^0.0.1+3

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:com.talel.boycott/Core/utils/snack_bar_message.dart';
 import 'package:com.talel.boycott/Features/Auth/presentation/bloc/signup/signup_bloc.dart';
 import 'package:com.talel.boycott/Features/Auth/presentation/pages/login_pages.dart';
-import 'package:com.talel.boycott/Features/Auth/presentation/pages/verify_pages.dart';
 import 'package:com.talel.boycott/Features/Auth/presentation/widgets/SignUpForm.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -15,7 +14,7 @@ class SignUpPage extends StatelessWidget {
       listener: (context, state) {
         if (state is MessageSignupStateState) {
          Navigator.push(context,
-           MaterialPageRoute(builder: (context)=>const VerifyPage()));
+           MaterialPageRoute(builder: (context)=>const LoginPage()));
         } else if (state is ErrorSignupStateState) {
           SnackBarMessage()
               .showErrorSnackBar(message: state.message, context: context);
@@ -54,6 +53,7 @@ class SignUpPage extends StatelessWidget {
                             )
                           ),
                            const SignUpForm(),
+                           
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
