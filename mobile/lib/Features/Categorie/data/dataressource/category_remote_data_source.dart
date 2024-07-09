@@ -1,11 +1,9 @@
 import 'dart:convert';
 import 'package:com.talel.boycott/Core/Strings/constantes.dart';
 import 'package:com.talel.boycott/Core/failures/exception.dart';
-import 'package:com.talel.boycott/Features/Auth/data/datasource/user_local_data_source.dart';
 import 'package:com.talel.boycott/Features/Categorie/data/models/category_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
-import 'package:com.talel.boycott/injection_container.dart';
 
 abstract class CatyegoryRemoteDataSource {
   Future<List<CategoryModel>> getAllCategory();
@@ -20,8 +18,6 @@ abstract class CatyegoryRemoteDataSource {
 class CategoryRemoteDataSourceImpl implements CatyegoryRemoteDataSource {
   final http.Client client;
   CategoryRemoteDataSourceImpl({required this.client});
-
-  final UserLocalDataSource userLocalDataSource = sl.get<UserLocalDataSource>();
 
   @override
   Future<List<CategoryModel>> getAllCategory() async {
@@ -69,100 +65,26 @@ class CategoryRemoteDataSourceImpl implements CatyegoryRemoteDataSource {
 
   @override
   Future<Unit> addCategory(CategoryModel categoryModel) async {
-    final user = await userLocalDataSource.getCachedUser();
-
-    var request = http.MultipartRequest(
-        'POST', Uri.parse(BASE_URL_BACKEND + "/category/AddCategory"));
-    request.fields['name'] = categoryModel.name;
-    request.files.add(
-        await http.MultipartFile.fromPath('photo', categoryModel.photo.path));
-    request.headers['Authorization'] = 'Bearer ${user!.accessToken}';
-    try {
-      print(request.fields);
-      final streamedResponse = await request.send();
-      final response = await http.Response.fromStream(streamedResponse);
-      print(response.body);
-      if (response.statusCode == 201) {
-        return Future.value(unit);
-      } else {
-        throw ServerException();
-      }
-    } catch (e) {
-      throw ServerException();
-    }
+    return Future.value(unit);
   }
 
   @override
   Future<Unit> deleteCategory(int CategorieId) async {
-    final user = await userLocalDataSource.getCachedUser();
-
-    final response = await client.delete(
-        Uri.parse(BASE_URL_BACKEND +
-            "/category/DeleteCategory/${CategorieId.toString()}"),
-        headers: {'Authorization': 'Bearer ${user!.accessToken}'});
-
-    if (response.statusCode == 200) {
-      return Future.value(unit);
-    } else {
-      throw ServerException();
-    }
+    return Future.value(unit);
   }
 
   @override
   Future<Unit> updateCategory(CategoryModel categoryModel) async {
-    final user = await userLocalDataSource.getCachedUser();
-    final CategorieId = categoryModel.id;
-    var request = http.MultipartRequest(
-        'POST', Uri.parse(BASE_URL_BACKEND + "/category/UpdateCategory/$CategorieId"));
-    request.fields['name'] = categoryModel.name;
-    print(categoryModel.photo.path);
-    if(categoryModel.photo.path!='path'){
-      request.files.add(
-          await http.MultipartFile.fromPath('photo', categoryModel.photo.path));
-    }
-    request.headers['Authorization'] = 'Bearer ${user!.accessToken}';
-    try {
-      final streamedResponse = await request.send();
-      final response = await http.Response.fromStream(streamedResponse);
-      if (response.statusCode == 200) {
-        return Future.value(unit);
-      } else {
-        throw ServerException();
-      }
-    } catch (e) {
-      throw ServerException();
-    }
+    return Future.value(unit);
   }
 
   @override
   Future<Unit> AccepetCategory(int CategorieId) async {
-    final user = await userLocalDataSource.getCachedUser();
-
-    final response = await client.put(
-        Uri.parse(BASE_URL_BACKEND +
-            "/category/AcceptCategory/${CategorieId.toString()}"),
-        headers: {'Authorization': 'Bearer ${user!.accessToken}'});
-
-    if (response.statusCode == 200) {
-      return Future.value(unit);
-    } else {
-      throw ServerException();
-    }
+    return Future.value(unit);
   }
 
   @override
   Future<Unit> RejectCategory(int CategorieId) async {
-    final user = await userLocalDataSource.getCachedUser();
-
-    final response = await client.put(
-        Uri.parse(BASE_URL_BACKEND +
-            "/category/RejectCategory/${CategorieId.toString()}"),
-        headers: {'Authorization': 'Bearer ${user!.accessToken}'});
-
-    if (response.statusCode == 200) {
-      return Future.value(unit);
-    } else {
-      throw ServerException();
-    }
+    return Future.value(unit);
   }
 }

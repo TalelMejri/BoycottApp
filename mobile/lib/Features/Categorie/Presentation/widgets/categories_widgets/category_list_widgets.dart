@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:com.talel.boycott/Features/Auth/data/datasource/user_local_data_source.dart';
-import 'package:com.talel.boycott/Features/Auth/data/model/UserModelLogin.dart';
 import 'package:com.talel.boycott/Features/Categorie/domain/entities/category.dart';
 import 'package:com.talel.boycott/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
 import 'package:com.talel.boycott/Features/Categorie/Presentation/bloc/add_delete_update_category/adddeleteupdate_category_bloc.dart';
@@ -10,9 +8,7 @@ import 'package:com.talel.boycott/Features/Product/Presentation/bloc/Product/pro
 import 'package:com.talel.boycott/Features/Product/Presentation/pages/Product_pages.dart';
 import 'package:com.talel.boycott/Core/Strings/constantes.dart';
 import 'package:com.talel.boycott/Core/widgets/EmptyPage.dart';
-import 'package:com.talel.boycott/Features/Categorie/Presentation/pages/add_update_category.dart';
 import 'package:com.talel.boycott/Features/Categorie/Presentation/widgets/category_add_update_widgets/SimpleDialog.dart';
-import 'package:com.talel.boycott/injection_container.dart';
 
 class CategoryListWidget extends StatefulWidget {
   final List<Category> categories;
@@ -25,24 +21,9 @@ class CategoryListWidget extends StatefulWidget {
 }
 
 class _CategoryListWidgetState extends State<CategoryListWidget> {
-  final UserLocalDataSource _userLocalDataSource =
-      sl.get<UserLocalDataSource>();
-  bool _isAuthenticated = false;
-  UserModelLogin? user = null;
   @override
   void initState() {
-    getAuth();
     super.initState();
-  }
-
-  void getAuth() async {
-    var res = await _userLocalDataSource.getCachedUser() != null ? true : false;
-    if (res) {
-      user = await _userLocalDataSource.getCachedUser();
-    }
-    setState(() {
-      _isAuthenticated = res;
-    });
   }
 
   Future<void> _confirmDelete(int id) async {
@@ -110,36 +91,6 @@ class _CategoryListWidgetState extends State<CategoryListWidget> {
             //   style: const TextStyle(color: Colors.red, fontSize: 18),
             // ),
             // const SizedBox(height: 12),
-            Visibility(
-              visible: (_isAuthenticated &&
-                      user?.id.toString() == category.user_id.toString()) ||
-                  (user?.role == "1"),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildActionButton(
-                      onPressed: () => _confirmDelete(category.id!),
-                      icon: Icons.delete,
-                      color: Colors.red,
-                    ),
-                  _buildActionButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => CategoryAddUpdatePage(
-                              isUpdateCategory: true,
-                              category: category,
-                            ),
-                          ),
-                        );
-                      },
-                      icon: Icons.edit,
-                      color: Colors.yellow,
-                    ),
-                ],
-              ),
-            )
           ],
         ),
       ),
@@ -151,10 +102,6 @@ class _CategoryListWidgetState extends State<CategoryListWidget> {
     required IconData icon,
     required Color color,
   }) {
-    return IconButton(
-      onPressed: onPressed,
-      icon: Icon(icon),
-      color: color
-    );
+    return IconButton(onPressed: onPressed, icon: Icon(icon), color: color);
   }
 }

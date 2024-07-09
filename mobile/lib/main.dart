@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:com.talel.boycott/Core/widgets/LandingPage.dart';
-import 'package:com.talel.boycott/Features/Auth/presentation/bloc/auth/auth_bloc.dart';
-import 'package:com.talel.boycott/Features/Auth/presentation/bloc/signup/signup_bloc.dart';
 import 'package:com.talel.boycott/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
 import 'package:com.talel.boycott/Features/Categorie/Presentation/bloc/RequestCategory/request_category_bloc.dart';
 import 'package:com.talel.boycott/Features/Categorie/Presentation/bloc/accept_reject_category/accept_category_bloc_bloc.dart';
@@ -35,8 +33,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => di.sl<ProductBloc>()),
         BlocProvider(create: (_) => di.sl<RejectAcceptProductBloc>()),
         BlocProvider(create: (_) => di.sl<AdddeleteupdateProductBloc>()),
-        BlocProvider(create: (_) => di.sl<AuthBloc>()),
-        BlocProvider(create: (_) => di.sl<SignupBloc>()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

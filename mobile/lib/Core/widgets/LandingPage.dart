@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:com.talel.boycott/Features/Auth/data/datasource/user_local_data_source.dart';
-import 'package:com.talel.boycott/Features/Auth/presentation/pages/login_pages.dart';
-import 'package:com.talel.boycott/Features/Auth/presentation/pages/signup_pages.dart';
 import 'package:com.talel.boycott/Features/Categorie/Presentation/pages/Category_pages.dart';
 import 'package:com.talel.boycott/Features/Product/Presentation/bloc/Product/product_bloc.dart';
 import 'package:com.talel.boycott/Features/Product/domain/entities/Product.dart';
-import 'package:com.talel.boycott/injection_container.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -19,17 +16,7 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  bool auth = false;
-  final UserLocalDataSource userLocalDataSource = sl.get<UserLocalDataSource>();
   late FlutterTts flutterTts;
-
-  void getAuth() async {
-    var res = await userLocalDataSource.getCachedUser() != null ? true : false;
-    setState(() {
-      auth = res;
-    });
-  }
-
 
   bool isValidISBN(String isbn) {
     isbn = isbn.replaceAll("-", "").replaceAll(" ", "");
@@ -90,15 +77,6 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  void logout() {
-    userLocalDataSource.clearCachedUser();
-    setState(() {
-      auth = false;
-    });
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const LoginPage()));
-  }
-
   void _showSnackBar(String message, {Color backgroundColor = Colors.green}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -141,9 +119,15 @@ class _LandingPageState extends State<LandingPage> {
   @override
   void initState() {
     super.initState();
-    getAuth();
     flutterTts = FlutterTts();
     _initTts();
+  }
+
+  final Uri _url = Uri.parse('https://www.facebook.com/talel.mejri.140/');
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
   }
 
   @override
@@ -242,7 +226,7 @@ class _LandingPageState extends State<LandingPage> {
                         textAlign: TextAlign.center,
                       ),
                       Text(
-                        "This list is not complete and is constantly being updated. If you know about a brand that should be on the list, please create an account with us then you can add some more.",
+                        "This list is not complete and is constantly being updated.",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16.0,
@@ -264,86 +248,23 @@ class _LandingPageState extends State<LandingPage> {
                   SizedBox(
                     height: 10,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Visibility(
-                        visible: !auth,
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const LoginPage()));
-                          },
-                          icon: const Icon(
-                            Icons.account_circle,
-                            color: Colors.black,
-                          ),
-                          label: const Text(
-                            "Login",
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            elevation: 5,
-                          ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "© 2024. Created By Talel Mejri",
+                          style: TextStyle(color: Colors.black, fontSize: 15),
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      Visibility(
-                        visible: !auth,
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const SignUpPage()));
-                          },
-                          icon: const Icon(
-                            Icons.manage_accounts,
-                            color: Colors.black,
-                          ),
-                          label: const Text(
-                            "Signup",
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            elevation: 5,
-                          ),
+                        const SizedBox(width: 10),
+                        IconButton(
+                          onPressed: _launchUrl,
+                          icon: const Icon(Icons.facebook),
                         ),
-                      ),
-                      Visibility(
-                        visible: auth,
-                        child: ElevatedButton.icon(
-                          onPressed: logout,
-                          icon: const Icon(
-                            Icons.logout,
-                            color: Colors.black,
-                          ),
-                          label: const Text(
-                            "Logout",
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            elevation: 5,
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                  const Text('© 2024. All rights reserved.'),
                 ],
               ),
             ),

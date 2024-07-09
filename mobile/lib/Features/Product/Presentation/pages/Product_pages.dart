@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:com.talel.boycott/Core/widgets/Loading_widget.dart';
-import 'package:com.talel.boycott/Features/Auth/data/datasource/user_local_data_source.dart';
-import 'package:com.talel.boycott/Features/Auth/data/model/UserModelLogin.dart';
 import 'package:com.talel.boycott/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:com.talel.boycott/Features/Categorie/Presentation/pages/Category_pages.dart';
@@ -23,25 +21,14 @@ class ProductPages extends StatefulWidget {
 
 class _ProductPagesState extends State<ProductPages> {
 
-   final UserLocalDataSource userLocalDataSource=sl.get<UserLocalDataSource>();
  
   @override
   void initState() {
-    getAuth();
     super.initState();
   }
   
-  UserModelLogin? user=null;
 
-  void getAuth () async{
-    var res=await userLocalDataSource.getCachedUser()!=null ? true : false;
-    if(res){
-      user=await userLocalDataSource.getCachedUser();
-    }
-    setState(()  {
-      auth=res;
-    });
-  }
+  
   
   int _selectIndex=0;
   bool auth=false;
@@ -60,11 +47,7 @@ class _ProductPagesState extends State<ProductPages> {
      leading: IconButton(onPressed: (){
        Navigator.push(context, MaterialPageRoute(builder: (context)=>const CategoriePages()));
      },icon: const Icon(Icons.arrow_back)),
-     actions: [
-       auth && user?.role=="1" ? IconButton(onPressed: (){
-         Navigator.push(context, MaterialPageRoute(builder: (context)=>( AllRequestProduct(category: widget.category,))));
-      }, icon:const Icon(Icons.new_releases))   : Container()
-     ],);
+     );
 
   Widget _buildBody() {
     return Padding(

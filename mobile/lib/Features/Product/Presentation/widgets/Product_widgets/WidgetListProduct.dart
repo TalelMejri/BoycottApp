@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:com.talel.boycott/Core/Strings/constantes.dart';
 import 'package:com.talel.boycott/Core/widgets/EmptyPage.dart';
-import 'package:com.talel.boycott/Features/Auth/data/datasource/user_local_data_source.dart';
-import 'package:com.talel.boycott/Features/Auth/data/model/UserModelLogin.dart';
 import 'package:com.talel.boycott/Features/Categorie/domain/entities/category.dart';
 import 'package:com.talel.boycott/Features/Product/Presentation/bloc/add_delete_update_product/adddeleteupdate_product_bloc.dart';
 import 'package:com.talel.boycott/Features/Product/Presentation/pages/add_update_product.dart';
@@ -27,24 +25,9 @@ class WidgetListProduct extends StatefulWidget {
 }
 
 class _ProductListWidgetState extends State<WidgetListProduct> {
-  final UserLocalDataSource userLocalDataSource = sl.get<UserLocalDataSource>();
-
   @override
   void initState() {
-    getAuth();
     super.initState();
-  }
-
-  UserModelLogin? user = null;
-
-  void getAuth() async {
-    var res = await userLocalDataSource.getCachedUser() != null ? true : false;
-    if (res) {
-      user = await userLocalDataSource.getCachedUser();
-    }
-    setState(() {
-      auth = res;
-    });
   }
 
   int _selectIndex = 0;
@@ -80,131 +63,42 @@ class _ProductListWidgetState extends State<WidgetListProduct> {
             itemCount: widget.product.length,
             itemBuilder: (context, index) {
               final item = widget.product[index];
-              return auth &&
-                      (user?.id.toString() == item.user_id.toString() ||
-                          user?.role == "1")
-                  ? Dismissible(
-                      key: Key(item.name),
-                      background: Container(
-                        color: Colors.red,
-                        child: const Icon(Icons.delete,
-                            size: 40, color: Colors.white),
-                      ),
-                      onDismissed: (direction) {
-                        setState(() {
-                          ConfirmDelete(item.id);
-                          widget.product.remove(item);
-                        });
-                      },
-                      child: Card(
-                        child: ListTile(
-                          title: Text(item.name),
-                          subtitle: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.teal,
-                            ),
-                            onPressed: () {
-                              AlertBottomSheet(item);
-                            },
-                            child: const Text("Why ?"),
-                          ),
-                          trailing: Visibility(
-                              visible: (auth &&
-                                      user?.id.toString() ==
-                                          item.user_id.toString()) ||
-                                  (user?.role == "1"),
-                              child: IconButton(
-                                icon: const Icon(Icons.edit),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ProductAddUpdatePage(
-                                                  category: widget.category,
-                                                  product: item,
-                                                  isUpdateProduct: true)));
-                                },
-                              )),
-                          leading: Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color.fromARGB(255, 161, 142, 142),
-                                ),
-                              ],
-                            ),
-                            child: CachedNetworkImage(
-                              width: 100,
-                              height: 100,
-                              imageUrl: BASE_URL_STORAGE +
-                                  widget.product[index].photo.path,
-                              placeholder: (context, url) =>
-                                  const CircularProgressIndicator(),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                            ),
-                          ),
+              return Card(
+                child: ListTile(
+                  title: Text(item.name),
+                  subtitle: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.teal,
+                    ),
+                    onPressed: () {
+                      AlertBottomSheet(item);
+                    },
+                    child: const Text("Why ?"),
+                  ),
+                  leading: Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromARGB(255, 161, 142, 142),
                         ),
-                      ),
-                    )
-                  : Card(
-                      child: ListTile(
-                        title: Text(item.name),
-                        subtitle: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.teal,
-                          ),
-                          onPressed: () {
-                            AlertBottomSheet(item);
-                          },
-                          child: const Text("Why ?"),
-                        ),
-                        trailing: Visibility(
-                            visible: (auth &&
-                                    user?.id.toString() ==
-                                        item.user_id.toString()) ||
-                                (user?.role == "1"),
-                            child: IconButton(
-                              icon: const Icon(Icons.edit),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            ProductAddUpdatePage(
-                                                category: widget.category,
-                                                product: item,
-                                                isUpdateProduct: true)));
-                              },
-                            )),
-                        leading: Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color.fromARGB(255, 161, 142, 142),
-                              ),
-                            ],
-                          ),
-                          child: CachedNetworkImage(
-                            width: 100,
-                            height: 100,
-                            imageUrl: BASE_URL_STORAGE +
-                                widget.product[index].photo.path,
-                            placeholder: (context, url) =>
-                                const CircularProgressIndicator(),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                          ),
-                        ),
-                      ),
-                    );
+                      ],
+                    ),
+                    child: CachedNetworkImage(
+                      width: 100,
+                      height: 100,
+                      imageUrl:
+                          BASE_URL_STORAGE + widget.product[index].photo.path,
+                      placeholder: (context, url) =>
+                          const CircularProgressIndicator(),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
+                  ),
+                ),
+              );
             },
           );
   }

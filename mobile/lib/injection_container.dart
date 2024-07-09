@@ -1,17 +1,4 @@
 import 'package:com.talel.boycott/Core/network/network_info.dart';
-import 'package:com.talel.boycott/Features/Auth/data/datasource/user_local_data_source.dart';
-import 'package:com.talel.boycott/Features/Auth/data/datasource/user_remote_data_source.dart';
-import 'package:com.talel.boycott/Features/Auth/data/repositories/user_repo.dart';
-import 'package:com.talel.boycott/Features/Auth/domain/repositories/UserRepository.dart';
-import 'package:com.talel.boycott/Features/Auth/domain/usecases/forget_password_user.dart';
-import 'package:com.talel.boycott/Features/Auth/domain/usecases/get_cached_user.dart';
-import 'package:com.talel.boycott/Features/Auth/domain/usecases/reset_password_user.dart';
-import 'package:com.talel.boycott/Features/Auth/domain/usecases/sign_in_user.dart';
-import 'package:com.talel.boycott/Features/Auth/domain/usecases/sign_out_user.dart';
-import 'package:com.talel.boycott/Features/Auth/domain/usecases/sign_up_user.dart';
-import 'package:com.talel.boycott/Features/Auth/domain/usecases/verify_email_user.dart';
-import 'package:com.talel.boycott/Features/Auth/presentation/bloc/auth/auth_bloc.dart';
-import 'package:com.talel.boycott/Features/Auth/presentation/bloc/signup/signup_bloc.dart';
 import 'package:com.talel.boycott/Features/Categorie/Presentation/bloc/Category/category_bloc.dart';
 import 'package:com.talel.boycott/Features/Categorie/Presentation/bloc/RequestCategory/request_category_bloc.dart';
 import 'package:com.talel.boycott/Features/Categorie/Presentation/bloc/accept_reject_category/accept_category_bloc_bloc.dart';
@@ -73,14 +60,7 @@ Future<void> init() async {
       acceptProduct: sl(),
       rejectproduct: sl()));
 
-  sl.registerFactory(
-      () => AuthBloc(signInUserUseCase: sl(), signOutUserUseCase: sl()));
 
-  sl.registerFactory(() => SignupBloc(
-      signUpUserUseCase: sl(),
-      verifyEmailUseCase: sl(),
-      forgetPasswordUseCase: sl(),
-      resetPasswordUserUseCase: sl()));
 
   //usecases
   sl.registerLazySingleton(() => GetAllCategoryUsecase(sl()));
@@ -100,14 +80,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => RejectProductUsecase(sl()));
   sl.registerLazySingleton(() => AcceptProductUsecase(sl()));
 
-  sl.registerLazySingleton(() => SignInUserUseCase(sl()));
-  sl.registerLazySingleton(() => SignOutUserUseCase(sl()));
-  sl.registerLazySingleton(() => GetCachedUserUseCase(sl()));
 
-  sl.registerLazySingleton(() => SignUpUserUseCase(sl()));
-  sl.registerLazySingleton(() => VerifyEmailUseCase(sl()));
-  sl.registerLazySingleton(() => ForgetPasswordUserUseCase(sl()));
-  sl.registerLazySingleton(() => ResetPasswordUserUseCase(sl()));
 
   //repository
   sl.registerLazySingleton<CategoryRepository>(() => CategoryRepositoryImpl(
@@ -116,10 +89,7 @@ Future<void> init() async {
   sl.registerLazySingleton<ProductRepository>(() => ProductRepositoryImpl(
       remoteDataSource: sl(), localDataSource: sl(), networkInfo: sl()));
 
-  sl.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(
-      userLocalDataSource: sl(),
-      userRemoteDataSource: sl(),
-      networtkInfo: sl()));
+
 
   //Datasources
   sl.registerLazySingleton<CatyegoryRemoteDataSource>(
@@ -132,10 +102,7 @@ Future<void> init() async {
   sl.registerLazySingleton<ProductLocalDataSource>(
       () => ProductLocalDataSourceImpl(sharedPreferences: sl()));
 
-  sl.registerLazySingleton<UserRemoteDataSource>(
-      () => UserRemoteDataSourceImpl(client: sl()));
-  sl.registerLazySingleton<UserLocalDataSource>(
-      () => UserLocalDataSourceImpl(sharedPreferences: sl()));
+
 
   //Core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
